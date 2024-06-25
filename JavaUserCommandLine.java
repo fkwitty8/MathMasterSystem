@@ -210,7 +210,7 @@ class UserInterface {
             }
         }
 
-        // dispalys and manages second Options prompts
+        // dispaly and manage second Options prompts
     public  void secondOptionManagement(int Option, String OptionWord,int Counter){
         Counter=0;
         String FirstOptionWord=OptionWord;
