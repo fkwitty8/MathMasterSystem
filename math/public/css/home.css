@@ -1,0 +1,105 @@
+
+
+       #master{
+       
+        display:flex;
+       }
+       #upload{
+        color: white;
+        background-color: blue;
+        position:absolute;
+         top:10%;
+         left: 80%;
+         width:fit-content;
+         height:50px;
+         border-radius: 10%;
+         cursor: pointer;
+
+              }
+              
+                 
+                                
+                                #cli1,#cli2 {
+                                    list-style-type: none;
+                
+                                }
+                        #cli1:hover,#cli2:hover{
+                        background-color: rgb(46, 46, 49);
+                    }
+                    #challenge,#schools{
+                    background-color: rgb(125, 243, 154);
+                        display: none;
+                        position:absolute;
+                        left: 73%;
+                        top: 15%;
+                        border: 5px solid green;
+                        
+
+
+                    }
+                    #hide, #closeA,#closeSR,#closePR{
+                        color:red;
+                        position: absolute;
+                        top: 0px;
+                        right: 0px;
+                        background-color: black;
+                        border: 0.5px solid white;
+                        cursor: pointer;
+
+                    }
+                    #hideform1,#hideform2{
+                        color:red;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        background-color: black;
+                        border: 0.5px solid white;
+                        cursor: pointer;
+                        height: fit-content;
+                        cursor: pointer;
+
+
+
+                    }
+                  
+                    #preport{
+                        position: relative;
+                        top: -80px;
+
+                        
+
+                    } 
+                   .about.section-padding h5{
+                        margin-bottom: -1%;
+                        color: white;
+                        background-color: black;
+                    }
+                  .about.section-padding  li{
+                        list-style-type: decimal;
+                        background-color: rgb(49, 45, 45);
+                        color: white;
+                        cursor: pointer;
+                    }
+                  .about.section-padding  li:hover{
+                        color:brown;
+                        background-color: black;
+                        cursor: pointer;
+                    }
+                    
+                    small{
+                        position: relative;
+                        top:-5px;
+                        right:0px;
+                        background-color: black;
+                        color: red;
+                        width: fit-content;
+                        cursor: pointer;
+
+                    }
+
+                    
+                    
+
+
+
+                   
