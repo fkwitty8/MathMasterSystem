@@ -14,6 +14,42 @@ class Pupil extends User {
         String Italic = "\033[3m";
         String Yellow="\u001B[33m";
 
+        String FeedBack, Response;
+
+        try {
+            //sending a response to be server to initiate the sending of the challenge array
+            Response = "Generate Content";
+            OOS.writeObject(Response);
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING......\n\n");
+                Thread.sleep(1000);
+            }
+
+            // retrieving an array of challenge objects from the server
+            FeedBack = (String) OIS.readObject();
+            if (FeedBack.equalsIgnoreCase("No Challenges Yet!")) {
+                System.out.println(Red+"No challenges available!"+Restore);
+            } else {
+                System.out.println();
+                Response = "Send Data";
+                OOS.writeObject(Response);
+                challenges = (ArrayList<Challenge>) OIS.readObject();
+                for (Challenge challenge : challenges) {
+                    System.out.println(Cyan + challenge);
+                }
+                System.out.println(Restore);
+                questionLoader(socket, OIS, OOS, Counter, challenges);
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+cd
+
         
     }
 
