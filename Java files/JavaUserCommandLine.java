@@ -71,5 +71,24 @@ class UserInterface{
     SchoolRep Rep=new SchoolRep();
     String Command,FirstOption, SecondOption;
 }
+//School Representative class and it's methods
+class SchoolRep extends User {
+    //for viewing challenges after logging in
+    public void viewChallenge() {
+        System.out.println("view challenge");
+    }
 
+
+    //for viewing applicants on a particular school from the java file
+    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+    }
+}
 
