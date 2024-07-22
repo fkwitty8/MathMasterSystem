@@ -202,3 +202,70 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
             System.out.println(Cyan+" You have chosen, "+SecondOption+"."+Restore) ;
         }
 
+          // evaluating the first options
+
+        //if it is register execute this code block
+        if(FirstOption=="Register") {
+            switch (Command) {
+                case "school representative":
+                    //calling register method of schoolRepresentative class
+                   Rep.register(SecondOption,Counter,FirstOption);
+                    break;
+                case "pupil":
+                    //calling register method of pupil class
+                    pupil.register(SecondOption,Counter,FirstOption);
+                    break;
+                case "back":
+                        back(Counter);
+                    break;
+                default://error if invalid option
+                    System.err.println("-----INVALID OPTION!-----" +
+                            "\n You must only Use small letters throughout. And also, insert each command as it appears");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Counter++;
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                        break;
+                    }
+                    processCommand(Counter);
+            }
+        }
+
+
+        //if it is a login
+        else if(FirstOption=="Login"){
+            switch (Command) {
+                case "school representative"://calling Login method of schoolRepresentative class
+                    Counter=0;
+                    Rep.login(SecondOption,Counter,FirstOption);
+                    break;
+                case "pupil":
+                    Counter=0;
+                    pupil.login(SecondOption,Counter,FirstOption);//calling login method of schoolRepresentative class
+                    break;
+                case "back":
+                        back(Counter);
+                    break;
+                default://error if invalid option
+                    System.err.println("-----INVALID OPTION!-----" +
+                            "\n You must only Use small letters throughout. And also, insert each command as it appears" +
+                            "\n Thank you!");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Counter++;
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                        break;
+                    }
+                    processCommand(Counter);
+            }
+        }
+
+}
