@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Mathmaster.com</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css">
+
 
 
     
@@ -43,16 +45,16 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown" style="list-style-type:none">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                 <p style ="color:green;font-size:30px; position:absolute; left:28%; top:5%; " >WELCOME ADMNISTATOR</p>   <span style =" position:absolute; left:57%; top:11.5%; ">{{ Auth::user()->name }}</span>
+                                 <p style ="color:green;font-size:30px; position:absolute; left:20%; top:5%; " >WELCOME ADMNISTATOR</p>   <span style =" position:absolute; left:57%; top:40.5%; ">{{ Auth::user()->name }}</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                       <button style ="color:red; position:absolute; top:12%; left:94%; cursor: pointer;
+                                       <button style ="color:red; position:absolute; top:20%; left:94%; cursor: pointer;
 " > {{ __('Logout') }}</button>
                                     </a>
 
