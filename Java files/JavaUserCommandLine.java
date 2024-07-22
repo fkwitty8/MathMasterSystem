@@ -56,7 +56,7 @@ cd
        
 
 
-}
+
 //School Representative class and it's methods
 class SchoolRep extends User {
     //for viewing challenges after logging in
@@ -76,7 +76,7 @@ class SchoolRep extends User {
         String Italic = "\033[3m";
         String Yellow="\u001B[33m";
     }
-
+}
 
 //initial CLI user interface management class
 class UserInterface{
@@ -88,7 +88,7 @@ class UserInterface{
     User user=new User();
     SchoolRep Rep=new SchoolRep();
     String Command,FirstOption, SecondOption;
-}
+
 
  //displays and manages initial screen prompts
  public void processCommand(int Counter){
@@ -162,4 +162,42 @@ class UserInterface{
 
 
 }
+
+// displays and manages second Option prompts
+public  void secondCommandManagement(String FirstOption,int Counter)  {
+
+    //Declaring Formatting variables
+    String Cyan = "\u001B[36m";
+    String Green = "\u001B[32m";
+    String Restore = "\u001b[0m";
+    String Red = "\u001B[31m";
+    String Italic = "\033[3m";
+    String Yellow="\u001B[33m";
+
+    Counter=0;
+    System.out.println(Cyan+" You have chosen "+FirstOption+"!"+Restore) ;
+    System.out.println("\n+-------------------------+|");
+    System.out.println("+ "+FirstOption+" as:");
+    System.out.println("+-------------------------+|");
+    System.out.print("     school representative \n     pupil\n     back\n\nSelect Option: ") ;
+
+    System.out.print(Green+Italic);
+    Command= Input.nextLine();
+    System.out.print(Restore);
+
+
+
+    //Initialising the second option variable
+    if(Command.equals("school representative")){
+            SecondOption="School Representative";
+            System.out.println(Cyan+" You have chosen, "+FirstOption+" as "+SecondOption+"."+Restore) ;
+        }
+        else if(Command.equals("pupil")){
+            SecondOption="Pupil";
+            System.out.println(Cyan+" You have chosen, "+FirstOption+" as "+SecondOption+"."+Restore) ;
+        }
+        else if(Command.equals("back")){
+            SecondOption="Back";
+            System.out.println(Cyan+" You have chosen, "+SecondOption+"."+Restore) ;
+        }
 
