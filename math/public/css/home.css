@@ -1,28 +1,28 @@
 
 
-       #master{
-       
-        display:flex;
-       }
-       #upload{
-        color: white;
-        background-color: blue;
-        position:absolute;
-         top:10%;
-         left: 80%;
-         width:fit-content;
-         height:50px;
-         border-radius: 10%;
-         cursor: pointer;
+                        #master{
+                        
+                            display:flex;
+                        }
+                        #upload{
+                            color: white;
+                            background-color: blue;
+                            position:absolute;
+                            top:10%;
+                            left: 80%;
+                            width:fit-content;
+                            height:50px;
+                            border-radius: 10%;
+                            cursor: pointer;
 
-              }
-              
-                 
-                                
-                                #cli1,#cli2 {
-                                    list-style-type: none;
-                
                                 }
+                                
+                                    
+                                                    
+                            #cli1,#cli2 {
+                                    list-style-type: none;
+                                    
+                                        }
                         #cli1:hover,#cli2:hover{
                         background-color: rgb(46, 46, 49);
                     }

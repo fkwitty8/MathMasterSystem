@@ -32,39 +32,10 @@ Route::get('/home', [ App\Http\Controllers\webinterfaceController::class, 'form'
 Route::post('/form', [ App\Http\Controllers\webinterfaceController::class, 'setParameter'])->name('meseter');
 
 Auth::routes([
-    //'register' => false
+    'register' => false
 ]);
 
 
 
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/challenges', [ChallengeController::class, 'first'])->name('first');
-Route::get('/create', [ChallengeController::class, 'create'])->name('create');
-Route::post('/challenges', [ChallengeController::class, 'store'])->name('store');
-
-
-
-//upload routes
-Route::get('/upload', function () {
-    return view('upload');
-}) ->name('upload');
-Route::post('/upload-files', [UploadController::class, 'uploadFiles'])->name('upload.files');
-Route::post('/upload-files', [UploadController::class, 'uploadFiles'])->name('upload.files');
-Route::get('/view-qnans', [UploadController::class, 'viewQnAns'])->name('view.qnans');
-Route::get('/edit-qnans/{id}', [UploadController::class, 'editQnAns'])->name('edit.qnans');
-Route::post('/update-qnans/{id}', [UploadController::class, 'updateQnAns'])->name('update.qnans');
-Route::delete('/delete-qnans/{id}', [UploadController::class, 'deleteQnAns'])->name('delete.qnans');
-
-
-Route::get('/upload-schools', function () {
-    return view('uploadSchools');
-});
-
-Route::post('/upload-schools', [SchoolController::class, 'uploadSchools'])->name('upload.schools');
-Route::get('/view-schools', [SchoolController::class, 'viewSchools'])->name('view.schools');
-Route::get('/view-Unverifiedrepresentatives', [SchoolController::class, 'viewUnverifiedRepresentatives'])->name('view.unverified.representatives');
-Route::get('/schools/{id}/edit', [SchoolController::class, 'editSchool'])->name('edit.school');
-Route::post('/schools/{id}/edit', [SchoolController::class, 'updateSchool'])->name('update.school');
-
-Route::delete('/schools/{id}', [SchoolController::class, 'deleteSchool'])->name('delete.school');
+i

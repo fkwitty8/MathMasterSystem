@@ -21,6 +21,7 @@ class Pupil extends User {
 
 
 }
+cd ..
 
 
 
