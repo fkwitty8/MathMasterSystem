@@ -35,6 +35,8 @@ Auth::routes([
     'register' => false
 ]);
 
+//Routes For schools' upload, edit, view and delete
+
 
 
 
