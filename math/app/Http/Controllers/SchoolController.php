@@ -8,7 +8,7 @@ use App\Models\School;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SchoolController extends Controller
-{     
+{     //function for uploading the schools
     public function uploadSchools(Request $request)
     {
         $request->validate([
@@ -17,16 +17,16 @@ class SchoolController extends Controller
 
         $schoolsFile = $request->file('schoolsFile');
 
-        // Process the uploaded file and store schools and representatives
+        // Process the uploaded file and store schools .....directing you to the processSchoolsFile function
         $this->processSchoolsFile($schoolsFile);
 
         return redirect()->route('view.schools');
     }
-
+        //fuction for processing the school's file
     private function processSchoolsFile($schoolsFile)
     {
         // Read the file into an array
-        $schools = Excel::toArray([], $schoolsFile)[0];
+        $schools = Excel::toArray([], $schoolsFile)[0];//The 0 indicates only one file being uploaded
 
         // Skip the header row (assuming it's the first row)
         $header = array_shift($schools);
@@ -45,18 +45,19 @@ class SchoolController extends Controller
 
         }
     }
-    
+    // Function for viewing the schools 
     public function viewSchools()
     {
         $schools = School::all();
         return view('view-schools', compact('schools'));
     }
+    //Function for editing the schools
     public function editSchool($id)
     {
         $school = School::findOrFail($id);
         return view('edit-school', compact('school'));
     }
-
+     // Function for updating the schools
     public function updateSchool(Request $request, $id)
     {
         $school = School::findOrFail($id);
@@ -71,7 +72,7 @@ class SchoolController extends Controller
             'RepLastName' => $request->RepLastName,
         ]);
 
-        return redirect()->route('view.schools');
+        return redirect()->route('view.schools');//redirects the Admin to view schools after uploading
     }
 
     public function deleteSchool($id)
