@@ -36,6 +36,18 @@ Auth::routes([
 ]);
 
 //Routes For schools' upload, edit, view and delete
+Route::get('/upload-schools', function () {
+    return view('uploadSchools');
+});
+
+Route::post('/upload-schools', [SchoolController::class, 'uploadSchools'])->name('upload.schools');
+Route::get('/view-schools', [SchoolController::class, 'viewSchools'])->name('view.schools');
+//Route::get('/view-Unverifiedrepresentatives', [SchoolController::class, 'viewUnverifiedRepresentatives'])->name('view.unverified.representatives');
+Route::get('/schools/{id}/edit', [SchoolController::class, 'editSchool'])->name('edit.school');
+Route::post('/schools/{id}/edit', [SchoolController::class, 'updateSchool'])->name('update.school');
+
+Route::delete('/schools/{id}', [SchoolController::class, 'deleteSchool'])->name('delete.school');
+
 
 
 
