@@ -34,8 +34,3 @@ Route::post('/form', [ App\Http\Controllers\webinterfaceController::class, 'setP
 Auth::routes([
     'register' => false
 ]);
-
-
-
-
-i
