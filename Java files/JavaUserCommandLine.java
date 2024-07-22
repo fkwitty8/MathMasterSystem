@@ -98,7 +98,46 @@ class SchoolRep extends User {
         String Red = "\u001B[31m";
         String Italic = "\033[3m";
         String Yellow="\u001B[33m";
+
+       
+        ArrayList<PupilToFile> pupilToFiles = new ArrayList<>();
+        try {
+            //sending request to the server
+
+            OOS.writeObject(Command);
+
+            //error catch
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING......\n\n");
+                Thread.sleep(1000);
+            }
+
+            //listening for the servers response
+            pupilToFiles = (ArrayList<PupilToFile>) OIS.readObject();
+            if (pupilToFiles.isEmpty()) {
+                System.err.println("-----No Applicants Yet!-----");
+
+                Thread.sleep(100);
+
+            } else {
+                Iterator<PupilToFile> pupilToFileIterator = pupilToFiles.iterator();
+                while (pupilToFileIterator.hasNext()) {
+                    PupilToFile pupilToFile = pupilToFileIterator.next();
+                    System.out.println("\n\n" + Cyan + pupilToFile + Restore);
+                }
+
+
+                verifyMoreParticipants(pupilToFiles, OIS, OOS, Counter);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
+    
 }
 
 
