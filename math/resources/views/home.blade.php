@@ -197,11 +197,64 @@
                         </div>
                     
            
+                        <button id="reports"><b>MORE INCITE</b></button>
+          
+
+             </section>
+    
+             <script>
+          const uploadbutton = document.getElementById("upload");
+          let filediv = document.getElementById("files");
+          let click1 =  document.getElementById("cli1");
+          let click2 =  document.getElementById("cli2");
+          let challengeform =  document.getElementById("challenge");
+          let schoolsform =  document.getElementById("schools");
+          let hide =  document.getElementById("hide");
+          let hideform1 =  document.getElementById("hideform1");
+          let hideform2 =  document.getElementById("hideform2");
+
+
+        uploadbutton.onclick=showFilediv;
+        click1.onclick =showChallengeForm;
+        click2.onclick = showSchoolsForm;
+        hide.onclick = showNone;
+        hideform1.onclick = hideChallengeForm;   
+        hideform2.onclick = hideSchoolForm;
+        
+
+
+
+        function showFilediv(){
+    filediv.style.display="block";
+}
+function showChallengeForm(){
+    challengeform.style.display="flex";
+  showNone();
+}
+function showSchoolsForm(){
+    schoolsform.style.display="flex";
+    showNone();
+}
+
+function hideChallengeForm(){
+    challengeform.style.display="none"
+}
+function hideSchoolForm(){
+    schoolsform.style.display="none"
+}
+
+function showNone(){
+    filediv.style.display="none"
+    
+}
+function hideChallengeForm(){
+    challengeform.style.display="none"
+}
+
 
           
 
-
-    
+             </script>
     
     @endsection
 
