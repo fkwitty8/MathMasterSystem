@@ -1,28 +1,103 @@
+body{
+    margin:0;
+    padding: 0;
 
+}
+nav{
+    position:relative;
+    
+}
+table{
+    display:none ;
+    border: 5px groove blue;
+    background-color: blueviolet;
+}
+tr{
+    position: relative;
+}
+th[colspan]{
+    background-color: white;
+    color: blue;
+}
+.parameter p{
+    color: white;
+}
+#parameterDiv{
+    display:flex;
+    flex-direction: row;
+    justify-items: center;
+    background-color: rgb(21, 21, 70);
+   
+    
+    color: aqua;
 
-                        #master{
-                        
-                            display:flex;
-                        }
-                        #upload{
-                            color: white;
-                            background-color: blue;
+}
+#parameterButton{
+position:relative ;
+top: -35%;
+left: 110%;
+color: blue;
+background-color: aqua;
+max-width: fit-content;
+height: 50px;
+}
+       #master{
+       
+        display:flex;
+       }
+       #upload{
+        color: white;
+        background-color: blue;
+        position:absolute;
+         top:10%;
+         left: 80%;
+         width:fit-content;
+         height:50px;
+         border-radius: 10%;
+         cursor: pointer;
+
+              }
+              #reports{
+                color: white;
+                background-color: blue;
+                margin-left: 500px;
+                 width:fit-content;
+                 height:50px;
+                 border-radius: 20px;
+                 cursor: pointer;
+        
+              }
+                  #files {  
+                    display: none;
+                            background-color:rgb(71, 71, 73);
+                            color:white;
                             position:absolute;
-                            top:10%;
-                            left: 80%;
-                            width:fit-content;
-                            height:50px;
-                            border-radius: 10%;
+                            left:80%;
+                            top:40%;
                             cursor: pointer;
 
                                 }
+
+                                #analysis {  
+                                    display: none;
+                                            background-color:rgb(71, 71, 73);
+                                            color:white;
+                                            position:relative;
+                                            left:50%;
+                                            top:50%;
+                                            cursor: pointer;
+                                            width: fit-content;
+                                            border: 2px solid blue;
+                
+                                                }
+
                                 
-                                    
-                                                    
-                            #cli1,#cli2 {
+                                #cli1,#cli2 {
                                     list-style-type: none;
-                                    
-                                        }
+                                    color: rgb(214, 4, 4);
+
+                
+                                }
                         #cli1:hover,#cli2:hover{
                         background-color: rgb(46, 46, 49);
                     }
@@ -30,8 +105,9 @@
                     background-color: rgb(125, 243, 154);
                         display: none;
                         position:absolute;
-                        left: 73%;
-                        top: 15%;
+                        left: 70%;
+                        top: 50%;
+                        max-width: 280px;
                         border: 5px solid green;
                         
 
@@ -61,7 +137,19 @@
 
 
                     }
-                  
+                   #preport,#sreport{
+                        position: relative;
+                        display:none ;
+                         top: -80px;
+                         width: fit-content;
+
+                        
+                        
+
+                        
+
+                    }
+                    
                     #preport{
                         position: relative;
                         top: -80px;

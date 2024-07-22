@@ -48,7 +48,7 @@ class Pupil extends User {
             e.printStackTrace();
         }
     }
-cd
+
 
         
     }
@@ -77,7 +77,7 @@ class SchoolRep extends User {
         String Yellow="\u001B[33m";
     }
 }
-cd ..
+
 
 //initial CLI user interface management class
 class UserInterface{
