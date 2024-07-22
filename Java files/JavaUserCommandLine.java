@@ -1,3 +1,94 @@
+
+//Java User CommandLine Class
+public class JavaUserCommandLine {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        //Logo to be animated
+        String[] Logo={"M","A","T","H"," ","M","A","S","T","E","R"," ","S","Y","S","T","E","M"," ","O","P","E","N","E","D","!"};
+
+        System.out.println("\n");
+        //the for loop to simulate animation
+        for(int i=0;i<26;i++){
+            System.out.print(Yellow+Italic+Logo[i]);
+            try {
+                Thread.sleep(100);//thread to simulate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.print(Restore);
+        System.out.println("\n");
+
+        int Counter = 0;//passed on to keep track of invalid option user inputs time, not to exceed two times
+        UserInterface Interface = new UserInterface();
+        Interface.processCommand(Counter);
+        System.out.println("\n\n");
+
+        //animates the string at the close of the system
+        endOfSystem();
+
+    }
+
+    //animate Logo at when closing the system
+    public static void endOfSystem(){
+
+        // text to be animated
+        String[] Logo={"M","A","T","H"," ","M","A","S","T","E","R"," ","S","Y","S","T","E","M"," ","C","L","O","S","E","D","!"};
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        //the for loop to simulate animation
+        for(int i=0;i<26;i++){
+          System.out.print(Yellow+Italic+Logo[i]);
+            try {
+                Thread.sleep(100);//thread to simulate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.print(Restore);
+    }
+}
+
+
+//School Representative class and it's methods
+class SchoolRep extends User {
+    //for viewing challenges after logging in
+    public void viewChallenge() {
+        System.out.println("view challenge");
+    }
+
+
+    //for viewing applicants on a particular school from the java file
+    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+    }
+}
+
+
+
+
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
 class Pupil extends User {
 
@@ -57,26 +148,7 @@ class Pupil extends User {
 
 
 
-//School Representative class and it's methods
-class SchoolRep extends User {
-    //for viewing challenges after logging in
-    public void viewChallenge() {
-        System.out.println("view challenge");
-    }
 
-
-    //for viewing applicants on a particular school from the java file
-    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
-
-        //Declaring Formatting variables
-        String Cyan = "\u001B[36m";
-        String Green = "\u001B[32m";
-        String Restore = "\u001b[0m";
-        String Red = "\u001B[31m";
-        String Italic = "\033[3m";
-        String Yellow="\u001B[33m";
-    }
-}
 
 
 //initial CLI user interface management class
@@ -268,4 +340,5 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
             }
         }
 
+  }
 }
