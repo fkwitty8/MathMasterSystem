@@ -1,3 +1,15 @@
+import javax.imageio.ImageIO;
+import javax.swing.text.Style;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.time.*;
+import java.util.*;
+import java.io.*;
+import java.util.Timer;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
 class Pupil extends User {
 

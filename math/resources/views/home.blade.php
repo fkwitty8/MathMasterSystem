@@ -50,10 +50,10 @@
         <nav class="navbar navbar-expand-lg" id="nav">
             <button id="upload"><b>UPLOAD FILES</b></button>
     
-            <div id="files" style="color:white">
+            <div id="files">
                 <span id="hide">X</span>
-                <li id="cli1"  style="color:white"><a href="#">CHALLENGE</a></li>
-                <li id="cli2"><a href="#">REGISTERED SCHOOLS</a></li>
+                <li id="cli1"><a href="{{ route('upload') }}">CHALLENGE</a></li>
+                <li id="cli2"><a href="{{ route('upload.schools') }}">REGISTERED SCHOOLS</a></li>
             </div>
             <form action="form" method="POST" id="challenge">
             <span id="hideform1"><small>x</small></span>
@@ -62,7 +62,7 @@
     
     <div  id="challengeUload" > <button type="submit" >UPLOAD</button></div>
 </form>
-<form  method="POST" id="schools">
+<form action="{{ route('upload.schools') }}" method="POST" id="schools">
 <span id="hideform2"><small>x</small></span>
     @csrf
     <input type="file" name="schoolfile" required >
@@ -332,7 +332,6 @@ challengeUpload.addEventlistner('onclick',showParameterDiv);
 
 function showFilediv(){
     filediv.style.display="block";
-    filediv.style.color="red";
 }
 function showChallengeForm(){
     challengeform.style.display="flex";
