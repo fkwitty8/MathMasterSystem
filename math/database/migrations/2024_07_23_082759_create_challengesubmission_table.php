@@ -10,7 +10,7 @@ class CreateChallengesubmissionTable extends Migration
      * Run the migrations.
      *
      * @return void
-     */<
+     */
     public function up()
     {
         Schema::create('challengesubmission', function (Blueprint $table) {
@@ -35,3 +35,4 @@ class CreateChallengesubmissionTable extends Migration
     {
         Schema::dropIfExists('challengesubmission');
     }
+}
