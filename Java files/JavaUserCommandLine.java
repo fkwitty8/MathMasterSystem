@@ -10,6 +10,151 @@ import java.io.*;
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+//Java User CommandLine Class
+public class JavaUserCommandLine {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        //Logo to be animated
+        String[] Logo={"M","A","T","H"," ","M","A","S","T","E","R"," ","S","Y","S","T","E","M"," ","O","P","E","N","E","D","!"};
+
+        System.out.println("\n");
+        //the for loop to simulate animation
+        for(int i=0;i<26;i++){
+            System.out.print(Yellow+Italic+Logo[i]);
+            try {
+                Thread.sleep(100);//thread to simulate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.print(Restore);
+        System.out.println("\n");
+
+        int Counter = 0;//passed on to keep track of invalid option user inputs time, not to exceed two times
+        UserInterface Interface = new UserInterface();
+        Interface.processCommand(Counter);
+        System.out.println("\n\n");
+
+        //animates the string at the close of the system
+        endOfSystem();
+
+    }
+
+    //animate Logo at when closing the system
+    public static void endOfSystem(){
+
+        // text to be animated
+        String[] Logo={"M","A","T","H"," ","M","A","S","T","E","R"," ","S","Y","S","T","E","M"," ","C","L","O","S","E","D","!"};
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        //the for loop to simulate animation
+        for(int i=0;i<26;i++){
+          System.out.print(Yellow+Italic+Logo[i]);
+            try {
+                Thread.sleep(100);//thread to simulate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.print(Restore);
+    }
+}
+// Question class 
+
+
+
+
+
+
+//Challenge class 
+
+
+
+//User class 
+
+
+
+
+
+//School Representative class and it's methods
+class SchoolRep extends User {
+    //for viewing challenges after logging in
+    public void viewChallenge() {
+        System.out.println("view challenge");
+    }
+
+
+    //for viewing applicants on a particular school from the java file
+    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+       
+        ArrayList<PupilToFile> pupilToFiles = new ArrayList<>();
+        try {
+            //sending request to the server
+
+            OOS.writeObject(Command);
+
+            //error catch
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING......\n\n");
+                Thread.sleep(1000);
+            }
+
+            //listening for the servers response
+            pupilToFiles = (ArrayList<PupilToFile>) OIS.readObject();
+            if (pupilToFiles.isEmpty()) {
+                System.err.println("-----No Applicants Yet!-----");
+
+                Thread.sleep(100);
+
+            } else {
+                Iterator<PupilToFile> pupilToFileIterator = pupilToFiles.iterator();
+                while (pupilToFileIterator.hasNext()) {
+                    PupilToFile pupilToFile = pupilToFileIterator.next();
+                    System.out.println("\n\n" + Cyan + pupilToFile + Restore);
+                }
+
+
+                verifyMoreParticipants(pupilToFiles, OIS, OOS, Counter);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+}
+
+
+
+
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
 class Pupil extends User {
 
@@ -69,26 +214,7 @@ class Pupil extends User {
 
 
 
-//School Representative class and it's methods
-class SchoolRep extends User {
-    //for viewing challenges after logging in
-    public void viewChallenge() {
-        System.out.println("view challenge");
-    }
 
-
-    //for viewing applicants on a particular school from the java file
-    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
-
-        //Declaring Formatting variables
-        String Cyan = "\u001B[36m";
-        String Green = "\u001B[32m";
-        String Restore = "\u001b[0m";
-        String Red = "\u001B[31m";
-        String Italic = "\033[3m";
-        String Yellow="\u001B[33m";
-    }
-}
 
 
 //initial CLI user interface management class
@@ -214,3 +340,74 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
             System.out.println(Cyan+" You have chosen, "+SecondOption+"."+Restore) ;
         }
 
+          // evaluating the first options
+
+        //if it is register execute this code block
+        if(FirstOption=="Register") {
+            switch (Command) {
+                case "school representative":
+                    //calling register method of schoolRepresentative class
+                   Rep.register(SecondOption,Counter,FirstOption);
+                    break;
+                case "pupil":
+                    //calling register method of pupil class
+                    pupil.register(SecondOption,Counter,FirstOption);
+                    break;
+                case "back":
+                        back(Counter);
+                    break;
+                default://error if invalid option
+                    System.err.println("-----INVALID OPTION!-----" +
+                            "\n You must only Use small letters throughout. And also, insert each command as it appears");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Counter++;
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                        break;
+                    }
+                    processCommand(Counter);
+            }
+        }
+
+
+        //if it is a login
+        else if(FirstOption=="Login"){
+            switch (Command) {
+                case "school representative"://calling Login method of schoolRepresentative class
+                    Counter=0;
+                    Rep.login(SecondOption,Counter,FirstOption);
+                    break;
+                case "pupil":
+                    Counter=0;
+                    pupil.login(SecondOption,Counter,FirstOption);//calling login method of schoolRepresentative class
+                    break;
+                case "back":
+                        back(Counter);
+                    break;
+                default://error if invalid option
+                    System.err.println("-----INVALID OPTION!-----" +
+                            "\n You must only Use small letters throughout. And also, insert each command as it appears" +
+                            "\n Thank you!");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Counter++;
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                        break;
+                    }
+                    processCommand(Counter);
+            }
+        }
+
+  }
+}
+
+
+//ATS class

@@ -48,7 +48,9 @@ Route::post('/schools/{id}/edit', [SchoolController::class, 'updateSchool'])->na
 
 Route::delete('/schools/{id}', [SchoolController::class, 'deleteSchool'])->name('delete.school');
 
-
+Route::get('/challenges', [ChallengeController::class, 'index'])->name('index');
+Route::get('/create', [ChallengeController::class, 'create'])->name('create');
+Route::post('/challenges', [ChallengeController::class, 'store'])->name('store');
 
 
 
