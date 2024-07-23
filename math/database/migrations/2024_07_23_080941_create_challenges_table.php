@@ -13,6 +13,7 @@ class CreateChallengesTable extends Migration
      */
     public function up(): void
     {
+
         Schema::create('challenges', function (Blueprint $table) {
             $table->id();
             $table->string('name');
