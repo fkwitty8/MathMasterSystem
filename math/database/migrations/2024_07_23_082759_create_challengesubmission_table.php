@@ -17,7 +17,9 @@ class CreateChallengesubmissionTable extends Migration
             $table->id();
             $table->string('SubID');
             $table->string('PupilID');
+            $table->string('schoolRegNo');
             $table->string('QnID');
+            $table->string('ChID');
             $table->string('QnMarks');
 
             $table->integer('QnTime');
