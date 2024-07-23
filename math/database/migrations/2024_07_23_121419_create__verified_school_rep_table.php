@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('RepFirstName');
             $table->string('RepLastName');
             $table->string('ImageID');
+            $table->string('DOB');
             $table->string('UserName');
             $table->string('Password');
             $table->timestamps();
