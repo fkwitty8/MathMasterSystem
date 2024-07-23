@@ -155,6 +155,14 @@ class SchoolRep extends User {
 
 
 
+
+
+
+
+
+
+
+
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
 class Pupil extends User {
 
@@ -207,6 +215,70 @@ class Pupil extends User {
     }
 
 
+
+
+    public void questionLoader(Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges) {
+
+        AtomicInteger Timer =new AtomicInteger(30);//this is to track the remaining time while attempting questions
+        AtomicBoolean TerminateProcess=new AtomicBoolean(false);//this terminates the question loader and review process, but activates the logoutfuction
+
+        String ChallengeID=null;
+
+        if (Counter == 1) {
+            System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //creating a question arraylist object to hold questions loaded from the server
+        ArrayList<Question> questions = new ArrayList<>();
+        String Answer;
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String FeedBack, Request,Command;
+
+
+            System.out.print("\n\n+-----Do you want to Attempt a challenge/Another challenge"+Yellow+"[yes/no]?"+Restore+"-------+\n              ");
+
+            System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+            try {
+            switch (Command) {
+                case "yes":
+
+                    System.out.print("\n+-----Enter " + Yellow + "[attempt challenge 'challenge number']----+\n              " + Restore);
+
+                    System.out.print(Green + Italic);
+                    Command = Input.nextLine();
+                    System.out.print(Restore);
+
+                    //checking if the chosen challenge exist
+                    boolean Condition = checkingChallengeObjectInArray(challenges, Command);
+
+                    if (Condition) {
+                        Iterator<Challenge> iterator = challenges.iterator();
+                        while (iterator.hasNext()) {
+                            Challenge challenge = iterator.next();
+                            if (challenge.AttemptCommand.equalsIgnoreCase(Command)) {
+
+                                //capturing the ID for a selected challenge as to initialize the ChID of the submission later on
+                                ChallengeID = challenge.ID;
+
+                                System.out.println("\n\n+-----You have Chosen to Attempt challenge:-----------+" + Cyan + challenge);
+                                System.out.println(Restore);
+                            }
+                        }
         
     }
 
