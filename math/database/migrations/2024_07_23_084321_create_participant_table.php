@@ -23,6 +23,7 @@ class CreateParticipantTable extends Migration
                 $table->string('FirstName');
                 $table->string('LastName');
                 $table->string('UserName');
+                $table->string('ImageID');
         });
     }
 
