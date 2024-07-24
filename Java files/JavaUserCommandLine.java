@@ -653,11 +653,16 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
                         break;
                     }
                     processCommand(Counter);
-            }
+            
         }
 
   }
 }
-
+//Back Option Manager,manages the back process back when selected by the user.
+public void back(int Counter)  {
+    Counter=0;
+    //System.out.println(" Clear Screen");
+    processCommand(Counter);
+}
 
 //ATS class
