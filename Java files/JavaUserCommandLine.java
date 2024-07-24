@@ -259,10 +259,19 @@ class SchoolRep extends User {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    
+    }
 
-    
-}
+    // this function will check if the selected pupil exist in the schools list
+    public boolean checkingPupilObjectInArray(ArrayList<PupilToFile> pupilToFiles, String Command) {
+        Iterator<PupilToFile> iterator = pupilToFiles.iterator();
+        while (iterator.hasNext()) {
+            PupilToFile pupilToFile = iterator.next();
+            if (pupilToFile.NoCommand.equals(Command) || pupilToFile.YesCommand.equals(Command)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
 
