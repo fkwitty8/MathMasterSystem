@@ -273,7 +273,64 @@ class SchoolRep extends User {
         return false;
     }
 
+    //this is used to replay some actions in the verify participant function above
+    public void controlApplicantsVerification(ArrayList<PupilToFile> pupilToFiles, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        System.out.println(Green+"\n\nYou are left with:"+Restore);
+        Iterator<PupilToFile> pupilToFileIterator = pupilToFiles.iterator();
+        while (pupilToFileIterator.hasNext()) {
+            PupilToFile pupilToFile = pupilToFileIterator.next();
+            System.out.println("\n" + Cyan + pupilToFile + Restore);
+        }
+
+        String Command;
+
+       while(true){
+           if(pupilToFiles.isEmpty()){
+               System.err.println("-----No Applicants left-----");
+               try {
+                   Thread.sleep(100);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+               break;
+           }
+            System.out.println("Verify More Participants?"+Yellow+"[yes/no]"+Restore);
+
+           System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+
+            if (Command.equals("yes")) {
+                verifyMoreParticipants(pupilToFiles, OIS, OOS, Counter);
+                break;
+            } else if (Command.equals("no")) {
+                break;
+            }else{
+                System.err.println("-----INVALID COMMAND!-----" +
+                    "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                    "\n For example:[ yes xxx]\n\n");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                break;
+            }
+        }
+    }
 }
+
+
 
 
 
