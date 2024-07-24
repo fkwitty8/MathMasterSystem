@@ -275,3 +275,67 @@ public void back(int Counter)  {
     //System.out.println(" Clear Screen");
     processCommand(Counter);
 }
+
+ //handles submissions to server
+ public void submitDetails(int Counter,String FirstOption,String SecondOption,String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password,byte[] ImageData,String ImagePath) {
+
+    //Declaring Formatting variables
+    String Cyan = "\u001B[36m";
+    String Green = "\u001B[32m";
+    String Restore = "\u001b[0m";
+    String Red = "\u001B[31m";
+    String Italic = "\033[3m";
+    String Yellow="\u001B[33m";
+
+
+    String Command;
+    if (Counter == 1) {
+        System.err.print(" ONE MORE TRIAL REMAINING!......\n\n");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    System.out.print("\n+-----Enter "+Yellow+"[ submit ] "+Restore+"to submit-----+\n              ");
+
+    System.out.print(Green+Italic);
+    Command = Input.nextLine();
+    System.out.print(Restore);
+
+    //checking the input whether its "submit" or "invalid input"
+        switch (Command) {
+            case "submit":
+                System.out.print("+-----Are you sure to Submit"+Yellow+"[yes/no]"+Restore+"-+\n             ");
+
+                System.out.print(Green+Italic);
+                Command = Input.nextLine();
+                System.out.print(Restore);
+
+                //checks whether reply is "Yes, submit" or " not submit"
+                if (Command.equals("yes")) {
+
+                    System.out.print("\n" + Green + "Submitting to server.");
+
+                    //Animates the dots to imitate loading
+                    for (int i = 0; i < 5; i++) {
+                        try {
+                            Thread.sleep(500);
+                            System.out.print(Green + ".");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.print(Restore);
+                    try {
+                        //setting up Client-server connection
+                        String FeedBack;
+                        AttributesTobeSubmited ATS = new AttributesTobeSubmited(FirstOption, SecondOption, ID, SchoolNumber, FirstName, LastName, UserName, DOB, Email, Password,ImageData,ImagePath);
+                        this.socket = new Socket("localhost", 1111);
+                        this.OOS = new ObjectOutputStream(socket.getOutputStream());
+                        this.OIS = new ObjectInputStream(socket.getInputStream());
+                        OOS.writeObject(ATS);
+                        OOS.flush();
+
+                    }
+                }}
