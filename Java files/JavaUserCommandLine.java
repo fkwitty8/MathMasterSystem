@@ -163,6 +163,103 @@ class SchoolRep extends User {
         String Yellow="\u001B[33m";
 
         String FeedBack, Request, Command;
+        try {
+            System.out.print("\n+--You are to confirm and verify if the given applicant(s) belong to this school.--+" +
+                    "\n" + Cyan + "Enter command like: "+Yellow+"[yes 'username'/'no username']\n" + Restore + "                 ");
+           System.out.println(Green+Italic);
+            Command = input.nextLine();
+            System.out.println(Restore);
+
+            //checking if the chosen pupil exist
+            boolean Condition = checkingPupilObjectInArray(pupilToFiles, Command);
+            if (Condition) {
+                Iterator<PupilToFile> iterator = pupilToFiles.iterator();
+                while (iterator.hasNext()) {
+                    PupilToFile pupilToFile = iterator.next();
+                    if (pupilToFile.NoCommand.equals(Command) || pupilToFile.YesCommand.equals(Command)) {
+                        if (Command.equalsIgnoreCase(pupilToFile.NoCommand)) {
+                            System.out.println("\nYou have selected:\n" + Red + pupilToFile);
+                            System.out.print("\nAre sure to reject this person?"+Yellow+"[yes/no]\n               " + Restore);
+
+                            System.out.print(Green);
+                            Command = Input.nextLine();
+                            System.out.print(Restore);
+
+                            if (Command.equals("yes")) {
+                                Request = "Reject";
+                                OOS.writeObject(Request);
+
+                                OOS.writeObject(pupilToFile);
+                                iterator.remove();
+
+                                //updating the file
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text",pupilToFiles);
+                                FeedBack = (String) OIS.readObject();
+                                if (FeedBack.equalsIgnoreCase("Done")) {
+                                    controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                    break;
+                                }
+                            } else if (Command.equals("no")) {
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            } else {
+                                System.err.println("-----INVALID COMMAND!-----" +
+                                        "\n Type the command as it appears.( consider the spaces and the letter case).");
+                                Thread.sleep(1000);
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            }
+                        }
+                        //if it is a yes command
+                        else {
+                            System.out.println("\nYou have selected:\n" + Cyan + pupilToFile);
+                            System.out.println("\nAre sure to Accept this person?"+Yellow+"[yes/no]" + Restore);
+
+                            System.out.print(Green);
+                            Command = Input.nextLine();
+                            System.out.print(Restore);
+
+                            if (Command.equals("yes")) {
+
+                                Request = "Accept";
+                                OOS.writeObject(Request);
+                                OOS.writeObject(pupilToFile);
+                                iterator.remove();
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text",pupilToFiles);
+                                FeedBack = (String) OIS.readObject();
+                                if (FeedBack.equalsIgnoreCase("Done")) {
+                                    controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                    break;
+                                }
+                            } else if (Command.equals("no")) {
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            } else {
+                                System.err.println("-----INVALID COMMAND!-----" +
+                                        "\n Type the command as it appears.( consider the spaces and the letter case).");
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                        break;
+                            }
+                        }
+                    }
+                }
+            }//the error if the rep input a wrong Pupil number
+            else {
+                System.err.println("-----THE PERSON YOU ENTERED DOES NOT EXIST!-----" +
+                        "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                        "\n For example:[ yes xxx]\n\n");
+                Thread.sleep(1000);
+                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    
 
     
 }
