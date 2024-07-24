@@ -149,10 +149,25 @@ class SchoolRep extends User {
             ex.printStackTrace();
         }
     }
+
+    public void verifyMoreParticipants(ArrayList<PupilToFile> pupilToFiles, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter) {
+        Scanner input = new Scanner(System.in);
+        FileManagement fileManagement=new FileManagement();
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String FeedBack, Request, Command;
+
     
 }
 
-
+}
 
 
 
