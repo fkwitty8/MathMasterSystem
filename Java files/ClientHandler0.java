@@ -15,3 +15,19 @@ public class ClientHandler0 implements Runnable {
     Socket socket;
     ObjectOutputStream OOS;
     ObjectInputStream OIS;
+    ClientHandler0(Socket socket) {
+        try {
+            this.socket = socket;
+            this.OIS = new ObjectInputStream(this.socket.getInputStream());
+            this.OOS = new ObjectOutputStream(this.socket.getOutputStream());
+            this.ATS = (AttributesTobeSubmited) OIS.readObject();
+            //emailSender=new EmailSender();
+            this.clientHandler0s.add(this);
+
+        } catch (IOException e) {
+            closeConnection(ATS.FirstName, ATS.LastName);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
