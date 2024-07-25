@@ -203,3 +203,12 @@ public class ClientHandler0 implements Runnable {
                             iterator.remove();
 
                         }
+
+                        else {
+                            FeedBack = "Not Recognised";
+                            OOS.writeObject(FeedBack);
+                            //Servers.NumberOfConnectedUsers--;
+                            iterator.remove();
+                        }
+                    }
+                }
