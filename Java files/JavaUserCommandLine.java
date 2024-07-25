@@ -941,4 +941,33 @@ public void back(int Counter)  {
     }
 }
 
+//if it was a no submission
+else if (Command.equals("no")) {
+    System.err.print("-----Submission declined!-----");
+    break;
+} else {
+    System.err.println("-----INVALID OPTION, SUBMISSION CLOSED!-----\n  You may access this System later.\n  Thank you!");
+    break;
+}
+break;
+default:
+try {
+    Counter++;
+    System.err.println("-----Invalid Entry!-----");
+    Thread.sleep(1000);
+    if (Counter == 2) {
+        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+        break;
+    }
+    submitDetails(Counter, FirstOption, SecondOption, ID, SchoolNumber, FirstName, LastName, UserName, DOB, Email, Password,ImageData,ImagePath);
+    break;
+} catch (InterruptedException e) {
+    e.printStackTrace();
+                }
+          }
+}
+
+
+
+
 //ATS class
