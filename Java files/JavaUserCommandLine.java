@@ -726,6 +726,51 @@ public void back(int Counter)  {
                         OOS.writeObject(ATS);
                         OOS.flush();
 
-                    }
+          //evaluating server feedback after submission and generating respective responses to client
+          FeedBack = (String) OIS.readObject();
+
+          //if User submitted registration form
+          if (ATS.FirstOption.equalsIgnoreCase("Register")) {
+              if (FeedBack.equalsIgnoreCase("School Number Does Not Exist")) {
+                  System.err.print("\n------The School Number is Incorrect!-----\n            RE-ENTER DETAILS");
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+
+                  //Prompting the user to re-enter credentials after error Message
+                  Counter = 0;
+                  user.register(ATS.SecondOption, Counter, ATS.FirstOption);
+              } else if (FeedBack.equalsIgnoreCase("Once Rejected")) {
+                  System.err.println("\n-----Your ID was once rejected on this Particular School!-----" +
+                          "\n You may Re-load and Register on your Current School which is Verified in our System" +
+                          "\n Thank you!");
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  break;
+              } else if (FeedBack.equalsIgnoreCase("Recognised") || FeedBack.equalsIgnoreCase("Registration Pending")) {
+                  System.out.println("\n" + Cyan + " Your Registration is Pending!\n You will receive a confirmation E-mail.\n THANK YOU! ");
+                  System.out.print(Restore);
+                  break;
+              } else if (FeedBack.equalsIgnoreCase("Not Recognised")) {
+                  System.err.println("\n-----Your Representative ID does not Match Any Record!-----\n            RE-ENTER DETAILS");
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+
+                  //Prompting the user to re-enter credentials after error Message
+                  Counter = 0;
+                  user.register(ATS.SecondOption, Counter, ATS.FirstOption);
+
+              }
+          }
+        }
+
 
 //ATS class
