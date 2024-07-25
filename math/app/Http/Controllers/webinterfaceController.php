@@ -14,9 +14,20 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class webinterfaceController extends Controller{
 
+// this function generates the worst performing schools per challenge 
 
-
-   
+    public function show($id)
+    {
+       
+           $worstPerfom = challengesubmission::where('ChID', $id) 
+            ->select('ChID', 'SchoolRegNo', DB::raw('AVG(QnMarks) as avMarks'))
+            ->groupBy('ChID', 'SchoolRegNo')      // Includes all selected columns that are not aggregated
+            ->orderBy('avMarks', 'asc')
+            ->get(); 
+            $CDetails = challenge::where('id', $id)->get()->pluck('name','id'); 
+          
+        return view('see', compact('CDetails','id','worstPerfom'));
+}
 
 
 
@@ -47,9 +58,29 @@ public function showMostPassed($id)
 
 
 
+//more mkljnh
 
 
 
+
+    public function homeF(){
+
+
+
+
+
+//DAVIS START HERE
+
+
+
+$Unfinished = challengesubmission::where('Challenge_FinishedStatus', "UNFINISHED")->distinct()->pluck("PupilID");
+$UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
+
+     //END HERE  
+        
+       return view('home',compact( 'challengesDetails','averageMarks','topSchools','UFpupildetails'));
+
+   }
 
 
 

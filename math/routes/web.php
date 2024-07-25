@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/bestwo', [ App\Http\Controllers\webinterfaceController::class, 'bestTwoPupil']) ->name('bestTwo');
-
+Route::get('/see/{id}', [App\Http\Controllers\webinterfaceController::class, 'show'])->name('see');
 Route::get('/passedqn/{id}', [App\Http\Controllers\webinterfaceController::class, 'showMostPassed'])->name('passedqn');
 
 //joseph route
