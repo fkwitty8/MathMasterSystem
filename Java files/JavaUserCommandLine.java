@@ -770,7 +770,39 @@ public void back(int Counter)  {
 
               }
           }
-        }
+        
+           // if it was User login submission
+           else {
+            if (FeedBack.equalsIgnoreCase("Invalid Credentials")) {
+                System.err.println("\n-----Invalid UserName Or Password!-----\n            RE-ENTER DETAILS");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+                //Prompting the user to re-enter credentials after error Message
+                Counter = 0;
+                user.login(ATS.SecondOption, Counter, ATS.FirstOption);
+            } else {
+                System.out.println("\n" + Cyan + "  Login SuccessFull!\n");
+                System.out.print(Restore);
+
+                //executes  afterloginmanager if it was successful user registration. it will evaluate if it was a schoolrep or a participant(pupil)
+                Counter = 0;
+                afterLoginManager(ATS.SecondOption, Counter, this.socket, this.OIS,this.OOS);
+                break;
+            }
+            break;
+        }
+    } catch (UnknownHostException e) {
+        e.printStackTrace();
+        break;
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+}
 
 //ATS class
