@@ -141,4 +141,10 @@ public class ClientHandler0 implements Runnable {
                             }
 
 
+                        }else{
+                            FeedBack = "School Number Does Not Exist";
+                            OOS.writeObject(FeedBack);
+                            // Servers.NumberOfConnectedUsers--;
+                            iterator.remove();
                         }
+                    }
