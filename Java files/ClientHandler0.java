@@ -31,3 +31,8 @@ public class ClientHandler0 implements Runnable {
         }
     }
 
+    // the run method that executes when the client handler is called/ started
+    @Override
+    public void run() {
+        sendToClient();
+    }
