@@ -125,17 +125,25 @@ public function showMostPassed($id)
 
 
 
+     //this code works with the sorted average to get the top stated
+
+     $topTenSchools = array_slice($averageMarks, 0, 3);
+     $topSchools = array_slice($averageMarks, 0, 3);
+
+
+     //  STOP HERE
 
 
 
 
+     //DAVIS START HERE
 
 
 
      $Unfinished = challengesubmission::where('Challenge_FinishedStatus', "UNFINISHED")->distinct()->pluck("PupilID");
      $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
 
-
+           //END HERE
 
              return view('home',compact( 'challengesDetails','averageMarks','topSchools','UFpupildetails'));
 
