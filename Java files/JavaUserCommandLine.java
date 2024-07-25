@@ -793,9 +793,9 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
         }
 
   }
-}
+
 //Back Option Manager,manages the back process back when selected by the user.
-public void back(int Counter)  {
+public void back(int Counter){
     Counter=0;
     //System.out.println(" Clear Screen");
     processCommand(Counter);
@@ -963,11 +963,132 @@ try {
     break;
 } catch (InterruptedException e) {
     e.printStackTrace();
-                }
+}
           }
 }
 
+// it manages the processes after login
+public void afterLoginManager (String SecondOption,int Counter, Socket socket,ObjectInputStream OIS, ObjectOutputStream OOS){
+
+    //Declaring Formatting variables
+    String Cyan = "\u001B[36m";
+    String Green = "\u001B[32m";
+    String Restore = "\u001b[0m";
+    String Red = "\u001B[31m";
+    String Italic = "\033[3m";
+    String Yellow="\u001B[33m";
 
 
+    Pupil pupil=new Pupil();
+    if (Counter == 1) {
+        System.err.print(" ONE MORE TRIAL REMAINING......\n\n");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    Scanner input = new Scanner(System.in);
+    String Command;
+    if (SecondOption == "Pupil") {
+        System.out.println("+---------------------------------------------+");
+        System.out.println("+ ENTER ( view challenges) TO VIEW CHALLENGES +");
+        System.out.println("+---------------------------------------------+");
+        System.out.print(" Enter: ");
 
-//ATS class
+        System.out.print(Green+Italic);
+        Command = input.nextLine();
+        System.out.print(Restore);
+
+            switch (Command) {
+                case "view challenges":
+                    Counter = 0;
+                    pupil.viewChallenge(socket,OIS,OOS,Counter);
+                    break;
+                default:
+                    Counter++;
+                    System.err.println("-----Invalid Entry!-----");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you! ");
+                        break;
+                    }
+                    afterLoginManager(SecondOption, Counter, socket, OIS,OOS);
+            }
+
+        }
+
+    //If it is a representative login
+    else {
+            System.out.println("+-------------------------------------------+");
+            System.out.println("+ ENTER (view applicants) TO VIEW APPLICANT +");
+            System.out.println("+-------------------------------------------+");
+            System.out.print(" Enter: ");
+            System.out.print(Green+Italic);
+            Command = input.nextLine();
+            System.out.print(Restore);
+
+            switch (Command) {
+                case "view applicants":
+                    Counter = 0;
+                    Rep.viewApplicant(OIS,OOS,Counter,Command);
+                    break;
+                default:
+                    Counter++;
+                    System.err.println("-----Invalid Entry!-----");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you! ");
+                        break;
+                    }
+                    afterLoginManager(SecondOption, Counter, socket,OIS,OOS);
+            }
+        }
+    }
+}
+
+class AttributesTobeSubmited implements Serializable{
+    String ID;
+    String YesCommand="yes "+ID;
+    String NoCommand="no "+ID;
+    String FirstOption;
+    String SecondOption;
+
+    String SchoolNumber;
+    String FirstName;
+    String LastName;
+    String UserName;
+    String DOB;
+    String Email;
+
+    String Password;
+    byte[] ImageData;
+
+    String FilePath;
+    public AttributesTobeSubmited(String FirstOption,String SecondOption,String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password,byte[] ImageData,String FilePath){
+        this.FirstOption=FirstOption;
+        this.SecondOption=SecondOption;
+        this.ID=ID;
+        this.SchoolNumber=SchoolNumber;
+        this.FirstName=FirstName;
+        this.LastName=LastName;
+        this.UserName=UserName;
+        this.DOB=DOB;
+        this.Email=Email;
+        this.Password=Password;
+        this.ImageData=ImageData;
+        this.FilePath=FilePath;
+    }
+
+    public String toString(){
+        return ID+"\n"+FirstName+" "+LastName+"\n";
+    }
+}
