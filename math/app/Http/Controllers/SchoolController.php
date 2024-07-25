@@ -35,8 +35,8 @@ class SchoolController extends Controller
             // Create the SchoolRepresentative
             School::create([
                 'Name' => $school[0], // Adjust index based on your file structure(Excel file)
-                'district' => $school[1],
-                'schoolRegistrationNumber' => $school[2],
+                'District' => $school[1],
+                'schoolRegNo' => $school[2],
                 'RepID' => $school[3],
                 'RepEmail' => $school[4],
                 'RepFirstName' => $school[5],
@@ -64,8 +64,8 @@ class SchoolController extends Controller
 
         $school->update([
             'Name' => $request->Name,
-            'district' => $request->district,
-            'schoolRegistrationNumber' => $request->schoolRegistrationNumber,
+            'District' => $request->District,
+            'schoolRegNo' => $request->schoolRegNo,
             'RepID' => $request->RepID,
             'RepEmail' => $request->RepEmail,
             'RepFirstName' => $request->RepFirstName,

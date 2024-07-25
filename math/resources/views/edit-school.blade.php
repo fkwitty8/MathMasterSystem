@@ -17,11 +17,11 @@
             </div>
             <div class="form-group">
                 <label for="district">District</label>
-                <input type="text" name="district" class="form-control" value="{{ $school->district }}" required>
+                <input type="text" name="district" class="form-control" value="{{ $school->District }}" required>
             </div>
             <div class="form-group">
                 <label for="schoolRegistrationNumber">School Registration Number</label>
-                <input type="text" name="schoolRegistrationNumber" class="form-control" value="{{ $school->schoolRegistrationNumber }}" required>
+                <input type="text" name="schoolRegistrationNumber" class="form-control" value="{{ $school->schoolRegNo }}" required>
             </div>
             <div class="form-group">
                 <label for="RepID">Rep ID</label>
