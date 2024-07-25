@@ -377,12 +377,40 @@ class Pupil extends User {
                 Response = "Send Data";
                 OOS.writeObject(Response);
                 challenges = (ArrayList<Challenge>) OIS.readObject();
-                for (Challenge challenge : challenges) {
-                    System.out.println(Cyan + challenge);
+                int i=0;
+
+
+                String ChallengeNo="Challenge No",Challenge_Name="Challenge_Name",OpeningDate="Opening Date",ClosingDate="Closing Date",NumberOfQuestions="NumberOfQuestions",Status="Challenge Status",TimeAllowed="TimeAllowed";
+
+                System.out.println(Cyan +"+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+"+Restore);
+                System.out.printf("| %-10s | %-15s | %-20s | %-20s | %-10s | %-10s | %-20s    |\n",ChallengeNo,Challenge_Name,OpeningDate,ClosingDate,TimeAllowed,NumberOfQuestions,Status);
+                System.out.println(Cyan +"+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+
+                for(Challenge challenge:challenges){
+                    //defining the challenge status whether the challenge is open/pending or closed
+                LocalDateTime localDateTime= LocalDateTime.now();
+                LocalDateTime ClosinglocalDateTime=challenge.ClosingDate;
+                LocalDateTime OpeningLocalDateTime=challenge.OpeningDate;
+
+                if (localDateTime.isAfter(ClosinglocalDateTime)) {
+                    challenge.Status = "Challenge Closed";
+                } else if (localDateTime.isBefore(OpeningLocalDateTime)) {
+                    challenge.Status = "Challenge Pending";
+                }else {
+                    challenge.Status = "Challenge Open";
                 }
+
+                    if (i>0) {
+                        System.out.println("+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+                    }
+                    System.out.println(challenge);
+                    i++;
+                }
+                System.out.println("+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
                 System.out.println(Restore);
                 questionLoader(socket, OIS, OOS, Counter, challenges);
             }
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -394,10 +422,9 @@ class Pupil extends User {
 
 
 
-
     public void questionLoader(Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges) {
 
-        AtomicInteger Timer =new AtomicInteger(30);//this is to track the remaining time while attempting questions
+        AtomicInteger Timer =new AtomicInteger(0);//this is to track the remaining time while attempting questions
         AtomicBoolean TerminateProcess=new AtomicBoolean(false);//this terminates the question loader and review process, but activates the logoutfuction
 
         String ChallengeID=null;
@@ -413,7 +440,8 @@ class Pupil extends User {
 
         //creating a question arraylist object to hold questions loaded from the server
         ArrayList<Question> questions = new ArrayList<>();
-        String Answer;
+        String Answer,NumberOfQuestions=null;
+
 
         //Declaring Formatting variables
         String Cyan = "\u001B[36m";
@@ -443,28 +471,136 @@ class Pupil extends User {
 
                     //checking if the chosen challenge exist
                     boolean Condition = checkingChallengeObjectInArray(challenges, Command);
+                    String NumberOfQuestion=null;
 
                     if (Condition) {
+
                         Iterator<Challenge> iterator = challenges.iterator();
                         while (iterator.hasNext()) {
                             Challenge challenge = iterator.next();
+
                             if (challenge.AttemptCommand.equalsIgnoreCase(Command)) {
 
-                                //capturing the ID for a selected challenge as to initialize the ChID of the submission later on
-                                ChallengeID = challenge.ID;
+                                if (challenge.Status.equalsIgnoreCase("Challenge Closed")){
 
-                                System.out.println("\n\n+-----You have Chosen to Attempt challenge:-----------+" + Cyan + challenge);
-                                System.out.println(Restore);
+                                    System.err.println("-----This Challenge Was Closed!-----\n Select another challenge which is open. ");
+                                    Thread.sleep(1000);//simulate processing for one second
+
+                                    //calling the function question loader
+                                    Counter = 0;
+                                    questionLoader(socket, OIS, OOS, Counter, challenges);
+                                    break;
+                                }
+                                else if(challenge.Status.equalsIgnoreCase("Challenge Pending")){
+
+                                    System.err.println("-----This Challenge is not yet open!-----\n Select another challenge which is open. ");
+                                    Thread.sleep(1000);//simulate processing for one second
+
+                                    //calling the function question loader
+                                    Counter = 0;
+                                    questionLoader(socket, OIS, OOS, Counter, challenges);
+                                    break;
+                                }
+                                else{
+
+                                    //checking whether this challenge was once done by the pupil
+                                    OOS.writeObject(challenge);
+                                    FeedBack=(String)OIS.readObject();
+
+                                    if(FeedBack.equalsIgnoreCase("already done")){
+                                        System.err.println("-----You already attempted this challenge!-----\n Select another challenge which you have never attempted. ");
+                                        Thread.sleep(1000);//simulate processing for one second
+
+                                        //calling the function question loader
+                                        Counter = 0;
+                                        questionLoader(socket, OIS, OOS, Counter, challenges);
+                                        break;
+                                    }else {
+
+                                        //capturing the ID for a selected challenge as to initialize the ChID of the submission later on
+                                        ChallengeID = challenge.ID;
+
+                                        Timer.set(Integer.parseInt(challenge.TimeAllowed));
+
+                                        //intialising the number of questions to be loaded according to the challenge
+                                        NumberOfQuestion = challenge.NumberOfQuestions;
+
+                                        String ChallengeNo = "Challenge No", Challenge_Name = "Challenge_Name", OpeningDate = "Opening Date", ClosingDate = "Closing Date", TimeAllowed = "TimeAllowed", Status = "Challenge Status";
+                                        NumberOfQuestions = "NumberOfQuestions";
+
+                                        System.out.println("\n\n+-----You have Chosen to Attempt challenge:-----------+");
+                                        System.out.println(Cyan + "+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+" + Restore);
+                                        System.out.printf("| %-10s | %-15s | %-20s | %-20s | %-10s | %-10s | %-20s|\n", ChallengeNo, Challenge_Name, OpeningDate, ClosingDate, TimeAllowed, NumberOfQuestions, Status);
+                                        System.out.println(Cyan + "+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+                                        System.out.println(challenge);
+                                        System.out.println(Cyan + "+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+
+                                        System.out.println(Restore);
+                                    }
+                                }
                             }
                         }
-        
-    }
 
-       
+                        System.out.print("+-----Are you sure to Start the Challenge?" + Yellow + "[yes/no]----+\n" + Restore + "               ");
+
+                        System.out.print(Green + Italic);
+                        Command = Input.nextLine();
+                        System.out.print(Restore);
 
 
+                        //checks whether reply is "Yes" or " no"
+                        if (Command.equals("yes")) {
+                            System.out.println();
+                            Request = "Loadquestions "+NumberOfQuestion;
+                            OOS.writeObject(Request);
+
+                            //receiving and evaluating feedback from the server
+                            FeedBack = (String) OIS.readObject();
+                            if (FeedBack.equalsIgnoreCase("No results Found")) {
+                                System.err.println("Questions Are not yet Uploaded! Try again Later.");
+
+                                Thread.sleep(1000);//simulate processing for one second
+
+                                Counter = 0;
+                                logoutHandler(socket, OIS, OOS, Counter, challenges);
+                                break;
+                            } else {
+                                System.out.println(Cyan + "+-----INSTRUCTIONS:-----+\n 1). Correct Answer Score:3mks\n 2). Wrong Answer score:-3mks\n 3).+-----If you are unsure about the question, enter a minus(-):-0mks\n\n If you are Ready, Press   " + Yellow + "(enter key)" + Restore + Cyan + " to continue with the challenge-----+ " + Restore);
+
+                                //Creating a pause for the Participant to read through the instructions and proceeds when he precess Enter
+                                String ParticipantReadInstructions = Input.nextLine();
+
+                                //if questions are present, thy are loaded in questions arraylist
+                                questions = (ArrayList<Question>) OIS.readObject();
+
+                                int TimeLimit = Timer.get();// to time for the entire challenge attempt(this is seconds)
+                                int Questions = Integer.valueOf(NumberOfQuestion);//used in numbering of questions
 
 
+                                //This thread simulate count down using the for loop and updating  the atomic integer by 1, after every second
+                                new Thread(new Runnable() {
+                                    int CurrentTime;
+                                    int ModifiedTime;
+
+                                    @Override
+                                    public void run() {
+                                        for (int i = TimeLimit; i > 0; i--) {
+                                            CurrentTime = Timer.get();
+                                            ModifiedTime = CurrentTime - 1;
+                                            Timer.set(ModifiedTime);
+
+
+                                            try {
+                                                Thread.sleep(1000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+
+                                        System.out.println(Red + "\n\nTimeOut!\n" + Cyan + "Your attempts have been automatically submitted.\n\n+-----Press "+Yellow+"( Enter key )"+Restore+ Cyan+" to continue-----+" + Restore);
+                                    }
+                                }).start();
 
 
 //initial CLI user interface management class
