@@ -1,3 +1,346 @@
+import javax.imageio.ImageIO;
+import javax.swing.text.Style;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.time.*;
+import java.util.*;
+import java.io.*;
+import java.util.Timer;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+//Java User CommandLine Class
+public class JavaUserCommandLine {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        //Logo to be animated
+        String[] Logo={"M","A","T","H"," ","M","A","S","T","E","R"," ","S","Y","S","T","E","M"," ","O","P","E","N","E","D","!"};
+
+        System.out.println("\n");
+        //the for loop to simulate animation
+        for(int i=0;i<26;i++){
+            System.out.print(Yellow+Italic+Logo[i]);
+            try {
+                Thread.sleep(100);//thread to simulate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.print(Restore);
+        System.out.println("\n");
+
+        int Counter = 0;//passed on to keep track of invalid option user inputs time, not to exceed two times
+        UserInterface Interface = new UserInterface();
+        Interface.processCommand(Counter);
+        System.out.println("\n\n");
+
+        //animates the string at the close of the system
+        endOfSystem();
+
+    }
+
+    //animate Logo at when closing the system
+    public static void endOfSystem(){
+
+        // text to be animated
+        String[] Logo={"M","A","T","H"," ","M","A","S","T","E","R"," ","S","Y","S","T","E","M"," ","C","L","O","S","E","D","!"};
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        //the for loop to simulate animation
+        for(int i=0;i<26;i++){
+          System.out.print(Yellow+Italic+Logo[i]);
+            try {
+                Thread.sleep(100);//thread to simulate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.print(Restore);
+    }
+}
+// Question class 
+
+
+
+
+
+
+//Challenge class 
+
+
+
+//User class 
+
+
+
+
+
+//School Representative class and it's methods
+class SchoolRep extends User {
+    //for viewing challenges after logging in
+    public void viewChallenge() {
+        System.out.println("view challenge");
+    }
+
+
+    //for viewing applicants on a particular school from the java file
+    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+       
+        ArrayList<PupilToFile> pupilToFiles = new ArrayList<>();
+        try {
+            //sending request to the server
+
+            OOS.writeObject(Command);
+
+            //error catch
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING......\n\n");
+                Thread.sleep(1000);
+            }
+
+            //listening for the servers response
+            pupilToFiles = (ArrayList<PupilToFile>) OIS.readObject();
+            if (pupilToFiles.isEmpty()) {
+                System.err.println("-----No Applicants Yet!-----");
+
+                Thread.sleep(100);
+
+            } else {
+                Iterator<PupilToFile> pupilToFileIterator = pupilToFiles.iterator();
+                while (pupilToFileIterator.hasNext()) {
+                    PupilToFile pupilToFile = pupilToFileIterator.next();
+                    System.out.println("\n\n" + Cyan + pupilToFile + Restore);
+                }
+
+
+                verifyMoreParticipants(pupilToFiles, OIS, OOS, Counter);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void verifyMoreParticipants(ArrayList<PupilToFile> pupilToFiles, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter) {
+        Scanner input = new Scanner(System.in);
+        FileManagement fileManagement=new FileManagement();
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String FeedBack, Request, Command;
+        try {
+            System.out.print("\n+--You are to confirm and verify if the given applicant(s) belong to this school.--+" +
+                    "\n" + Cyan + "Enter command like: "+Yellow+"[yes 'username'/'no username']\n" + Restore + "                 ");
+           System.out.println(Green+Italic);
+            Command = input.nextLine();
+            System.out.println(Restore);
+
+            //checking if the chosen pupil exist
+            boolean Condition = checkingPupilObjectInArray(pupilToFiles, Command);
+            if (Condition) {
+                Iterator<PupilToFile> iterator = pupilToFiles.iterator();
+                while (iterator.hasNext()) {
+                    PupilToFile pupilToFile = iterator.next();
+                    if (pupilToFile.NoCommand.equals(Command) || pupilToFile.YesCommand.equals(Command)) {
+                        if (Command.equalsIgnoreCase(pupilToFile.NoCommand)) {
+                            System.out.println("\nYou have selected:\n" + Red + pupilToFile);
+                            System.out.print("\nAre sure to reject this person?"+Yellow+"[yes/no]\n               " + Restore);
+
+                            System.out.print(Green);
+                            Command = Input.nextLine();
+                            System.out.print(Restore);
+
+                            if (Command.equals("yes")) {
+                                Request = "Reject";
+                                OOS.writeObject(Request);
+
+                                OOS.writeObject(pupilToFile);
+                                iterator.remove();
+
+                                //updating the file
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text",pupilToFiles);
+                                FeedBack = (String) OIS.readObject();
+                                if (FeedBack.equalsIgnoreCase("Done")) {
+                                    controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                    break;
+                                }
+                            } else if (Command.equals("no")) {
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            } else {
+                                System.err.println("-----INVALID COMMAND!-----" +
+                                        "\n Type the command as it appears.( consider the spaces and the letter case).");
+                                Thread.sleep(1000);
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            }
+                        }
+                        //if it is a yes command
+                        else {
+                            System.out.println("\nYou have selected:\n" + Cyan + pupilToFile);
+                            System.out.println("\nAre sure to Accept this person?"+Yellow+"[yes/no]" + Restore);
+
+                            System.out.print(Green);
+                            Command = Input.nextLine();
+                            System.out.print(Restore);
+
+                            if (Command.equals("yes")) {
+
+                                Request = "Accept";
+                                OOS.writeObject(Request);
+                                OOS.writeObject(pupilToFile);
+                                iterator.remove();
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text",pupilToFiles);
+                                FeedBack = (String) OIS.readObject();
+                                if (FeedBack.equalsIgnoreCase("Done")) {
+                                    controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                    break;
+                                }
+                            } else if (Command.equals("no")) {
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            } else {
+                                System.err.println("-----INVALID COMMAND!-----" +
+                                        "\n Type the command as it appears.( consider the spaces and the letter case).");
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                        break;
+                            }
+                        }
+                    }
+                }
+            }//the error if the rep input a wrong Pupil number
+            else {
+                System.err.println("-----THE PERSON YOU ENTERED DOES NOT EXIST!-----" +
+                        "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                        "\n For example:[ yes xxx]\n\n");
+                Thread.sleep(1000);
+                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // this function will check if the selected pupil exist in the schools list
+    public boolean checkingPupilObjectInArray(ArrayList<PupilToFile> pupilToFiles, String Command) {
+        Iterator<PupilToFile> iterator = pupilToFiles.iterator();
+        while (iterator.hasNext()) {
+            PupilToFile pupilToFile = iterator.next();
+            if (pupilToFile.NoCommand.equals(Command) || pupilToFile.YesCommand.equals(Command)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //this is used to replay some actions in the verify participant function above
+    public void controlApplicantsVerification(ArrayList<PupilToFile> pupilToFiles, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        System.out.println(Green+"\n\nYou are left with:"+Restore);
+        Iterator<PupilToFile> pupilToFileIterator = pupilToFiles.iterator();
+        while (pupilToFileIterator.hasNext()) {
+            PupilToFile pupilToFile = pupilToFileIterator.next();
+            System.out.println("\n" + Cyan + pupilToFile + Restore);
+        }
+
+        String Command;
+
+       while(true){
+           if(pupilToFiles.isEmpty()){
+               System.err.println("-----No Applicants left-----");
+               try {
+                   Thread.sleep(100);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+               break;
+           }
+            System.out.println("Verify More Participants?"+Yellow+"[yes/no]"+Restore);
+
+           System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+
+            if (Command.equals("yes")) {
+                verifyMoreParticipants(pupilToFiles, OIS, OOS, Counter);
+                break;
+            } else if (Command.equals("no")) {
+                break;
+            }else{
+                System.err.println("-----INVALID COMMAND!-----" +
+                    "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                    "\n For example:[ yes xxx]\n\n");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
 class Pupil extends User {
 
@@ -34,12 +377,40 @@ class Pupil extends User {
                 Response = "Send Data";
                 OOS.writeObject(Response);
                 challenges = (ArrayList<Challenge>) OIS.readObject();
-                for (Challenge challenge : challenges) {
-                    System.out.println(Cyan + challenge);
+                int i=0;
+
+
+                String ChallengeNo="Challenge No",Challenge_Name="Challenge_Name",OpeningDate="Opening Date",ClosingDate="Closing Date",NumberOfQuestions="NumberOfQuestions",Status="Challenge Status",TimeAllowed="TimeAllowed";
+
+                System.out.println(Cyan +"+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+"+Restore);
+                System.out.printf("| %-10s | %-15s | %-20s | %-20s | %-10s | %-10s | %-20s    |\n",ChallengeNo,Challenge_Name,OpeningDate,ClosingDate,TimeAllowed,NumberOfQuestions,Status);
+                System.out.println(Cyan +"+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+
+                for(Challenge challenge:challenges){
+                    //defining the challenge status whether the challenge is open/pending or closed
+                LocalDateTime localDateTime= LocalDateTime.now();
+                LocalDateTime ClosinglocalDateTime=challenge.ClosingDate;
+                LocalDateTime OpeningLocalDateTime=challenge.OpeningDate;
+
+                if (localDateTime.isAfter(ClosinglocalDateTime)) {
+                    challenge.Status = "Challenge Closed";
+                } else if (localDateTime.isBefore(OpeningLocalDateTime)) {
+                    challenge.Status = "Challenge Pending";
+                }else {
+                    challenge.Status = "Challenge Open";
                 }
+
+                    if (i>0) {
+                        System.out.println("+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+                    }
+                    System.out.println(challenge);
+                    i++;
+                }
+                System.out.println("+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
                 System.out.println(Restore);
                 questionLoader(socket, OIS, OOS, Counter, challenges);
             }
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -48,25 +419,29 @@ class Pupil extends User {
             e.printStackTrace();
         }
     }
-cd
-
-        
-    }
-
-       
 
 
 
-//School Representative class and it's methods
-class SchoolRep extends User {
-    //for viewing challenges after logging in
-    public void viewChallenge() {
-        System.out.println("view challenge");
-    }
+    public void questionLoader(Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges) {
 
+        AtomicInteger Timer =new AtomicInteger(0);//this is to track the remaining time while attempting questions
+        AtomicBoolean TerminateProcess=new AtomicBoolean(false);//this terminates the question loader and review process, but activates the logoutfuction
 
-    //for viewing applicants on a particular school from the java file
-    public void viewApplicant(ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, String Command) {
+        String ChallengeID=null;
+
+        if (Counter == 1) {
+            System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //creating a question arraylist object to hold questions loaded from the server
+        ArrayList<Question> questions = new ArrayList<>();
+        String Answer,NumberOfQuestions=null;
+
 
         //Declaring Formatting variables
         String Cyan = "\u001B[36m";
@@ -75,8 +450,158 @@ class SchoolRep extends User {
         String Red = "\u001B[31m";
         String Italic = "\033[3m";
         String Yellow="\u001B[33m";
-    }
-}
+
+        String FeedBack, Request,Command;
+
+
+            System.out.print("\n\n+-----Do you want to Attempt a challenge/Another challenge"+Yellow+"[yes/no]?"+Restore+"-------+\n              ");
+
+            System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+            try {
+            switch (Command) {
+                case "yes":
+
+                    System.out.print("\n+-----Enter " + Yellow + "[attempt challenge 'challenge number']----+\n              " + Restore);
+
+                    System.out.print(Green + Italic);
+                    Command = Input.nextLine();
+                    System.out.print(Restore);
+
+                    //checking if the chosen challenge exist
+                    boolean Condition = checkingChallengeObjectInArray(challenges, Command);
+                    String NumberOfQuestion=null;
+
+                    if (Condition) {
+
+                        Iterator<Challenge> iterator = challenges.iterator();
+                        while (iterator.hasNext()) {
+                            Challenge challenge = iterator.next();
+
+                            if (challenge.AttemptCommand.equalsIgnoreCase(Command)) {
+
+                                if (challenge.Status.equalsIgnoreCase("Challenge Closed")){
+
+                                    System.err.println("-----This Challenge Was Closed!-----\n Select another challenge which is open. ");
+                                    Thread.sleep(1000);//simulate processing for one second
+
+                                    //calling the function question loader
+                                    Counter = 0;
+                                    questionLoader(socket, OIS, OOS, Counter, challenges);
+                                    break;
+                                }
+                                else if(challenge.Status.equalsIgnoreCase("Challenge Pending")){
+
+                                    System.err.println("-----This Challenge is not yet open!-----\n Select another challenge which is open. ");
+                                    Thread.sleep(1000);//simulate processing for one second
+
+                                    //calling the function question loader
+                                    Counter = 0;
+                                    questionLoader(socket, OIS, OOS, Counter, challenges);
+                                    break;
+                                }
+                                else{
+
+                                    //checking whether this challenge was once done by the pupil
+                                    OOS.writeObject(challenge);
+                                    FeedBack=(String)OIS.readObject();
+
+                                    if(FeedBack.equalsIgnoreCase("already done")){
+                                        System.err.println("-----You already attempted this challenge!-----\n Select another challenge which you have never attempted. ");
+                                        Thread.sleep(1000);//simulate processing for one second
+
+                                        //calling the function question loader
+                                        Counter = 0;
+                                        questionLoader(socket, OIS, OOS, Counter, challenges);
+                                        break;
+                                    }else {
+
+                                        //capturing the ID for a selected challenge as to initialize the ChID of the submission later on
+                                        ChallengeID = challenge.ID;
+
+                                        Timer.set(Integer.parseInt(challenge.TimeAllowed));
+
+                                        //intialising the number of questions to be loaded according to the challenge
+                                        NumberOfQuestion = challenge.NumberOfQuestions;
+
+                                        String ChallengeNo = "Challenge No", Challenge_Name = "Challenge_Name", OpeningDate = "Opening Date", ClosingDate = "Closing Date", TimeAllowed = "TimeAllowed", Status = "Challenge Status";
+                                        NumberOfQuestions = "NumberOfQuestions";
+
+                                        System.out.println("\n\n+-----You have Chosen to Attempt challenge:-----------+");
+                                        System.out.println(Cyan + "+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+" + Restore);
+                                        System.out.printf("| %-10s | %-15s | %-20s | %-20s | %-10s | %-10s | %-20s|\n", ChallengeNo, Challenge_Name, OpeningDate, ClosingDate, TimeAllowed, NumberOfQuestions, Status);
+                                        System.out.println(Cyan + "+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+                                        System.out.println(challenge);
+                                        System.out.println(Cyan + "+--------------+-----------------+----------------------+----------------------+-------------+-------------------+-------------------------+");
+
+                                        System.out.println(Restore);
+                                    }
+                                }
+                            }
+                        }
+
+                        System.out.print("+-----Are you sure to Start the Challenge?" + Yellow + "[yes/no]----+\n" + Restore + "               ");
+
+                        System.out.print(Green + Italic);
+                        Command = Input.nextLine();
+                        System.out.print(Restore);
+
+
+                        //checks whether reply is "Yes" or " no"
+                        if (Command.equals("yes")) {
+                            System.out.println();
+                            Request = "Loadquestions "+NumberOfQuestion;
+                            OOS.writeObject(Request);
+
+                            //receiving and evaluating feedback from the server
+                            FeedBack = (String) OIS.readObject();
+                            if (FeedBack.equalsIgnoreCase("No results Found")) {
+                                System.err.println("Questions Are not yet Uploaded! Try again Later.");
+
+                                Thread.sleep(1000);//simulate processing for one second
+
+                                Counter = 0;
+                                logoutHandler(socket, OIS, OOS, Counter, challenges);
+                                break;
+                            } else {
+                                System.out.println(Cyan + "+-----INSTRUCTIONS:-----+\n 1). Correct Answer Score:3mks\n 2). Wrong Answer score:-3mks\n 3).+-----If you are unsure about the question, enter a minus(-):-0mks\n\n If you are Ready, Press   " + Yellow + "(enter key)" + Restore + Cyan + " to continue with the challenge-----+ " + Restore);
+
+                                //Creating a pause for the Participant to read through the instructions and proceeds when he precess Enter
+                                String ParticipantReadInstructions = Input.nextLine();
+
+                                //if questions are present, thy are loaded in questions arraylist
+                                questions = (ArrayList<Question>) OIS.readObject();
+
+                                int TimeLimit = Timer.get();// to time for the entire challenge attempt(this is seconds)
+                                int Questions = Integer.valueOf(NumberOfQuestion);//used in numbering of questions
+
+
+                                //This thread simulate count down using the for loop and updating  the atomic integer by 1, after every second
+                                new Thread(new Runnable() {
+                                    int CurrentTime;
+                                    int ModifiedTime;
+
+                                    @Override
+                                    public void run() {
+                                        for (int i = TimeLimit; i > 0; i--) {
+                                            CurrentTime = Timer.get();
+                                            ModifiedTime = CurrentTime - 1;
+                                            Timer.set(ModifiedTime);
+
+
+                                            try {
+                                                Thread.sleep(1000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+
+                                        System.out.println(Red + "\n\nTimeOut!\n" + Cyan + "Your attempts have been automatically submitted.\n\n+-----Press "+Yellow+"( Enter key )"+Restore+ Cyan+" to continue-----+" + Restore);
+                                    }
+                                }).start();
+
 
 //initial CLI user interface management class
 class UserInterface{
@@ -268,74 +793,3 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
         }
 
 }
-
-//Back Option Manager,manages the back process back when selected by the user.
-public void back(int Counter)  {
-    Counter=0;
-    //System.out.println(" Clear Screen");
-    processCommand(Counter);
-}
-
- //handles submissions to server
- public void submitDetails(int Counter,String FirstOption,String SecondOption,String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password,byte[] ImageData,String ImagePath) {
-
-    //Declaring Formatting variables
-    String Cyan = "\u001B[36m";
-    String Green = "\u001B[32m";
-    String Restore = "\u001b[0m";
-    String Red = "\u001B[31m";
-    String Italic = "\033[3m";
-    String Yellow="\u001B[33m";
-
-
-    String Command;
-    if (Counter == 1) {
-        System.err.print(" ONE MORE TRIAL REMAINING!......\n\n");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    System.out.print("\n+-----Enter "+Yellow+"[ submit ] "+Restore+"to submit-----+\n              ");
-
-    System.out.print(Green+Italic);
-    Command = Input.nextLine();
-    System.out.print(Restore);
-
-    //checking the input whether its "submit" or "invalid input"
-        switch (Command) {
-            case "submit":
-                System.out.print("+-----Are you sure to Submit"+Yellow+"[yes/no]"+Restore+"-+\n             ");
-
-                System.out.print(Green+Italic);
-                Command = Input.nextLine();
-                System.out.print(Restore);
-
-                //checks whether reply is "Yes, submit" or " not submit"
-                if (Command.equals("yes")) {
-
-                    System.out.print("\n" + Green + "Submitting to server.");
-
-                    //Animates the dots to imitate loading
-                    for (int i = 0; i < 5; i++) {
-                        try {
-                            Thread.sleep(500);
-                            System.out.print(Green + ".");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    System.out.print(Restore);
-                    try {
-                        //setting up Client-server connection
-                        String FeedBack;
-                        AttributesTobeSubmited ATS = new AttributesTobeSubmited(FirstOption, SecondOption, ID, SchoolNumber, FirstName, LastName, UserName, DOB, Email, Password,ImageData,ImagePath);
-                        this.socket = new Socket("localhost", 1111);
-                        this.OOS = new ObjectOutputStream(socket.getOutputStream());
-                        this.OIS = new ObjectInputStream(socket.getInputStream());
-                        OOS.writeObject(ATS);
-                        OOS.flush();
-
-                    }
-                }}

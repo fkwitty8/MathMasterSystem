@@ -52,16 +52,23 @@
     
             <div id="files">
                 <span id="hide">X</span>
-                <li id="cli1"><a href="{{ route('upload') }}">CgitHALLENGE</a></li>
+                <li id="cli1"><a href="#">CHALLENGE</a></li>
                 <li id="cli2"><a href="{{ route('upload.schools') }}">REGISTERED SCHOOLS</a></li>
             </div>
-            <form action="form" method="POST" id="challenge">
+              <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data" id="challenge">
             <span id="hideform1"><small>x</small></span>
     @csrf
-    <input type="file" name="file" required >
-    
-    <div  id="challengeUload" > <button type="submit" >UPLOAD</button></div>
+    <div class="mb-3">
+    <label for="questionsFile">Questions File</label>
+    <input type="file"  id="questionsFile" name="questionsFile" required>
+    </div>
+    <div class="mb-3"style="margin-left:-70px">
+            <label for="answersFile" >Answers File</label>
+            <input type="file" id="answersFile" name="answersFile" required>
+        </div>
+        <button type="submit" style="margin-left:-70px">Upload</button>
 </form>
+
 <form action="{{ route('upload.schools') }}" method="POST" id="schools">
 <span id="hideform2"><small>x</small></span>
     @csrf
@@ -196,13 +203,87 @@
                         
                         </div>
                     
-           
-                        <button id="reports"><b>MORE INCITE</b></button>
+    <button id="reports"><b>MORE INCITE</b></button>
+     <div style="position:absolute; top:175% ;left:38.5%;">
+             <div id="analysis">
+                <span id="closeA">X</span>
+                <li id="SA">SCHOOL ANALYTICS</li>
+                <li id="PA">PUPIL ANALYTICS</li>
+            </div>
+
+
+            <div id = "sreport" >
+            <span id="closeSR">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black;">schools report</h5>
+
+                <li id="schoolranking">school rankings</li>
+                <li>Performance of schools over time</li>
+                <li>worst performing schools per challenge</li>
+                <li id = "BPS">list of best performing schoolos overall</li>
+
+            </div>
+
+
+            <div id="preport">
+            <span id="closePR">X</span>
+                <h5 style="margin-bottom: -1%;
+                        color: white;
+                        background-color: black;">pupil report</h5>
+                <li>Best partispant per challenge</li>
+                <li title="displays a list of partispants">partispant performance overtime</li>
+                <li>list of partispants with incomplete challenge</li>
+            </div>
+
+     </div>
+    
+                    </div>
+                </div>
+            </section>
+            
+          
+
           
 
              </section>
+
+
+             <table border='2' cellspacing=0 id="INC">
+    <thead>
+        <tr ><th  colspan="3"> LIST OF PARTICIPANTS WITH INCOMPLETE CHALLENGE<small id="closeINC">close</small></th> </tr>
+   
+    </thead>
+        <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
+        
     
-             <script>
+    <tbody>
+        @php
+            $rank = 1;
+        @endphp
+        @foreach ($UFpupildetails as $UFdetail)
+        <tr>
+            <td>{{ $rank }}</td>
+            <td>{{ $UFdetail->FirstName }}</td>
+            <td>{{ $UFdetail['LastName'] }}</td>
+            
+        </tr>
+        @php
+            $rank++;
+        @endphp
+        @endforeach
+
+        
+    </tbody>
+</table>
+    <script>
+             const challengeUpload = document.getElementById("challengeUload");
+          const parameterDiv = document.getElementById("parameterDiv"); parameterDiv
+          const nav = document.getElementById("nav");
+
+
+
+
           const uploadbutton = document.getElementById("upload");
           let filediv = document.getElementById("files");
           let click1 =  document.getElementById("cli1");
@@ -212,19 +293,54 @@
           let hide =  document.getElementById("hide");
           let hideform1 =  document.getElementById("hideform1");
           let hideform2 =  document.getElementById("hideform2");
-
-
-        uploadbutton.onclick=showFilediv;
-        click1.onclick =showChallengeForm;
-        click2.onclick = showSchoolsForm;
-        hide.onclick = showNone;
-        hideform1.onclick = hideChallengeForm;   
-        hideform2.onclick = hideSchoolForm;
-        
+          
 
 
 
-        function showFilediv(){
+          
+          let reports =  document.getElementById("reports");
+          let analysis =  document.getElementById("analysis");
+          let schoolreport =  document.getElementById("sreport");
+          let pupilreport =    document.getElementById("preport");
+          let schoolAnalysis =  document.getElementById("SA");
+          let pupilanalysis =    document.getElementById("PA");
+          let closeA =  document.getElementById("closeA");
+          let closeSR =  document.getElementById("closeSR");
+          let closePR =  document.getElementById("closePR")
+          
+
+          let schoolranks =  document.getElementById("schoolranking");
+          let srankingtable =  document.getElementById("srankingt");
+          let Bestps =  document.getElementById("BPS");
+          let Bestpstable =  document.getElementById("BPST");
+          let closeSRT =  document.getElementById("closeSRT");
+          let closeBPST =  document.getElementById("closeBPST");
+
+uploadbutton.onclick=showFilediv;
+click1.onclick =showChallengeForm;
+click2.onclick = showSchoolsForm;
+hide.onclick = showNone;
+hideform1.onclick = hideChallengeForm;   
+hideform2.onclick = hideSchoolForm;
+
+reports.onclick =  showAnalysis;
+schoolAnalysis.onclick = showSchoolreport;
+pupilanalysis.onclick = showPupilReport;
+closeA.onclick = hideAnalysis;
+closeSR.onclick = hideSchoolreport;
+closePR.onclick = hidePupilReport;
+
+schoolranks.onclick = showSrankingT;
+closeSRT.onclick = hideSrankingT;
+Bestps.onclick =showBestpstable;
+ closeBPST.onclick =hideBestpstable;
+
+ //challengeUpload.onclick = showParameterDiv;
+ ParameterDiv.onclick = showNav; 
+
+challengeUpload.addEventlistner('onclick',showParameterDiv);
+
+function showFilediv(){
     filediv.style.display="block";
 }
 function showChallengeForm(){
@@ -252,9 +368,59 @@ function hideChallengeForm(){
 }
 
 
-          
 
-             </script>
+
+
+
+
+function showAnalysis(){
+    analysis.style.display="block"
+}
+function hideAnalysis(){
+    analysis.style.display="none"
+}
+
+function showSchoolreport(){
+    schoolreport.style.display="block"
+    hideAnalysis();
+}
+function hideSchoolreport(){
+    schoolreport.style.display="none"
+}
+
+
+function showPupilReport(){
+    pupilreport.style.display="block"
+    hideAnalysis();
+}
+function hidePupilReport(){
+    pupilreport.style.display="none"
+}
+
+                    function showSrankingT(){
+                        srankingtable.style.display="block"
+                    }
+                    function hideSrankingT(){
+                        srankingtable.style.display="none"
+                    }
+                    function showBestpstable(){
+                        Bestpstable.style.display="block"
+                    }
+                    function hideBestpstable(){
+                        Bestpstable.style.display="none"
+                    }
+                    
+                    function showParameterDiv(){
+                        ParameterDiv.style.display="flex";
+                        nav.style.display="none"
+                    }
+
+                    function showNav(){
+                        nav.style.display="block"
+                    }
+
+
+        </script>
     
     @endsection
 

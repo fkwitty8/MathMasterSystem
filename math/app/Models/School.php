@@ -9,12 +9,12 @@ class School extends Model
 {
     use HasFactory;
 
-    protected $table = 'school'; // Specify the table name if it doesn't follow Laravel conventions
+    protected $table = 'school'; //table name
 
-    protected $fillable = [
+    protected $fillable = [     //School table fields
         'Name',
-        'district',
-        'schoolRegistrationNumber',
+        'District',
+        'schoolRegNo',
         'RepID',
         'RepEmail',
         'RepFirstName',
