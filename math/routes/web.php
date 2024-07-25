@@ -25,7 +25,11 @@ Route::get('/index', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/bestwo', [ App\Http\Controllers\webinterfaceController::class, 'bestTwoPupil']) ->name('bestTwo');
 
+Route::get('/passedqn/{id}', [App\Http\Controllers\webinterfaceController::class, 'showMostPassed'])->name('passedqn');
+
+//joseph route
 Route::get('/form', [ App\Http\Controllers\webinterfaceController::class, 'form']) ->name('form');
 Route::get('/upload', [ App\Http\Controllers\webinterfaceController::class, 'load']) ->name('upload');
 Route::get('/home', [ App\Http\Controllers\webinterfaceController::class, 'form']) ->name('home');
