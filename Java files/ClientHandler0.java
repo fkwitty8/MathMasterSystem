@@ -177,3 +177,29 @@ public class ClientHandler0 implements Runnable {
                             statement.setString(6, clientHandler0.ATS.FirstName);
                             statement.setString(7, clientHandler0.ATS.LastName);
                             statement.setString(8, clientHandler0.ATS.UserName);
+
+
+                            //the add image function store the image file to the respective directory using the secondOption and
+                            //return a full file path at which the image is stored
+
+                            String FullImagePathOnTheDirectory = fileManagement.addImageToFile(clientHandler0.ATS.ImageData, clientHandler0.ATS.FilePath, clientHandler0.ATS.SecondOption);
+
+                            statement.setString(9, FullImagePathOnTheDirectory);
+
+
+                            statement.executeUpdate();
+
+                            FeedBack = "Recognised";
+                            OOS.writeObject(FeedBack);
+
+                            //sending the Email for Acceptance
+                            String Subject = "SUCCESSFULLY VERIFIED";
+                            String Body = "<h1 style='color:blue'>Hello " + clientHandler0.ATS.UserName + "!</h><br> <p>You have been successfully verified in our system. you can now verify applicant applying under your registered school number</p><p>Thank you!</p>  <p>";
+                            String Reason = "Not results";
+
+                            //sending an email
+                            emailSender.emailManagement(clientHandler0.ATS.Email,Subject, Body, Reason);
+
+                            iterator.remove();
+
+                        }
