@@ -80,6 +80,7 @@ public class ClientHandler0 implements Runnable {
                 // checking whether the school number is valid. this check is for both the Rep and the pupil
                 if (clientHandler0.ATS.FirstOption.equalsIgnoreCase("Register")) {
                     if (clientHandler0.ATS.SecondOption.equalsIgnoreCase("pupil")){
+
                         Column = "schoolRegNo";
                         Column1 = "RepEmail";
                         Column2 = "UserName";
@@ -92,3 +93,73 @@ public class ClientHandler0 implements Runnable {
                         if (resultSet.next()) {
                             String RepEmail = resultSet.getString("RepEmail");
                             String RepUserName = resultSet.getString("UserName");
+
+                            Column = "PupilID";
+                            Column1 = "SchoolRegNo";
+                            Table = "rejectedpupil";
+                            Query = "Select " + Column + " from " + Table + " where " + Column + " =?" + " && " + Column1 + "=? ";
+                            statement = connection.prepareStatement(Query);
+                            statement.setString(1, clientHandler0.ATS.ID);
+                            statement.setString(2, clientHandler0.ATS.SchoolNumber);
+                            resultSet = statement.executeQuery();
+
+
+                            if (resultSet.next()) {
+                                FeedBack = "Once Rejected";
+                                OOS.writeObject(FeedBack);
+                                //Servers.NumberOfConnectedUsers--;
+                                iterator.remove();
+                            } else {
+
+                                PupilToFile pupilToFile = new PupilToFile();
+                                pupilToFile.initializePupilToFile(clientHandler0);
+                                this.Pupils.add(pupilToFile);
+
+                                //Adding students record to file after first validation
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text", Pupils);
+
+
+                                FeedBack = "Registration Pending";
+
+                                //sending the Email for Acceptance
+                                String Subject = "NEW APPLICANT";
+                                String Body = "<h1 style='color:blue'>Hello " + RepUserName + "!</h1><p> You have a new applicant to be approved in our system  </p><br><br><table style='border:1;bordercollapse:collapse'><tr><td>"+pupilToFile.FirstName+" "+pupilToFile.LastName+"</td><td>"+pupilToFile.ID+"</td></tr></table>";
+                                String Reason = "Not results";
+
+                                emailSender.emailManagement(RepEmail, Subject, Body, Reason);
+
+                                OOS.writeObject(FeedBack);
+                                OOS.flush();
+                                //Servers.NumberOfConnectedUsers--;
+                                iterator.remove();
+
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        }else{
+                            FeedBack = "School Number Does Not Exist";
+                            OOS.writeObject(FeedBack);
+                            // Servers.NumberOfConnectedUsers--;
+                            iterator.remove();
+                        }
+                    }
+
+                    //if it was a school rep registration or verification
+                    else {
+
+
+                        Column = "schoolRegNo";
+                        Column1 = "RepID";
+                        Table="school";
+                        Query = "select * from " + Table + " where " + Column + " =? and "+Column1+"=?";
+                        statement = connection.prepareStatement(Query);
+                        statement.setString(1, clientHandler0.ATS.SchoolNumber);
+                        statement.setString(2, clientHandler0.ATS.ID);
+
+                        resultSet = statement.executeQuery();
+
