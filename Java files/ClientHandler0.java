@@ -36,3 +36,32 @@ public class ClientHandler0 implements Runnable {
     public void run() {
         sendToClient();
     }
+
+    public void sendToClient() {
+        ArrayList<Question>QuestionsToBeAttempted=new ArrayList<>();
+        ArrayList<Question>questions1=new ArrayList<>();
+        ArrayList<Challenge>challenges=new ArrayList<>();
+        String SchoolRegNo=null;
+        String ID;
+        String Qn;
+        String Ans;
+        LocalDateTime OpeningDate;
+        LocalDateTime ClosingDate;
+        String TimeAllowed;
+        String ChallengeStatus;
+        String Request=null;
+        String FeedBack=null;
+        String Query=null;
+        String Column=null;
+        String Column1=null;
+        String Column2=null;
+        String Column3=null;
+        String Column4=null;
+        String Column5=null;
+        String Column6=null;
+        String Column7=null;
+        String Table=null;
+        PreparedStatement statement=null;
+        ResultSet resultSet=null;
+        FileManagement fileManagement=  new FileManagement();
+        EmailSender emailSender=new EmailSender();
