@@ -247,7 +247,7 @@
           
 
              </section>
-    <script>
+   <script>
              const challengeUpload = document.getElementById("challengeUload");
           const parameterDiv = document.getElementById("parameterDiv"); parameterDiv
           const nav = document.getElementById("nav");

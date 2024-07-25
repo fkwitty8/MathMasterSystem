@@ -14,10 +14,9 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class webinterfaceController extends Controller{
 
+// this function generates the worst performing schools per challenge 
 
-
-   
-
+    
 
 
 
@@ -47,12 +46,12 @@ public function showMostPassed($id)
 
 
 
+//more mkljnh
 
 
 
 
-
-
+   
 
 
 
