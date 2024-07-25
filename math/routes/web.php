@@ -35,6 +35,19 @@ Auth::routes([
     'register' => false
 ]);
 
+//upload routes for the question and answer excel files
+Route::get('/upload', function () {
+    return view('upload');
+}) ->name('upload');
+Route::post('/upload-files', [UploadController::class, 'uploadFiles'])->name('upload.files');
+Route::post('/upload-files', [UploadController::class, 'uploadFiles'])->name('upload.files');
+Route::get('/view-qnans', [UploadController::class, 'viewQnAns'])->name('view.qnans');
+Route::get('/edit-qnans/{id}', [UploadController::class, 'editQnAns'])->name('edit.qnans');
+Route::post('/update-qnans/{id}', [UploadController::class, 'updateQnAns'])->name('update.qnans');
+Route::delete('/delete-qnans/{id}', [UploadController::class, 'deleteQnAns'])->name('delete.qnans');
+
+
+
 //Routes For schools' upload, edit, view and delete
 Route::get('/upload-schools', function () {
     return view('uploadSchools');

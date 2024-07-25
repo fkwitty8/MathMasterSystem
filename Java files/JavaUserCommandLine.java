@@ -149,7 +149,185 @@ class SchoolRep extends User {
             ex.printStackTrace();
         }
     }
-    
+
+    public void verifyMoreParticipants(ArrayList<PupilToFile> pupilToFiles, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter) {
+        Scanner input = new Scanner(System.in);
+        FileManagement fileManagement=new FileManagement();
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String FeedBack, Request, Command;
+        try {
+            System.out.print("\n+--You are to confirm and verify if the given applicant(s) belong to this school.--+" +
+                    "\n" + Cyan + "Enter command like: "+Yellow+"[yes 'username'/'no username']\n" + Restore + "                 ");
+           System.out.println(Green+Italic);
+            Command = input.nextLine();
+            System.out.println(Restore);
+
+            //checking if the chosen pupil exist
+            boolean Condition = checkingPupilObjectInArray(pupilToFiles, Command);
+            if (Condition) {
+                Iterator<PupilToFile> iterator = pupilToFiles.iterator();
+                while (iterator.hasNext()) {
+                    PupilToFile pupilToFile = iterator.next();
+                    if (pupilToFile.NoCommand.equals(Command) || pupilToFile.YesCommand.equals(Command)) {
+                        if (Command.equalsIgnoreCase(pupilToFile.NoCommand)) {
+                            System.out.println("\nYou have selected:\n" + Red + pupilToFile);
+                            System.out.print("\nAre sure to reject this person?"+Yellow+"[yes/no]\n               " + Restore);
+
+                            System.out.print(Green);
+                            Command = Input.nextLine();
+                            System.out.print(Restore);
+
+                            if (Command.equals("yes")) {
+                                Request = "Reject";
+                                OOS.writeObject(Request);
+
+                                OOS.writeObject(pupilToFile);
+                                iterator.remove();
+
+                                //updating the file
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text",pupilToFiles);
+                                FeedBack = (String) OIS.readObject();
+                                if (FeedBack.equalsIgnoreCase("Done")) {
+                                    controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                    break;
+                                }
+                            } else if (Command.equals("no")) {
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            } else {
+                                System.err.println("-----INVALID COMMAND!-----" +
+                                        "\n Type the command as it appears.( consider the spaces and the letter case).");
+                                Thread.sleep(1000);
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            }
+                        }
+                        //if it is a yes command
+                        else {
+                            System.out.println("\nYou have selected:\n" + Cyan + pupilToFile);
+                            System.out.println("\nAre sure to Accept this person?"+Yellow+"[yes/no]" + Restore);
+
+                            System.out.print(Green);
+                            Command = Input.nextLine();
+                            System.out.print(Restore);
+
+                            if (Command.equals("yes")) {
+
+                                Request = "Accept";
+                                OOS.writeObject(Request);
+                                OOS.writeObject(pupilToFile);
+                                iterator.remove();
+                                fileManagement.AddRecordToFile("TextFile/MyFile1.text",pupilToFiles);
+                                FeedBack = (String) OIS.readObject();
+                                if (FeedBack.equalsIgnoreCase("Done")) {
+                                    controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                    break;
+                                }
+                            } else if (Command.equals("no")) {
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                break;
+                            } else {
+                                System.err.println("-----INVALID COMMAND!-----" +
+                                        "\n Type the command as it appears.( consider the spaces and the letter case).");
+                                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                                        break;
+                            }
+                        }
+                    }
+                }
+            }//the error if the rep input a wrong Pupil number
+            else {
+                System.err.println("-----THE PERSON YOU ENTERED DOES NOT EXIST!-----" +
+                        "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                        "\n For example:[ yes xxx]\n\n");
+                Thread.sleep(1000);
+                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // this function will check if the selected pupil exist in the schools list
+    public boolean checkingPupilObjectInArray(ArrayList<PupilToFile> pupilToFiles, String Command) {
+        Iterator<PupilToFile> iterator = pupilToFiles.iterator();
+        while (iterator.hasNext()) {
+            PupilToFile pupilToFile = iterator.next();
+            if (pupilToFile.NoCommand.equals(Command) || pupilToFile.YesCommand.equals(Command)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //this is used to replay some actions in the verify participant function above
+    public void controlApplicantsVerification(ArrayList<PupilToFile> pupilToFiles, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter) {
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        System.out.println(Green+"\n\nYou are left with:"+Restore);
+        Iterator<PupilToFile> pupilToFileIterator = pupilToFiles.iterator();
+        while (pupilToFileIterator.hasNext()) {
+            PupilToFile pupilToFile = pupilToFileIterator.next();
+            System.out.println("\n" + Cyan + pupilToFile + Restore);
+        }
+
+        String Command;
+
+       while(true){
+           if(pupilToFiles.isEmpty()){
+               System.err.println("-----No Applicants left-----");
+               try {
+                   Thread.sleep(100);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+               break;
+           }
+            System.out.println("Verify More Participants?"+Yellow+"[yes/no]"+Restore);
+
+           System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+
+            if (Command.equals("yes")) {
+                verifyMoreParticipants(pupilToFiles, OIS, OOS, Counter);
+                break;
+            } else if (Command.equals("no")) {
+                break;
+            }else{
+                System.err.println("-----INVALID COMMAND!-----" +
+                    "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                    "\n For example:[ yes xxx]\n\n");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                controlApplicantsVerification(pupilToFiles, OIS, OOS, Counter);
+                break;
+            }
+        }
+    }
 }
 
 
@@ -475,11 +653,156 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
                         break;
                     }
                     processCommand(Counter);
-            }
+            
         }
 
   }
 }
+//Back Option Manager,manages the back process back when selected by the user.
+public void back(int Counter)  {
+    Counter=0;
+    //System.out.println(" Clear Screen");
+    processCommand(Counter);
+}
 
+ //handles submissions to server
+ public void submitDetails(int Counter,String FirstOption,String SecondOption,String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password,byte[] ImageData,String ImagePath) {
+
+    //Declaring Formatting variables
+    String Cyan = "\u001B[36m";
+    String Green = "\u001B[32m";
+    String Restore = "\u001b[0m";
+    String Red = "\u001B[31m";
+    String Italic = "\033[3m";
+    String Yellow="\u001B[33m";
+
+
+    String Command;
+    if (Counter == 1) {
+        System.err.print(" ONE MORE TRIAL REMAINING!......\n\n");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    System.out.print("\n+-----Enter "+Yellow+"[ submit ] "+Restore+"to submit-----+\n              ");
+
+    System.out.print(Green+Italic);
+    Command = Input.nextLine();
+    System.out.print(Restore);
+
+    //checking the input whether its "submit" or "invalid input"
+        switch (Command) {
+            case "submit":
+                System.out.print("+-----Are you sure to Submit"+Yellow+"[yes/no]"+Restore+"-+\n             ");
+
+                System.out.print(Green+Italic);
+                Command = Input.nextLine();
+                System.out.print(Restore);
+
+                //checks whether reply is "Yes, submit" or " not submit"
+                if (Command.equals("yes")) {
+
+                    System.out.print("\n" + Green + "Submitting to server.");
+
+                    //Animates the dots to imitate loading
+                    for (int i = 0; i < 5; i++) {
+                        try {
+                            Thread.sleep(500);
+                            System.out.print(Green + ".");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.print(Restore);
+                    try {
+                        //setting up Client-server connection
+                        String FeedBack;
+                        AttributesTobeSubmited ATS = new AttributesTobeSubmited(FirstOption, SecondOption, ID, SchoolNumber, FirstName, LastName, UserName, DOB, Email, Password,ImageData,ImagePath);
+                        this.socket = new Socket("localhost", 1111);
+                        this.OOS = new ObjectOutputStream(socket.getOutputStream());
+                        this.OIS = new ObjectInputStream(socket.getInputStream());
+                        OOS.writeObject(ATS);
+                        OOS.flush();
+
+          //evaluating server feedback after submission and generating respective responses to client
+          FeedBack = (String) OIS.readObject();
+
+          //if User submitted registration form
+          if (ATS.FirstOption.equalsIgnoreCase("Register")) {
+              if (FeedBack.equalsIgnoreCase("School Number Does Not Exist")) {
+                  System.err.print("\n------The School Number is Incorrect!-----\n            RE-ENTER DETAILS");
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+
+                  //Prompting the user to re-enter credentials after error Message
+                  Counter = 0;
+                  user.register(ATS.SecondOption, Counter, ATS.FirstOption);
+              } else if (FeedBack.equalsIgnoreCase("Once Rejected")) {
+                  System.err.println("\n-----Your ID was once rejected on this Particular School!-----" +
+                          "\n You may Re-load and Register on your Current School which is Verified in our System" +
+                          "\n Thank you!");
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  break;
+              } else if (FeedBack.equalsIgnoreCase("Recognised") || FeedBack.equalsIgnoreCase("Registration Pending")) {
+                  System.out.println("\n" + Cyan + " Your Registration is Pending!\n You will receive a confirmation E-mail.\n THANK YOU! ");
+                  System.out.print(Restore);
+                  break;
+              } else if (FeedBack.equalsIgnoreCase("Not Recognised")) {
+                  System.err.println("\n-----Your Representative ID does not Match Any Record!-----\n            RE-ENTER DETAILS");
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+
+                  //Prompting the user to re-enter credentials after error Message
+                  Counter = 0;
+                  user.register(ATS.SecondOption, Counter, ATS.FirstOption);
+
+              }
+          }
+        
+           // if it was User login submission
+           else {
+            if (FeedBack.equalsIgnoreCase("Invalid Credentials")) {
+                System.err.println("\n-----Invalid UserName Or Password!-----\n            RE-ENTER DETAILS");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                //Prompting the user to re-enter credentials after error Message
+                Counter = 0;
+                user.login(ATS.SecondOption, Counter, ATS.FirstOption);
+            } else {
+                System.out.println("\n" + Cyan + "  Login SuccessFull!\n");
+                System.out.print(Restore);
+
+                //executes  afterloginmanager if it was successful user registration. it will evaluate if it was a schoolrep or a participant(pupil)
+                Counter = 0;
+                afterLoginManager(ATS.SecondOption, Counter, this.socket, this.OIS,this.OOS);
+                break;
+            }
+            break;
+        }
+    } catch (UnknownHostException e) {
+        e.printStackTrace();
+        break;
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+}
 
 //ATS class
