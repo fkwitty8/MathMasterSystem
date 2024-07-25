@@ -163,3 +163,17 @@ public class ClientHandler0 implements Runnable {
 
                         resultSet = statement.executeQuery();
 
+
+                        if (resultSet.next()) {
+                            Query = "insert into VerifiedSchoolRep(RepID,Password,RepEmail,SchoolRegNo,DOB, RepFirstName,RepLastName,UserName,ImageID) values(?,?,?,?,?,?,?,?,?)";
+
+                            statement = connection.prepareStatement(Query);
+
+                            statement.setString(1, clientHandler0.ATS.ID);
+                            statement.setString(2, clientHandler0.ATS.Password);
+                            statement.setString(3, clientHandler0.ATS.Email);
+                            statement.setString(4, clientHandler0.ATS.SchoolNumber);
+                            statement.setString(5, clientHandler0.ATS.DOB);
+                            statement.setString(6, clientHandler0.ATS.FirstName);
+                            statement.setString(7, clientHandler0.ATS.LastName);
+                            statement.setString(8, clientHandler0.ATS.UserName);
