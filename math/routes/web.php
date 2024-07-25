@@ -69,4 +69,9 @@ Route::get('/create', [ChallengeController::class, 'create'])->name('create');
 Route::post('/challenges', [ChallengeController::class, 'store'])->name('store');
 
 
+//school performance routes
+use App\Http\Controllers\SchoolPerformanceController;
+
+Route::get('/schools', [SchoolPerformanceController::class, 'index'])->name('schools.index');
+Route::get('/schools/{id}', [SchoolPerformanceController::class, 'show'])->name('schools.show');
 
