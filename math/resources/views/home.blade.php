@@ -52,16 +52,23 @@
     
             <div id="files">
                 <span id="hide">X</span>
-                <li id="cli1"><a href="{{ route('upload') }}">CHALLENGE</a></li>
+                <li id="cli1"><a href="#">CHALLENGE</a></li>
                 <li id="cli2"><a href="{{ route('upload.schools') }}">REGISTERED SCHOOLS</a></li>
             </div>
-            <form action="form" method="POST" id="challenge">
+              <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data" id="challenge">
             <span id="hideform1"><small>x</small></span>
     @csrf
-    <input type="file" name="file" required >
-    
-    <div  id="challengeUload" > <button type="submit" >UPLOAD</button></div>
+    <div class="mb-3">
+    <label for="questionsFile">Questions File</label>
+    <input type="file"  id="questionsFile" name="questionsFile" required>
+    </div>
+    <div class="mb-3"style="margin-left:-70px">
+            <label for="answersFile" >Answers File</label>
+            <input type="file" id="answersFile" name="answersFile" required>
+        </div>
+        <button type="submit" style="margin-left:-70px">Upload</button>
 </form>
+
 <form action="{{ route('upload.schools') }}" method="POST" id="schools">
 <span id="hideform2"><small>x</small></span>
     @csrf
