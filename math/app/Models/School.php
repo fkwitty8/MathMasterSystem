@@ -13,8 +13,8 @@ class School extends Model
 
     protected $fillable = [     //School table fields
         'Name',
-        'district',
-        'schoolRegistrationNumber',
+        'District',
+        'schoolRegNo',
         'RepID',
         'RepEmail',
         'RepFirstName',
