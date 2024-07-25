@@ -132,3 +132,13 @@ public class ClientHandler0 implements Runnable {
                                 OOS.flush();
                                 //Servers.NumberOfConnectedUsers--;
                                 iterator.remove();
+
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        }
