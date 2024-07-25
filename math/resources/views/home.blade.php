@@ -247,6 +247,35 @@
           
 
              </section>
+
+
+             <table border='2' cellspacing=0 id="INC">
+    <thead>
+        <tr ><th  colspan="3"> LIST OF PARTICIPANTS WITH INCOMPLETE CHALLENGE<small id="closeINC">close</small></th> </tr>
+   
+    </thead>
+        <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
+        
+    
+    <tbody>
+        @php
+            $rank = 1;
+        @endphp
+        @foreach ($UFpupildetails as $UFdetail)
+        <tr>
+            <td>{{ $rank }}</td>
+            <td>{{ $UFdetail->FirstName }}</td>
+            <td>{{ $UFdetail['LastName'] }}</td>
+            
+        </tr>
+        @php
+            $rank++;
+        @endphp
+        @endforeach
+
+        
+    </tbody>
+</table>
     <script>
              const challengeUpload = document.getElementById("challengeUload");
           const parameterDiv = document.getElementById("parameterDiv"); parameterDiv

@@ -26,8 +26,8 @@
             @foreach($schools as $school)
             <tr>
                 <td>{{ $school->Name }}</td>
-                <td>{{ $school->district }}</td>
-                <td>{{ $school->schoolRegistrationNumber }}</td>
+                <td>{{ $school->District }}</td>
+                <td>{{ $school->schoolRegNo }}</td>
                 <td>{{ $school->RepID }}</td>
                 <td>{{ $school->RepEmail }}</td>
                 <td>{{ $school->RepFirstName }}</td>
