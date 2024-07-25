@@ -14,18 +14,18 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class webinterfaceController extends Controller{
 
-// this function generates the worst performing schools per challenge 
+// this function generates the worst performing schools per challenge
 
     public function show($id)
     {
-       
-           $worstPerfom = challengesubmission::where('ChID', $id) 
+
+           $worstPerfom = challengesubmission::where('ChID', $id)
             ->select('ChID', 'SchoolRegNo', DB::raw('AVG(QnMarks) as avMarks'))
             ->groupBy('ChID', 'SchoolRegNo')      // Includes all selected columns that are not aggregated
             ->orderBy('avMarks', 'asc')
-            ->get(); 
-            $CDetails = challenge::where('id', $id)->get()->pluck('name','id'); 
-          
+            ->get();
+            $CDetails = challenge::where('id', $id)->get()->pluck('name','id');
+
         return view('see', compact('CDetails','id','worstPerfom'));
 }
 
@@ -41,18 +41,18 @@ class webinterfaceController extends Controller{
 
 public function showMostPassed($id)
     {
-       
-           $BestDoneQn = challengesubmission::where('ChID', $id) 
+
+           $BestDoneQn = challengesubmission::where('ChID', $id)
             ->select('ChID', 'QnID', DB::raw('SUM(QnMarks) as TotalMarks'))
             ->groupBy('ChID', 'QnID') // Includes all selected columns that are not aggregated
             ->orderBy('TotalMarks', 'asc')
-            ->get(); 
+            ->get();
             $QuestionIDs = $BestDoneQn ->pluck("QnID") ;
-            $CDetails = challenge::where('id', $id)->get()->pluck('name','id'); 
+            $CDetails = challenge::where('id', $id)->get()->pluck('name','id');
 
             $QuestionDetails =  QnAns::where('QnID',$QuestionIDs)->get()->pluck('Qn','QnID');
 
-         
+
         return view('pass', compact('id', 'BestDoneQn', "QuestionIDs",'CDetails','QuestionDetails'));
     }
 
@@ -63,31 +63,64 @@ public function showMostPassed($id)
 
 
 
-    public function homeF(){
+      public function homeF(){
+
+
+
+              // THESE LINES PF CODE GETS US THE SCHOOL RANKINGS //
+
+               // Retrieves all unique SchoolRegNo from the submissions table
+             $schoolRegNo = DB::table('challengesubmission')->pluck('SchoolRegNo')->all();
+
+             // Calculates total marks for each SchoolRegNo and group by SchoolRegNo
+             $submissionTable = challengesubmission::whereIn('SchoolRegNo', $schoolRegNo)
+                 ->groupBy('SchoolRegNo')
+                 ->select('SchoolRegNo', DB::raw('SUM(QnMarks) as Totalmarks'))
+                 ->get()
+                 ->pluck('Totalmarks', 'SchoolRegNo');
 
 
 
 
 
-//DAVIS START HERE
-
-
-
-$Unfinished = challengesubmission::where('Challenge_FinishedStatus', "UNFINISHED")->distinct()->pluck("PupilID");
-$UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
-
-     //END HERE  
-        
-       return view('home',compact( 'challengesDetails','averageMarks','topSchools','UFpupildetails'));
-
-   }
 
 
 
 
 
 
-         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     //DAVIS START HERE
+
+
+
+     $Unfinished = challengesubmission::where('Challenge_FinishedStatus', "UNFINISHED")->distinct()->pluck("PupilID");
+     $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
+
+           //END HERE
+
+             return view('home',compact( 'challengesDetails','averageMarks','topSchools','UFpupildetails'));
+
+         }
+
+
+
+
+
+
 
 
 
@@ -113,10 +146,10 @@ $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
         $challengesDetails = Challenge::whereIn('end_date',$closingDates)->get();
 
 
-    
-    
+
+
         $bestTwoPupilsPerChallenge = [];
-    
+
     foreach ($challengeIDs as $challengeID) {
         // Calculate total marks per pupil for the current challenge ID
         $totalMarks = challengesubmission::where('ChID', $challengeID)
@@ -124,23 +157,23 @@ $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
             ->selectRaw('pupilID, SUM(Qnmarks) as total_marks')
             ->orderByDesc('total_marks')
             ->get();
-    
+
         //  Identify top two pupils for the current challenge
-    
+
         $topTwoPupils = $totalMarks->take(2); // Top two pupils for the current challenge
-    
+
         // Retrieve pupil details from participants table
         $pupilIDs = $topTwoPupils->pluck('pupilID')->toArray();
         $topTwoPupilDetails = Participant::whereIn('pupilID', $pupilIDs)->get();
-    
+
         // Storing the results for the current challenge
         $bestTwoPupilsPerChallenge[$challengeID] = $topTwoPupilDetails;
     }
 
     //THIS IS END OF FUNCTION BEST TWO
-    
+
     return view('bestwo', compact('bestTwoPupilsPerChallenge'));
-    
+
     }
 
 
@@ -150,8 +183,8 @@ $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
 
    // jOSEPH STOP HERE
     public function setParameter(){
-       
-        
+
+
        return view('parameter');
 
    }
