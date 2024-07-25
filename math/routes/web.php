@@ -75,3 +75,24 @@ use App\Http\Controllers\SchoolPerformanceController;
 Route::get('/schools', [SchoolPerformanceController::class, 'index'])->name('schools.index');
 Route::get('/schools/{id}', [SchoolPerformanceController::class, 'show'])->name('schools.show');
 
+//pupil performance
+use App\Http\Controllers\PupilPerformanceController;
+
+Route::get('/PUPIL', [PupilPerformanceController::class, 'index'])->name('schools2.index');
+//Route::get('/schools/{id}', [PupilPerformanceController::class, 'show'])->name('schools.show');//....this is for the graph option
+// In web.php.....this is for the table option
+
+Route::get('/PUPIL/{id}/pupils', [PupilPerformanceController::class, 'showPupils'])->name('schools.showPupils');
+
+//THESE ARE THE ROUTES FOR THE SECOND ALTERNATIVE OF APPROACHING THE PARTICIPANTS PERFORMANCE OVERB THE LYEARS 
+//list ofschools then list of participants
+use App\Http\Controllers\SchoolListController;
+use App\Http\Controllers\ParticipantController;
+
+Route::get('/school', [SchoolListController::class, 'index'])->name('school.index');
+Route::get('/school/{id}/participants', [SchoolListController::class, 'showParticipants'])->name('school.showParticipants');
+Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('participants.show');
+
+Route::get('/about', function () {
+    return view('about');
+});
