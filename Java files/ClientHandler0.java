@@ -65,3 +65,30 @@ public class ClientHandler0 implements Runnable {
         ResultSet resultSet=null;
         FileManagement fileManagement=  new FileManagement();
         EmailSender emailSender=new EmailSender();
+
+
+        try {
+            //connecting to the database
+            Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/mathmasterchallenge","root","");
+
+            //iterator to safely remove the current object when needed in the iteration
+            Iterator<ClientHandler0> iterator = clientHandler0s.iterator();
+            while (iterator.hasNext()) {
+
+                ClientHandler0 clientHandler0 = iterator.next();
+
+                // checking whether the school number is valid. this check is for both the Rep and the pupil
+                if (clientHandler0.ATS.FirstOption.equalsIgnoreCase("Register")) {
+                    if (clientHandler0.ATS.SecondOption.equalsIgnoreCase("pupil")){
+                        Column = "schoolRegNo";
+                        Column1 = "RepEmail";
+                        Column2 = "UserName";
+                        Table = "VerifiedSchoolRep";
+                        Query = "select " + Column + "," + Column1 + "," + Column2 + " from " + Table + " where " + Column + " =? ";
+                        statement = connection.prepareStatement(Query);
+                        statement.setString(1, clientHandler0.ATS.SchoolNumber);
+                        resultSet = statement.executeQuery();
+
+                        if (resultSet.next()) {
+                            String RepEmail = resultSet.getString("RepEmail");
+                            String RepUserName = resultSet.getString("UserName");
