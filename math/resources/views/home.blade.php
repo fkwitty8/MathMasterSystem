@@ -228,33 +228,7 @@
                 <li title="displays a list of partispants">partispant performance overtime</li>
                 <li>list of partispants with incomplete challenge</li>
             </div>
-<table border='2' cellspacing=0 id="srankingt">
-                                                          
-                                                          <tr ><th  colspan="3"> RANKINGS BASING ON AVERAGE SCORE FOR ALL COMPETITIONS<small id="closeSRT">close</small></th> </tr>
-                                                         <tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH>AVERAGE SCORE</TH></tr>
-                                                         
-                                                         
-                                                         @foreach($schools as $school)
-                                                         
-                                                         <tr><td>{{$school->id}}</td><td>{{$school->name}}</td><td>{{$school->averagemarks}}</td></tr>
-                                                         
-                                                         @endforeach
-                                                                 </table>
-                                                         
-                                                         
-                                              <table border='2' cellspacing=0 style="display" id="BPST">
-                                                          
-                                              <tr ><th  colspan="2"> BEST PERFORMING SCHOOLS OVERALL<small id="closeBPST">close</small></th> </tr>
-                                                          <tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH style="color:red;">AVERAGE SCORE</TH></tr>
-                                                          
-                                                          
-                                                          @foreach($poorperforming as $poorschool)
-                                                          
-                                                          <tr><td>{{$poorschool->id}}</td><td>{{$poorschool->name}}</td><td>{{$poorschool->averagemarks}}</td></tr>
-                                                          
-                                                          @endforeach
-                                            </table>
- 
+
      </div>
     
                     </div>

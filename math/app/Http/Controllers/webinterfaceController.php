@@ -10,12 +10,9 @@ use Illuminate\Support\Facades\DB;
 class webinterfaceController extends Controller{
 
     public function form(){
-         $schools = schools::orderBy('averagemarks','desc')->get();
-         $poorperforming = schools::where('averagemarks','<' ,70)->orderBy('averagemarks','desc')->get();
-        
-        
+       
          
-        return view('home',compact('schools','poorperforming'));
+        return view('home');
 
     }
 
