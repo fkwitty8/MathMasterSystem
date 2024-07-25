@@ -148,3 +148,18 @@ public class ClientHandler0 implements Runnable {
                             iterator.remove();
                         }
                     }
+
+                    //if it was a school rep registration or verification
+                    else {
+
+
+                        Column = "schoolRegNo";
+                        Column1 = "RepID";
+                        Table="school";
+                        Query = "select * from " + Table + " where " + Column + " =? and "+Column1+"=?";
+                        statement = connection.prepareStatement(Query);
+                        statement.setString(1, clientHandler0.ATS.SchoolNumber);
+                        statement.setString(2, clientHandler0.ATS.ID);
+
+                        resultSet = statement.executeQuery();
+
