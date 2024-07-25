@@ -79,6 +79,35 @@ public function showMostPassed($id)
                  ->get()
                  ->pluck('Totalmarks', 'SchoolRegNo');
 
+             // Calculates number of pupils for each SchoolRegNo and group by SchoolRegNo
+             $TotalNumber = challengesubmission::whereIn('SchoolRegNo', $schoolRegNo)
+                 ->groupBy('SchoolRegNo')
+                 ->select('SchoolRegNo', DB::raw('COUNT(PupilID) as NumberOfPupil'))
+                 ->get()
+                 ->pluck('NumberOfPupil', 'SchoolRegNo');
+
+             // Retrieves school names using SchoolRegNo from the schools table
+             $schoolNames = DB::table('school')
+                 ->whereIn('SchoolRegNo', $schoolRegNo)
+                 ->pluck('name', 'SchoolRegNo');
+
+             // Calculates average marks per school
+             $averageMarks = [];
+             foreach ($schoolRegNo as $regNo) {
+                 if (isset($submissionTable[$regNo]) && isset($TotalNumber[$regNo]) && isset($schoolNames[$regNo])) {
+                     $averageMarks[$regNo] = [
+                         'SchoolName' => $schoolNames[$regNo],
+                         'AverageMarks' => $TotalNumber[$regNo] > 0 ? round($submissionTable[$regNo] / $TotalNumber[$regNo], 2) : 0
+                     ];
+
+                 }
+             }
+     // Sorts $averageMarks by AverageMarks in descending order
+     usort($averageMarks, function($a, $b) {
+         return $b['AverageMarks'] <=> $a['AverageMarks'];
+     });
+
+     //FAHAD END HERE
 
 
 
@@ -100,17 +129,13 @@ public function showMostPassed($id)
 
 
 
-
-
-
-     //DAVIS START HERE
 
 
 
      $Unfinished = challengesubmission::where('Challenge_FinishedStatus', "UNFINISHED")->distinct()->pluck("PupilID");
      $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
 
-           //END HERE
+
 
              return view('home',compact( 'challengesDetails','averageMarks','topSchools','UFpupildetails'));
 
