@@ -10,10 +10,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Home</title>
-        
+        <title>Laravel</title>
 
-        
+
+
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -31,55 +31,59 @@
 <link rel="stylesheet" href="css/home.css">
 
 
-        
+
 
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
-                background-color: #e0f7fa;
+                background-color: lightskyblue;
             }
-           
-          
+
+
         </style>
-       
-        
+
+
     </head>
     <body class="antialiased">
-       
+
 
         <nav class="navbar navbar-expand-lg" id="nav">
             <button id="upload"><b>UPLOAD FILES</b></button>
-    
+
             <div id="files">
                 <span id="hide">X</span>
                 <li id="cli1"><a href="#">CHALLENGE</a></li>
-                <li id="cli2"><a href="{{ route('upload.schools') }}">REGISTERED SCHOOLS</a></li>
+                <li id="cli2"><a href="#">REGISTERED SCHOOLS</a></li>
             </div>
-            
-            <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data" id="challenge">
+              <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data" id="challenge">
             <span id="hideform1"><small>x</small></span>
     @csrf
-    <label for="questionsFile" class="form-label">Questions File</label>
-    <input type="file" class="form-control" id="questionsFile" name="questionsFile" required>
-    
     <div class="mb-3">
-            <label for="answersFile" class="form-label">Answers File</label>
-            <input type="file" class="form-control" id="answersFile" name="answersFile" required>
+    <label for="questionsFile">Questions File</label>
+    <input type="file"  id="questionsFile" name="questionsFile" required>
+    </div>
+    <div class="mb-3"style="margin-left:-70px">
+            <label for="answersFile" >Answers File</label>
+            <input type="file" id="answersFile" name="answersFile" required>
         </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" style="margin-left:-70px">Upload</button>
 </form>
-<form action="{{ route('upload.schools') }}" method="POST" id="schools">
+
+<form action="{{ route('upload.schools') }}" method="POST" enctype="multipart/form-data">
 <span id="hideform2"><small>x</small></span>
     @csrf
-    <input type="file" name="schoolfile" required >
+    <div class="mb-3">
+            <label for="schoolsFile" class="form-label">Schools Excel File</label>
+            <input type="file" class="form-control" id="schoolsFile" name="schoolsFile" required>
+        </div>
     <button type="submit" title="BE SURE TO UPLOAD ONLY VERIFIED SCHOOLS">UPLOAD</button>
 </form>
-           
+
 
 
 <div class="container" >
 
-                
+
 
 <a href="#" class="navbar-brand mx-auto mx-lg-0">
     <i class="bi-bullseye brand-logo"></i>
@@ -104,7 +108,7 @@
         </div>
     @endif
 
-   
+
 </div>
 </div>
 </div>
@@ -125,7 +129,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"></a>
                     @else
-                         
+
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                         <span>for</span>
                         <span style = "color:red";>admin only</span>
@@ -137,7 +141,7 @@
                 </div>
             @endif
         </div>
-                        
+
             </div>
         </nav>
 
@@ -174,7 +178,17 @@
             </section>
 
 
-            
+            <section class="highlight">
+                <div class="container">
+                    <div class="row">
+
+
+
+
+                    </div>
+                </div>
+            </section>
+
 
             <section class="about section-padding" id="section_2">
                 <div class="container">
@@ -188,10 +202,11 @@
                             <h3 class="mb-3">General over view of performance</h3>
 
                             <p style="margin-top:-40px;">all challenfges have been well done with great improvements from most participants , a number of d1......egrtrudhcbchghdcc dfhdjhkjknjkdvn bdvkhkh vkdvjknjkvduhdvk   dvuv  jbiouvdk ovb ovovjoi iorkvoujefbjkvhiofury uhvbvduihofvh hoevhjkbkdvjbih huodvbkbkjvdajhioh qevolejhbjdhierkbdvk vuhvbsvdv n diefhefiy h bhuhruhrqhqwjifuhquijbeuiyeueuru e n uueb    bue hkv bhefhuh nytub d  hfeyrfyef  yigwefdgj</p>
-                            
-                        
+
+
                         </div>
-                        <button id="reports"><b>MORE INCITE</b></button>
+
+    <button id="reports"><b>MORE INCITE</b></button>
      <div style="position:absolute; top:175% ;left:38.5%;">
              <div id="analysis">
                 <span id="closeA">X</span>
@@ -208,31 +223,40 @@
 
                 <li id="schoolranking">school rankings</li>
                 <li>Performance of schools over time</li>
-                <li id="WPS">worst performing schools per challenge</li>
+                <li>worst performing schools per challenge</li>
                 <li id = "BPS">list of best performing schoolos overall</li>
 
             </div>
 
 
             <div id="preport">
-            <span id="closePR">X</span> 
+            <span id="closePR">X</span>
                 <h5 style="margin-bottom: -1%;
                         color: white;
                         background-color: black;">pupil report</h5>
-                <li><a href="{{ route('bestTwo') }}">Best partispant per challenge</a></li>
+                <li>Best partispant per challenge</li>
                 <li title="displays a list of partispants">partispant performance overtime</li>
                 <li>list of partispants with incomplete challenge</li>
-                <li id="BQ">Best done questions per challenge</li>
-                <li id="PRQ">Percentage repetition of QUESTIONS</li>
             </div>
 
+     </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+             </section>
 <!--FAHAD START HERE -->
             <table border='2' cellspacing=0 id="srankingt">
-                                                          
+
   <tr ><th  colspan="3"> RANKINGS BASING ON AVERAGE SCORE FOR ALL COMPETITIONS<small id="closeSRT">close</small></th> </tr>
   <tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH>AVERAGE SCORE</TH></tr>
-                                                         
-                                                         
+
+
           @php
             $rank = 1;
         @endphp
@@ -247,29 +271,29 @@
         @endphp
         @endforeach
 </table>
-                                                         
-                                                         
+
+
  <table border='2' cellspacing=0 style="display" id="BPST">
-                                                          
+
  <tr ><th  colspan="3"> BEST PERFORMING SCHOOLS OVERALL<small id="closeBPST">close</small></th> </tr>
 <tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH style="color:green;">AVERAGE SCORE</TH></tr>
         @php
             $rank = 1;
-        @endphp                                
+        @endphp
   @foreach($topSchools as $school)
      <tr>
               <td>{{ $rank }}</td>
             <td>{{ $school['SchoolName'] }}</td>
             <td>{{ $school['AverageMarks'] }}</td>
      </tr>
-        @php 
+        @php
             $rank++;
         @endphp
     @endforeach
                                             </table>
- 
+
      </div>
-    
+
                     </div>
                 </div>
 
@@ -283,14 +307,15 @@
 @foreach ($challengesDetails as $challenge)
             <li><a href="{{ route('see', $challenge->id) }}">{{ $challenge->name }}</a></li>
 
-        
+
         @endforeach
 
-        
-<!--FAHAD END HERE -->
 
-<!--joseph START HERE -->
-            < <div id = "BestQNS" >
+
+
+
+        <!--joseph START HERE -->
+        < <div id = "BestQNS" >
             <span id="closeBQ">X</span>
                 <h5 style=" margin-bottom: -1%;
                         color: white;
@@ -304,18 +329,14 @@
 
 <!--JOSEPH END HERE -->
 
-
-
-
-<!--DAVIS  START HERE -->
-    <table border='2' cellspacing=0 id="INC">
+             <table border='2' cellspacing=0 id="INC">
     <thead>
         <tr ><th  colspan="3"> LIST OF PARTICIPANTS WITH INCOMPLETE CHALLENGE<small id="closeINC">close</small></th> </tr>
-   
+
     </thead>
         <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
-        
-    
+
+
     <tbody>
         @php
             $rank = 1;
@@ -325,22 +346,18 @@
             <td>{{ $rank }}</td>
             <td>{{ $UFdetail->FirstName }}</td>
             <td>{{ $UFdetail['LastName'] }}</td>
-            
+
         </tr>
         @php
             $rank++;
         @endphp
         @endforeach
 
-        
+
     </tbody>
 </table>
-<!--DAVIS END  HERE -->
-</section>
-
-
-            <script>
-          const challengeUpload = document.getElementById("challengeUload");
+    <script>
+             const challengeUpload = document.getElementById("challengeUload");
           const parameterDiv = document.getElementById("parameterDiv"); parameterDiv
           const nav = document.getElementById("nav");
 
@@ -356,11 +373,11 @@
           let hide =  document.getElementById("hide");
           let hideform1 =  document.getElementById("hideform1");
           let hideform2 =  document.getElementById("hideform2");
-          
 
 
 
-          
+
+
           let reports =  document.getElementById("reports");
           let analysis =  document.getElementById("analysis");
           let schoolreport =  document.getElementById("sreport");
@@ -370,7 +387,7 @@
           let closeA =  document.getElementById("closeA");
           let closeSR =  document.getElementById("closeSR");
           let closePR =  document.getElementById("closePR")
-          
+
 
           let schoolranks =  document.getElementById("schoolranking");
           let srankingtable =  document.getElementById("srankingt");
@@ -379,20 +396,11 @@
           let closeSRT =  document.getElementById("closeSRT");
           let closeBPST =  document.getElementById("closeBPST");
 
-
-          let worstlist =  document.getElementById("worstlist");
-          let closeWL =  document.getElementById("closeWL");
-          let WPS =  document.getElementById("WPS");
-
-          let BestQNS =  document.getElementById("BestQNS");
-          let closeBQ =  document.getElementById("closeBQ");
-          let BQ =  document.getElementById("BQ");
-
 uploadbutton.onclick=showFilediv;
 click1.onclick =showChallengeForm;
 click2.onclick = showSchoolsForm;
 hide.onclick = showNone;
-hideform1.onclick = hideChallengeForm;   
+hideform1.onclick = hideChallengeForm;
 hideform2.onclick = hideSchoolForm;
 
 reports.onclick =  showAnalysis;
@@ -401,27 +409,22 @@ pupilanalysis.onclick = showPupilReport;
 closeA.onclick = hideAnalysis;
 closeSR.onclick = hideSchoolreport;
 closePR.onclick = hidePupilReport;
-                                                                   
+
 schoolranks.onclick = showSrankingT;
 closeSRT.onclick = hideSrankingT;
 Bestps.onclick =showBestpstable;
  closeBPST.onclick =hideBestpstable;
 
  //challengeUpload.onclick = showParameterDiv;
- //ParameterDiv.onclick = showNav; 
+ ParameterDiv.onclick = showNav;
 
- WPS.onclick =showWorstlist;
-closeWL.onclick = hideWorstlist;
-BQ.onclick =showBestQNS;
-closeBQ.onclick = hideBestQNS;
-
-//challengeUpload.addEventlistner('onclick',showParameterDiv);
+challengeUpload.addEventlistner('onclick',showParameterDiv);
 
 function showFilediv(){
     filediv.style.display="block";
 }
 function showChallengeForm(){
-    challengeform.style.display="block";
+    challengeform.style.display="flex";
   showNone();
 }
 function showSchoolsForm(){
@@ -438,7 +441,7 @@ function hideSchoolForm(){
 
 function showNone(){
     filediv.style.display="none"
-    
+
 }
 function hideChallengeForm(){
     challengeform.style.display="none"
@@ -486,7 +489,7 @@ function hidePupilReport(){
                     function hideBestpstable(){
                         Bestpstable.style.display="none"
                     }
-                    
+
                     function showParameterDiv(){
                         ParameterDiv.style.display="flex";
                         nav.style.display="none"
@@ -496,26 +499,9 @@ function hidePupilReport(){
                         nav.style.display="block"
                     }
 
-                    
-                    function showWorstlist(){
-                                         worstlist.style.display="block"
-                                         }
-              function hideWorstlist(){
-                        worstlist.style.display="none"
-                             }
-                             function showBestQNS(){
-                                         BestQNS.style.display="block"
-                                         }
-                                         
-              function hideBestQNS(){
-                        BestQNS.style.display="none"
-                             }
-
-
-
 
         </script>
-    
+
     @endsection
 
 
@@ -526,5 +512,5 @@ function hidePupilReport(){
 
 
 
-   
+
 

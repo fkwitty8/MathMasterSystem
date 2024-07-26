@@ -186,13 +186,7 @@ $UFpupildetails = participant::whereIn('pupilID', $Unfinished)->get();
 
     public function bestTwoPupil(){
      
-    /*$topPupils = DB::table('submissions')
-        ->select('pupilID', DB::raw('SUM(QnMarks) as total_marks'))
-        ->whereIn('challengeID', $challengeIDs)
-        ->groupBy('pupilID')
-        ->orderBy('total_marks', 'desc')
-        ->take(2)
-        ->get();  */
+    
         $currentDate = date('Y-m-d H:i:s');
 
         $closingDates = Challenge::where('end_date', '<' ,$currentDate)->get()->pluck('end_date');
