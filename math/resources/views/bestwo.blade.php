@@ -1,4 +1,5 @@
 @extends('layouts.app') <!-- Assuming you have a layout setup -->
+@extends('footer')
 
 @section('content')
     <div class="container">
