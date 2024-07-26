@@ -11,9 +11,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
-        
 
-        
+
+
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -31,25 +31,25 @@
 <link rel="stylesheet" href="css/home.css">
 
 
-        
+
 
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
                 background-color: lightskyblue;
             }
-           
-          
+
+
         </style>
-       
-        
+
+
     </head>
     <body class="antialiased">
-       
+
 
         <nav class="navbar navbar-expand-lg" id="nav">
             <button id="upload"><b>UPLOAD FILES</b></button>
-    
+
             <div id="files">
                 <span id="hide">X</span>
                 <li id="cli1"><a href="#">CHALLENGE</a></li>
@@ -75,12 +75,12 @@
     <input type="file" name="schoolfile" required >
     <button type="submit" title="BE SURE TO UPLOAD ONLY VERIFIED SCHOOLS">UPLOAD</button>
 </form>
-           
+
 
 
 <div class="container" >
 
-                
+
 
 <a href="#" class="navbar-brand mx-auto mx-lg-0">
     <i class="bi-bullseye brand-logo"></i>
@@ -105,7 +105,7 @@
         </div>
     @endif
 
-   
+
 </div>
 </div>
 </div>
@@ -126,7 +126,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"></a>
                     @else
-                         
+
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                         <span>for</span>
                         <span style = "color:red";>admin only</span>
@@ -138,7 +138,7 @@
                 </div>
             @endif
         </div>
-                        
+
             </div>
         </nav>
 
@@ -179,8 +179,8 @@
                 <div class="container">
                     <div class="row">
 
-                   
-                       
+
+
 
                     </div>
                 </div>
@@ -199,10 +199,10 @@
                             <h3 class="mb-3">General over view of performance</h3>
 
                             <p style="margin-top:-40px;">all challenfges have been well done with great improvements from most participants , a number of d1......egrtrudhcbchghdcc dfhdjhkjknjkdvn bdvkhkh vkdvjknjkvduhdvk   dvuv  jbiouvdk ovb ovovjoi iorkvoujefbjkvhiofury uhvbvduihofvh hoevhjkbkdvjbih huodvbkbkjvdajhioh qevolejhbjdhierkbdvk vuhvbsvdv n diefhefiy h bhuhruhrqhqwjifuhquijbeuiyeueuru e n uueb    bue hkv bhefhuh nytub d  hfeyrfyef  yigwefdgj</p>
-                            
-                        
+
+
                         </div>
-                    
+
     <button id="reports"><b>MORE INCITE</b></button>
      <div style="position:absolute; top:175% ;left:38.5%;">
              <div id="analysis">
@@ -237,26 +237,87 @@
             </div>
 
      </div>
-    
+
                     </div>
                 </div>
             </section>
-            
-          
 
-          
+
+
+
 
              </section>
+<!--FAHAD START HERE -->
+            <table border='2' cellspacing=0 id="srankingt">
+
+  <tr ><th  colspan="3"> RANKINGS BASING ON AVERAGE SCORE FOR ALL COMPETITIONS<small id="closeSRT">close</small></th> </tr>
+  <tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH>AVERAGE SCORE</TH></tr>
+
+
+          @php
+            $rank = 1;
+        @endphp
+        @foreach ($averageMarks as $school)
+        <tr>
+            <td>{{ $rank }}</td>
+            <td>{{ $school['SchoolName'] }}</td>
+            <td>{{ $school['AverageMarks'] }}</td>
+        </tr>
+        @php
+            $rank++;
+        @endphp
+        @endforeach
+</table>
+
+
+ <table border='2' cellspacing=0 style="display" id="BPST">
+
+ <tr ><th  colspan="3"> BEST PERFORMING SCHOOLS OVERALL<small id="closeBPST">close</small></th> </tr>
+<tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH style="color:green;">AVERAGE SCORE</TH></tr>
+        @php
+            $rank = 1;
+        @endphp
+  @foreach($topSchools as $school)
+     <tr>
+              <td>{{ $rank }}</td>
+            <td>{{ $school['SchoolName'] }}</td>
+            <td>{{ $school['AverageMarks'] }}</td>
+     </tr>
+        @php
+            $rank++;
+        @endphp
+    @endforeach
+                                            </table>
+
+     </div>
+
+                    </div>
+                </div>
+
+
+                < <div id = "worstlist" >
+            <span id="closeWL">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black;">List of Challenges worst performing</h5>
+
+@foreach ($challengesDetails as $challenge)
+            <li><a href="{{ route('see', $challenge->id) }}">{{ $challenge->name }}</a></li>
+
+
+        @endforeach
+
+
 
 
              <table border='2' cellspacing=0 id="INC">
     <thead>
         <tr ><th  colspan="3"> LIST OF PARTICIPANTS WITH INCOMPLETE CHALLENGE<small id="closeINC">close</small></th> </tr>
-   
+
     </thead>
         <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
-        
-    
+
+
     <tbody>
         @php
             $rank = 1;
@@ -266,14 +327,14 @@
             <td>{{ $rank }}</td>
             <td>{{ $UFdetail->FirstName }}</td>
             <td>{{ $UFdetail['LastName'] }}</td>
-            
+
         </tr>
         @php
             $rank++;
         @endphp
         @endforeach
 
-        
+
     </tbody>
 </table>
     <script>
@@ -293,11 +354,11 @@
           let hide =  document.getElementById("hide");
           let hideform1 =  document.getElementById("hideform1");
           let hideform2 =  document.getElementById("hideform2");
-          
 
 
 
-          
+
+
           let reports =  document.getElementById("reports");
           let analysis =  document.getElementById("analysis");
           let schoolreport =  document.getElementById("sreport");
@@ -307,7 +368,7 @@
           let closeA =  document.getElementById("closeA");
           let closeSR =  document.getElementById("closeSR");
           let closePR =  document.getElementById("closePR")
-          
+
 
           let schoolranks =  document.getElementById("schoolranking");
           let srankingtable =  document.getElementById("srankingt");
@@ -320,7 +381,7 @@ uploadbutton.onclick=showFilediv;
 click1.onclick =showChallengeForm;
 click2.onclick = showSchoolsForm;
 hide.onclick = showNone;
-hideform1.onclick = hideChallengeForm;   
+hideform1.onclick = hideChallengeForm;
 hideform2.onclick = hideSchoolForm;
 
 reports.onclick =  showAnalysis;
@@ -336,7 +397,7 @@ Bestps.onclick =showBestpstable;
  closeBPST.onclick =hideBestpstable;
 
  //challengeUpload.onclick = showParameterDiv;
- ParameterDiv.onclick = showNav; 
+ ParameterDiv.onclick = showNav;
 
 challengeUpload.addEventlistner('onclick',showParameterDiv);
 
@@ -361,7 +422,7 @@ function hideSchoolForm(){
 
 function showNone(){
     filediv.style.display="none"
-    
+
 }
 function hideChallengeForm(){
     challengeform.style.display="none"
@@ -409,7 +470,7 @@ function hidePupilReport(){
                     function hideBestpstable(){
                         Bestpstable.style.display="none"
                     }
-                    
+
                     function showParameterDiv(){
                         ParameterDiv.style.display="flex";
                         nav.style.display="none"
@@ -421,7 +482,7 @@ function hidePupilReport(){
 
 
         </script>
-    
+
     @endsection
 
 
@@ -432,5 +493,5 @@ function hidePupilReport(){
 
 
 
-   
+
 

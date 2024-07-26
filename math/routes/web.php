@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChallengeController;
 use  App\Http\Controllers\UploadController;
 use  App\Http\Controllers\SchoolController;
+use  App\Http\Controllers\webinterfaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,3 +101,5 @@ Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('
 Route::get('/about', function () {
     return view('about');
 });
+
+Route::get('/percentage', [AnalyticsController::class, 'percentage']);
