@@ -737,8 +737,155 @@ class Pupil extends User {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }  
+    }
 
+    public void attemptReview(ArrayList<Question> Questions,Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges,AtomicInteger Timer){
+        if (Timer.get()!=0){
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            //Declaring Formatting variables
+            String Cyan = "\u001B[36m";
+            String Green = "\u001B[32m";
+            String Restore = "\u001b[0m";
+            String Red = "\u001B[31m";
+            String Italic = "\033[3m";
+            String Yellow="\u001B[33m";
+
+            String Answer, Command;
+
+            System.out.print("\n\n\n+-----Enter "+Yellow+"[review]"+Restore+" to review your answers(Note:)-----+\n              ");
+
+            System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+
+            switch(Command) {
+                case "review":
+                    while (Timer.get() != 0) {//loops untill timer is Zero
+
+                    System.out.println("\n\n");
+                    for (Question questions : Questions) {
+                        if ((Timer.get() != 0)) {
+                            System.out.println(questions + Cyan + " (Your Answer: " + questions.AnswerFromPupil + Restore + ")");
+                            System.out.print(Green + Italic);
+                            Answer = Input.nextLine();
+                            System.out.print(Restore);
+
+                            //updating the answer from the new pupil input
+                            //First Checking if Answer isnotEmpty
+                            if ((Answer.isEmpty())) {
+
+                            } else {
+                                questions.AnswerFromPupil = Answer;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                try {
+                    OOS.writeObject(Questions);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            Counter=0;
+            questionLoader(socket,OIS,OOS,Counter,challenges);
+            break;
+                default:
+            if ((Timer.get())!=0){
+            System.err.println("-----INVALID COMMAND!-----" +
+                    "\n Type the command as it appears.( consider the spaces and the letter case).");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Counter++;
+            attemptReview(Questions,socket, OIS, OOS, Counter, challenges,Timer);
+        }
+        }
+    }
+    }
+
+
+
+
+    public void logoutHandler(Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges) {
+
+        if (Counter == 1) {
+            System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String  Command;
+
+        System.out.print("\nDo you want To log out?"+Yellow+"[yes/no]\n             "+Restore);
+
+        System.out.print(Green + Italic);
+        Command = Input.nextLine();
+        System.out.print(Restore);
+
+        switch (Command) {
+            case "yes":
+                break;
+            case "no" :
+                Counter = 0;
+                questionLoader(socket,OIS,OOS,Counter,challenges);
+                break;
+            default:
+                System.err.println("-----INVALID COMMAND!-----" +
+                        "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                        "\n For example:[attempt challenge CH009]\n\n");
+                if(Counter==1){
+                    System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Counter++;
+                logoutHandler(socket,OIS,OOS,Counter,challenges);
+                break;
+            }
+    }
+
+        public boolean checkingChallengeObjectInArray (ArrayList < Challenge > challenges, String Command){
+            Iterator<Challenge> iterator = challenges.iterator();
+            while (iterator.hasNext()) {
+                Challenge challenge = iterator.next();
+                if (challenge.AttemptCommand.equalsIgnoreCase(Command)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+
+}
 
     //JOSEPH STOPED HERE LINE 1081
 
