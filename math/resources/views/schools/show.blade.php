@@ -29,7 +29,7 @@
 </head>
 <body style="background-color:#ffffff">
 <div class="container mt-5">
-    <h1>Performance of {{ $school->Name }} Over the Last Ten Years</h1>
+    <h1>Performance of {{ $school->Name }} Over the  Years</h1>
     <canvas id="performanceChart"></canvas>
     <a href="{{ route('schools.index') }}" class="btn btn-primary mt-3">Back to Schools List</a>
 </div>
