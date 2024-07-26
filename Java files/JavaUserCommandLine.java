@@ -890,6 +890,7 @@ class Pupil extends User {
 class UserInterface{
     Socket socket;
     ObjectInputStream OIS;
+    
     ObjectOutputStream OOS;
     Scanner Input= new Scanner(System.in);
     Pupil pupil=new Pupil();
