@@ -233,7 +233,9 @@
                         </div>
 
     <button id="reports"><b>MORE INCITE</b></button>
-     <div style="position:absolute; top:175% ;left:38.5%;">
+
+
+     <div style="position:absolute; top:235% ;left:38.5%;">
              <div id="analysis">
                 <span id="closeA">X</span>
                 <li id="SA">SCHOOL ANALYTICS</li>
@@ -249,8 +251,8 @@
 
                 <li id="schoolranking">school rankings</li>
                 <li><a href="{{ route('schools.index') }}">Performance of schools over time</a></li>
-                <li>Worst performing schools per challenge</li>
-                <li id = "BPS">List of best performing schoolos overall</li>
+                <li id="WPS">Worst performing schools per challenge</li>
+                <li id="BPS">List of best performing schoolos overall</li>
 
             </div>
 
@@ -263,7 +265,9 @@
                 <li>Best partispant per challenge</li>
                 <li title="displays a list of partispants"><a href="{{ route('school.index') }}">Participant performance overtime:Graph</a></li>
                 <li title="displays a list of partispants"><a href="{{ route('schools2.index') }}">Participant performance overtime:Table</a></li>
-                <li>List of partispants with incomplete challenge</li>
+                <li id="PWIC">List of partispants with incomplete challenge</li>
+                <li id="BQ">Best done question per challenge</li>
+                <li id="">percentage repition of questions</li>
             </div>
 
      </div>
@@ -319,34 +323,27 @@
     @endforeach
           </table>
 
-          #preport,#sreport,#worstlist,#
+        
 
 
-                < <div id = "worstlist" >
+                <div id="worstlist">
             <span id="closeWL">X</span>
-                <h5 style=" margin-bottom: -1%;
-                        color: white;
-                        background-color: black;">List of Challenges worst performing</h5>
+                <h5 style=" margin-bottom: -1%; color: white; background-color: black;">List of Challenges worst performing</h5>
 
-@foreach ($challengesDetails as $challenge)
-            <li><a href="{{ route('see', $challenge->id) }}">{{ $challenge->name }}</a></li>
+           @foreach ($challengesDetails as $challenge)
+            <li style="list-style-type:numerical;" id="LL"><a href="{{ route('see', $challenge->id) }}" style="color:white">{{ $challenge->name }}</a></li>
 
 
-        @endforeach
-
-
-</div>
+          @endforeach
+      </div>
 
 
         <!--joseph START HERE -->
-         <div id = "BestQNS" >
+         <div id="BestQNS">
             <span id="closeBQ">X</span>
-                <h5 style=" margin-bottom: -1%;
-                        color: white;
-                        background-color: black;">List of Challenges for bestdone questions</h5>
-
-@foreach ($challengesDetails as $challenge)
-            <li><a href="{{ route('passedqn', $challenge->id) }}">{{ $challenge->name}}</a></li>
+                <h5 style=" margin-bottom: -1%; color: white; background-color: black;">List of Challenges for bestdone questions</h5>
+        @foreach ($challengesDetails as $challenge)
+            <li style="list-style-type:numerical;" id="hh"><a href="{{ route('passedqn', $challenge->id) }}" style="color:white">{{ $challenge->name}}</a></li>
         @endforeach
             </div>
 
@@ -357,8 +354,6 @@
 
     </thead>
         <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
-
-
     <tbody>
         @php
             $rank = 1;
@@ -374,10 +369,8 @@
             $rank++;
         @endphp
         @endforeach
-
-
-    </tbody>
-</table>
+  </tbody>
+  </table>
 
 
 
@@ -422,13 +415,21 @@
           let closeSRT =  document.getElementById("closeSRT");
           let closeBPST =  document.getElementById("closeBPST");
 
-          let worstlist =  document.getElementById("worstlist");
+let worstlist =  document.getElementById("worstlist");
 let closeWL =  document.getElementById("closeWL");
 let WPS =  document.getElementById("WPS");
 
 let BestQNS =  document.getElementById("BestQNS");
 let closeBQ =  document.getElementById("closeBQ");
 let BQ =  document.getElementById("BQ");
+
+let PWIC =  document.getElementById("PWIC");
+let closeINC =  document.getElementById("closeINC");
+let INC =  document.getElementById("INC");
+
+PWIC.onclick=showINC;
+closeINC.onclick=hideINC;
+
 
 uploadbutton.onclick=showFilediv;
 click1.onclick =showChallengeForm;
@@ -514,12 +515,14 @@ function hidePupilReport(){
 
                     function showSrankingT(){
                         srankingtable.style.display="block"
+                        srankingtable.style.width="fit-content"
                     }
                     function hideSrankingT(){
                         srankingtable.style.display="none"
                     }
                     function showBestpstable(){
                         Bestpstable.style.display="block"
+                        Bestpstable.style.width="fit-content"
                     }
                     function hideBestpstable(){
                         Bestpstable.style.display="none"
@@ -539,7 +542,7 @@ function hidePupilReport(){
 
 
 
-                    function showWorstlist(){
+function showWorstlist(){
     worstlist.style.display="block"
 }
 function hideWorstlist(){
@@ -553,6 +556,14 @@ function hideBestQNS(){
     BestQNS.style.display="none"
 }
 
+function showINC(){
+    INC.style.display="block"
+    INC.style.width="fit-content"
+}
+
+function hideINC(){
+    INC.style.display="none"
+}
 
 
 
