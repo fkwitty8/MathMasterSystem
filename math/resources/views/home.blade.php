@@ -53,7 +53,7 @@
             <div id="files">
                 <span id="hide">X</span>
                 <li id="cli1"><a href="#">CHALLENGE</a></li>
-                <li id="cli2"><a href="{{ route('upload.schools') }}">REGISTERED SCHOOLS</a></li>
+                <li id="cli2"><a href="#">REGISTERED SCHOOLS</a></li>
             </div>
               <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data" id="challenge">
             <span id="hideform1"><small>x</small></span>
@@ -69,10 +69,13 @@
         <button type="submit" style="margin-left:-70px">Upload</button>
 </form>
 
-<form action="{{ route('upload.schools') }}" method="POST" id="schools">
+<form action="{{ route('upload.schools') }}" method="POST" enctype="multipart/form-data" id="schools">
 <span id="hideform2"><small>x</small></span>
     @csrf
-    <input type="file" name="schoolfile" required >
+    <div class="mb-3">
+            <label for="schoolsFile" class="form-label">Schools Excel File</label>
+            <input type="file" class="form-control" id="schoolsFile" name="schoolsFile" required>
+        </div>
     <button type="submit" title="BE SURE TO UPLOAD ONLY VERIFIED SCHOOLS">UPLOAD</button>
 </form>
 
@@ -219,9 +222,9 @@
                         background-color: black;">schools report</h5>
 
                 <li id="schoolranking">school rankings</li>
-                <li>Performance of schools over time</li>
-                <li>worst performing schools per challenge</li>
-                <li id = "BPS">list of best performing schoolos overall</li>
+                <li><a href="{{ route('schools.index') }}">Performance of schools over time</a></li>
+                <li>Worst performing schools per challenge</li>
+                <li id = "BPS">List of best performing schoolos overall</li>
 
             </div>
 
@@ -232,8 +235,9 @@
                         color: white;
                         background-color: black;">pupil report</h5>
                 <li>Best partispant per challenge</li>
-                <li title="displays a list of partispants">partispant performance overtime</li>
-                <li>list of partispants with incomplete challenge</li>
+                <li title="displays a list of partispants"><a href="{{ route('school.index') }}">Participant performance overtime:Graph</a></li>
+                <li title="displays a list of partispants"><a href="{{ route('schools2.index') }}">Participant performance overtime:Table</a></li>
+                <li>List of partispants with incomplete challenge</li>
             </div>
 
      </div>
@@ -309,6 +313,22 @@
 
 
 
+
+
+        <!--joseph START HERE -->
+        < <div id = "BestQNS" >
+            <span id="closeBQ">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black;">List of Challenges for bestdone questions</h5>
+
+@foreach ($challengesDetails as $challenge)
+            <li><a href="{{ route('passedqn', $challenge->id) }}">{{ $challenge->name}}</a></li>
+        @endforeach
+            </div>
+
+
+<!--JOSEPH END HERE -->
 
              <table border='2' cellspacing=0 id="INC">
     <thead>

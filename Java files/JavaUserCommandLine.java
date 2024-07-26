@@ -75,7 +75,38 @@ public class JavaUserCommandLine {
         System.out.print(Restore);
     }
 }
-// Question class 
+
+
+class Question implements Serializable{
+
+    static String UnFinished_Finished_Challenge="Finished";
+    static int TotalMark=0;
+    LocalDate DateSubmited;
+    String SubID;
+    String PupilID;
+    String AnswerFromDataBase;
+    String AnswerFromPupil=null;
+    int Score;
+    String QnID;
+    String Qn;
+    String ChID;
+    int TimeTaken;
+
+
+
+    Question(String QnID){
+        this.QnID=QnID;
+    }
+    Question(String QnID,String Qn,String Ans){
+        this.QnID=QnID;
+        this.Qn=Qn;
+        this.AnswerFromDataBase=Ans;
+
+    }
+    public String toString(){
+        return  Qn+".";
+    }
+}
 
 
 
@@ -85,8 +116,262 @@ public class JavaUserCommandLine {
 //Challenge class 
 
 
+//super class
+class User {
+    String ID;
+    String SchoolNumber;
+    String FirstName;
+    String LastName;
+    String UserName ;
+    String DOB;
+    String Email;
+    String Password;
+    String ImagePath;
+    byte[] ImageData;
+    Scanner Input = new Scanner(System.in);
 
-//User class 
+
+
+    //for registering
+    public void register(String SecondOption, int Counter, String FirstOption)  {
+
+        User user=new User();
+
+        if (Counter == 1) {
+            try {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+
+        String Command;
+
+        UserInterface userinterface = new UserInterface();
+        Scanner Input = new Scanner(System.in);
+        int Control = 1;
+
+        switch (Control) {
+            case 1:
+                try {
+                    if (Counter != 2) {
+                        System.out.println("\n+-------------------------+|");
+                        System.out.println("+ " + SecondOption + " Registration");
+                        System.out.println("+-------------------------+|");
+
+                        System.out.print(Cyan + Italic + "Enter your Details['Register' 'id' 'school_number' 'firstname' 'lastname' 'username' 'date_of_birth' 'emailaddress' 'Password' 'image_file.png' ]" +
+                                "\nFor you image, copy and paste the file path\n          " + Restore);
+                        System.out.print(Green + Italic);
+                        Command = Input.nextLine();
+                        System.out.print(Restore);
+
+
+                        //checking if fields are complete
+                        String[] Fields = Command.split(" ");
+                        boolean FieldsComplete = true;
+                        int FieldsCounter = 0;
+                        for (String fields : Fields) {
+                            FieldsCounter++;
+                        }
+
+                        if (FieldsCounter != 10) {
+                            FieldsComplete = false;
+                        }
+
+                        if (FieldsComplete) {
+
+                            //creating the file input stream at the path to read Image Data
+                            FileInputStream FIS = new FileInputStream(Fields[9]);
+
+                            ByteArrayOutputStream BOS = new ByteArrayOutputStream();
+                            byte[] buffer = new byte[1024];
+                            int BytesRead;
+                            while ((BytesRead = FIS.read(buffer)) != -1) {
+                                BOS.write(buffer, 0, BytesRead);
+                            }
+
+                            byte[] ImageData = BOS.toByteArray();
+
+                            if (ImageData == null) {
+                                System.err.println("\nUnSupported Image Format!" +
+                                        "\nEnter a .png or a .jpg image Format");
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                Counter = 0;
+                                register(SecondOption, Counter, FirstOption);
+
+                            } else {
+
+                                // converting the image into bytes and initialising the user object
+                                user=convertImageDatatoBytes(Fields[1],Fields[2],Fields[3],Fields[4],Fields[5],Fields[6],Fields[7], Fields[8],Fields[9]);
+
+                                //calling submit details method from the user interface to send details to the server
+                                Counter = 0;
+                                userinterface.submitDetails(Counter, FirstOption, SecondOption, user.ID, user.SchoolNumber, user.FirstName, user.LastName, user.UserName, user.DOB, user.Email, user.Password, user.ImageData, user.ImagePath);
+                           }
+                        } else {
+                            System.err.println("-----Invalid Command!-----" +
+                                    "\n Field must be complete, ensure that each field must must be separated with space from one another." +
+                                    "\nFor example: Register 012 034 dada baba db 1999-02-2 db@gmail.com  xxx myimage.png");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Counter++;
+                            register(SecondOption, Counter, FirstOption);
+                        }
+                    } else {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                        break;
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+
+
+
+    public User convertImageDatatoBytes (String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password, String ImagePath){
+        User user = new User();
+
+        try {
+            FileInputStream FIS = new FileInputStream(ImagePath);
+
+            ByteArrayOutputStream BOS = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int BytesRead;
+            while ((BytesRead = FIS.read(buffer)) != -1) {
+                BOS.write(buffer, 0, BytesRead);
+            }
+
+            byte[] ImageData = BOS.toByteArray();
+            user.ID = ID;
+            user.SchoolNumber = SchoolNumber;
+            user.FirstName = FirstName;
+            user.LastName = LastName;
+            user.UserName =UserName;
+            user.DOB = DOB;
+            user.Email = Email;
+            user.Password = Password;
+            user.ImageData = ImageData;
+            user.ImagePath = ImagePath;
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+
+//for logging in
+    public void login(String SecondOption, int Counter, String FirstOption) {
+
+        User user=new User();
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String Command;
+
+        UserInterface userinterface = new UserInterface();
+        Scanner Input = new Scanner(System.in);
+
+        int Control = 1;
+        if (Counter == 1) {
+            try {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n\n");
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        switch (Control) {
+            case 1:
+                if (Counter != 2) {
+                    System.out.println("\n+-------------------------+|");
+                    System.out.println("+ " + SecondOption + " login");
+                    System.out.println("+-------------------------+|");
+                    System.out.print(Cyan+Italic + "Enter your Details['Login' 'username' 'Password' ]\n          " + Restore);
+
+                    System.out.print(Green + Italic);
+                    Command = Input.nextLine();
+                    System.out.print(Restore);
+
+                    //checking if fields are complete
+                    String[] Fields = Command.split(" ");
+                    boolean FieldsComplete = true;
+                    int FieldsCounter = 0;
+                    for (String fields : Fields) {
+                        FieldsCounter++;
+                    }
+
+                    if (FieldsCounter != 3) {
+                        FieldsComplete = false;
+                    }
+
+                    if (FieldsComplete) {
+                        user.UserName=Fields[1];
+                       user.Password=Fields[2];
+
+                        //function call
+                        Counter = 0;
+                        userinterface.submitDetails(Counter, FirstOption, SecondOption,user.ID,  user.SchoolNumber,  user.FirstName,  user.LastName,  user.UserName,  user.DOB,  user.Email,  user.Password,  user.ImageData, user.ImagePath);
+                    } else {
+                        System.err.println("-----Invalid Command!-----" +
+                                "\n Field must be complete, ensure that each field must must be separated with space from one another." +
+                                "\nFor example: Login db xxx");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Counter++;
+                        login(SecondOption, Counter, FirstOption);
+                    }
+                }else {
+                    System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                    break;
+                }
+        }
+    }
+
+
+    //for viewing challenge on the first screen. it will display challenges to anybody but without prompting anyone to take up challenges
+    public void viewChallenge() {
+        System.out.println("Display Challenges from the data base");
+    }
+
+}
+
+
+
+
+
 
 
 
@@ -342,6 +627,7 @@ class SchoolRep extends User {
 
 
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
+
 class Pupil extends User {
 
 
@@ -602,6 +888,292 @@ class Pupil extends User {
                                     }
                                 }).start();
 
+//STOPPED HERE AT LINE 947
+
+
+                                //question details
+                                System.out.println("\n\n\n+--------------------------------------------------+");
+                                System.out.println("+" + Cyan + "The Challenge Will close in 20 minutes, Success!. +");
+                                LocalTime StartingTime = LocalTime.now();
+                                System.out.println("+Started challenge at " + StartingTime + "                  +");
+                                System.out.println("+Total Number of Questions: " + Questions + "                      +" + Restore);
+                                System.out.println("                " + Italic + "SUCCESS!                " + Restore);
+                                System.out.println("+--------------------------------------------------+");
+
+                                System.out.println(Cyan + Italic + "\n\nQuestions Remaining: " + (Questions) + "\nTime remaining in Seconds: " + Red + Timer + " seconds" + Restore);
+                                int QuestionNumber = 1;
+
+                                while (!(TerminateProcess.get())) {
+                                    String cyan = Cyan;
+                                    for (Question question : questions) {
+
+                                        int Start = Timer.get();
+                                        //initialising the ChID for the submission
+                                        question.ChID = ChallengeID;
+
+                                        Questions--;
+                                        System.out.print(QuestionNumber + "). " + question + Green + "\n  Enter Your Answer: ");
+                                        System.out.print(Green + Italic);
+                                        Answer = Input.nextLine();
+                                        System.out.print(Restore);
+                                        int End = Timer.get();
+
+                                        //Calculating the taken
+                                        question.TimeTaken = Start - End;
+
+                                        question.AnswerFromPupil = Answer;
+                                        QuestionNumber++;
+
+                                        //controll whether the next questions should printed as long as Timer value is not equal to Zero
+                                        if ((Timer.get()) != 0) {
+
+                                            //color switch if timer value get gets to ten and below
+                                            if ((Timer.get()) <= 10) {
+                                                cyan = "\u001B[31m";
+                                            }
+
+                                            System.out.println(cyan + "\nQuestions Remaining: " + (Questions));
+                                            System.out.println(cyan + Italic + "Time remaining in Seconds: " + Red + Timer + " seconds" + Restore);
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                    System.out.println(Cyan + "\n\nCONGRATULATIONS! " + Green + Timer + " seconds" + Restore + " Left\nYour Attempt is Submitted automatically  when time is up." + Restore);
+                                    Counter = 0;
+                                    attemptReview(questions, socket, OIS, OOS, Counter, challenges, Timer);
+                                    break;
+                                }
+
+                                //Sending the submission to the server for evaluation
+                                OOS.writeObject(questions);
+
+                                //listening for the Result summary
+
+
+
+                                //reloading the question loader function
+                                Counter = 0;
+                                questionLoader(socket, OIS, OOS, Counter, challenges);
+                                break;
+                            }
+
+                        } else if(Command.equals("no")) {
+                            //reloading question loader function if the pupil did not want to start the challenge
+
+                            ChallengeID = null;
+                            Counter = 0;
+                            Thread.sleep(100);
+                            questionLoader(socket, OIS, OOS, Counter, challenges);
+                            break;
+                        }else {
+                            System.err.println("-----INVALID COMMAND!-----" +
+                                    "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                                    "\n For example:[attempt challenge CH009]\n\n");
+                            if (Counter == 1) {
+                                System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                                break;
+                            }
+                            ChallengeID = null;
+                            Thread.sleep(1000);
+                            Counter++;
+                            questionLoader(socket, OIS, OOS, Counter, challenges);
+                        }
+
+
+                    } else {
+                        System.err.println("-----INVALID COMMAND!-----" +
+                                "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                                "\n For example:[attempt challenge CH009]\n\n");
+                        if (Counter == 1) {
+                            System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                            break;
+                        }
+                        Thread.sleep(1000);
+                        Counter++;
+                        questionLoader(socket, OIS, OOS, Counter, challenges);
+                    }
+
+                case "no":
+                    Counter = 0;
+                    Thread.sleep(100);
+                    logoutHandler(socket, OIS, OOS, Counter, challenges);
+                    break;
+                 default:
+                    //capture the invalid user inputs up to max of TWO TIMES.
+                    System.err.println("-----INVALID OPTION!-----" +
+                            "\n You must only Use small letters throughout. And also, insert each command as it appears" +
+                            "\n Thank you!");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Counter++;
+                        if (Counter == 2) {
+                            System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                            break;
+                        }
+                        questionLoader(socket,OIS,OOS,Counter,challenges);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void attemptReview(ArrayList<Question> Questions,Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges,AtomicInteger Timer){
+        if (Timer.get()!=0){
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            //Declaring Formatting variables
+            String Cyan = "\u001B[36m";
+            String Green = "\u001B[32m";
+            String Restore = "\u001b[0m";
+            String Red = "\u001B[31m";
+            String Italic = "\033[3m";
+            String Yellow="\u001B[33m";
+
+            String Answer, Command;
+
+            System.out.print("\n\n\n+-----Enter "+Yellow+"[review]"+Restore+" to review your answers(Note:)-----+\n              ");
+
+            System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+
+            switch(Command) {
+                case "review":
+                    while (Timer.get() != 0) {//loops untill timer is Zero
+
+                    System.out.println("\n\n");
+                    for (Question questions : Questions) {
+                        if ((Timer.get() != 0)) {
+                            System.out.println(questions + Cyan + " (Your Answer: " + questions.AnswerFromPupil + Restore + ")");
+                            System.out.print(Green + Italic);
+                            Answer = Input.nextLine();
+                            System.out.print(Restore);
+
+                            //updating the answer from the new pupil input
+                            //First Checking if Answer isnotEmpty
+                            if ((Answer.isEmpty())) {
+
+                            } else {
+                                questions.AnswerFromPupil = Answer;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                try {
+                    OOS.writeObject(Questions);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            Counter=0;
+            questionLoader(socket,OIS,OOS,Counter,challenges);
+            break;
+                default:
+            if ((Timer.get())!=0){
+            System.err.println("-----INVALID COMMAND!-----" +
+                    "\n Type the command as it appears.( consider the spaces and the letter case).");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Counter++;
+            attemptReview(Questions,socket, OIS, OOS, Counter, challenges,Timer);
+        }
+        }
+    }
+    }
+
+
+
+
+    public void logoutHandler(Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges) {
+
+        if (Counter == 1) {
+            System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String  Command;
+
+        System.out.print("\nDo you want To log out?"+Yellow+"[yes/no]\n             "+Restore);
+
+        System.out.print(Green + Italic);
+        Command = Input.nextLine();
+        System.out.print(Restore);
+
+        switch (Command) {
+            case "yes":
+                break;
+            case "no" :
+                Counter = 0;
+                questionLoader(socket,OIS,OOS,Counter,challenges);
+                break;
+            default:
+                System.err.println("-----INVALID COMMAND!-----" +
+                        "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                        "\n For example:[attempt challenge CH009]\n\n");
+                if(Counter==1){
+                    System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Counter++;
+                logoutHandler(socket,OIS,OOS,Counter,challenges);
+                break;
+            }
+    }
+
+        public boolean checkingChallengeObjectInArray (ArrayList < Challenge > challenges, String Command){
+            Iterator<Challenge> iterator = challenges.iterator();
+            while (iterator.hasNext()) {
+                Challenge challenge = iterator.next();
+                if (challenge.AttemptCommand.equalsIgnoreCase(Command)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+
+}
+
+    //JOSEPH STOPED HERE LINE 1081
+
 
 //initial CLI user interface management class
 class UserInterface{
@@ -793,9 +1365,9 @@ public  void secondCommandManagement(String FirstOption,int Counter)  {
         }
 
   }
-}
+
 //Back Option Manager,manages the back process back when selected by the user.
-public void back(int Counter)  {
+public void back(int Counter){
     Counter=0;
     //System.out.println(" Clear Screen");
     processCommand(Counter);
@@ -941,4 +1513,154 @@ public void back(int Counter)  {
     }
 }
 
-//ATS class
+//if it was a no submission
+else if (Command.equals("no")) {
+    System.err.print("-----Submission declined!-----");
+    break;
+} else {
+    System.err.println("-----INVALID OPTION, SUBMISSION CLOSED!-----\n  You may access this System later.\n  Thank you!");
+    break;
+}
+break;
+default:
+try {
+    Counter++;
+    System.err.println("-----Invalid Entry!-----");
+    Thread.sleep(1000);
+    if (Counter == 2) {
+        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+        break;
+    }
+    submitDetails(Counter, FirstOption, SecondOption, ID, SchoolNumber, FirstName, LastName, UserName, DOB, Email, Password,ImageData,ImagePath);
+    break;
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+          }
+}
+
+// it manages the processes after login
+public void afterLoginManager (String SecondOption,int Counter, Socket socket,ObjectInputStream OIS, ObjectOutputStream OOS){
+
+    //Declaring Formatting variables
+    String Cyan = "\u001B[36m";
+    String Green = "\u001B[32m";
+    String Restore = "\u001b[0m";
+    String Red = "\u001B[31m";
+    String Italic = "\033[3m";
+    String Yellow="\u001B[33m";
+
+
+    Pupil pupil=new Pupil();
+    if (Counter == 1) {
+        System.err.print(" ONE MORE TRIAL REMAINING......\n\n");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    Scanner input = new Scanner(System.in);
+    String Command;
+    if (SecondOption == "Pupil") {
+        System.out.println("+---------------------------------------------+");
+        System.out.println("+ ENTER ( view challenges) TO VIEW CHALLENGES +");
+        System.out.println("+---------------------------------------------+");
+        System.out.print(" Enter: ");
+
+        System.out.print(Green+Italic);
+        Command = input.nextLine();
+        System.out.print(Restore);
+
+            switch (Command) {
+                case "view challenges":
+                    Counter = 0;
+                    pupil.viewChallenge(socket,OIS,OOS,Counter);
+                    break;
+                default:
+                    Counter++;
+                    System.err.println("-----Invalid Entry!-----");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you! ");
+                        break;
+                    }
+                    afterLoginManager(SecondOption, Counter, socket, OIS,OOS);
+            }
+
+        }
+
+    //If it is a representative login
+    else {
+            System.out.println("+-------------------------------------------+");
+            System.out.println("+ ENTER (view applicants) TO VIEW APPLICANT +");
+            System.out.println("+-------------------------------------------+");
+            System.out.print(" Enter: ");
+            System.out.print(Green+Italic);
+            Command = input.nextLine();
+            System.out.print(Restore);
+
+            switch (Command) {
+                case "view applicants":
+                    Counter = 0;
+                    Rep.viewApplicant(OIS,OOS,Counter,Command);
+                    break;
+                default:
+                    Counter++;
+                    System.err.println("-----Invalid Entry!-----");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (Counter == 2) {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you! ");
+                        break;
+                    }
+                    afterLoginManager(SecondOption, Counter, socket,OIS,OOS);
+            }
+        }
+    }
+}
+
+class AttributesTobeSubmited implements Serializable{
+    String ID;
+    String YesCommand="yes "+ID;
+    String NoCommand="no "+ID;
+    String FirstOption;
+    String SecondOption;
+
+    String SchoolNumber;
+    String FirstName;
+    String LastName;
+    String UserName;
+    String DOB;
+    String Email;
+
+    String Password;
+    byte[] ImageData;
+
+    String FilePath;
+    public AttributesTobeSubmited(String FirstOption,String SecondOption,String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password,byte[] ImageData,String FilePath){
+        this.FirstOption=FirstOption;
+        this.SecondOption=SecondOption;
+        this.ID=ID;
+        this.SchoolNumber=SchoolNumber;
+        this.FirstName=FirstName;
+        this.LastName=LastName;
+        this.UserName=UserName;
+        this.DOB=DOB;
+        this.Email=Email;
+        this.Password=Password;
+        this.ImageData=ImageData;
+        this.FilePath=FilePath;
+    }
+
+    public String toString(){
+        return ID+"\n"+FirstName+" "+LastName+"\n";
+    }
+}

@@ -31,7 +31,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Schools List</h1>
+    <h1>SELECT A SCHOOL TO VIEW PARTICIPANT PERFORMANCE OVER THE YEARS</h1>
     <ul class="list-group">
         @foreach ($schools as $school)
             <li class="list-group-item">
