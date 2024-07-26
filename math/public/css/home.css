@@ -8,9 +8,14 @@ nav{
     
 }
 table{
-    display:none ;
+    display:  ;
     border: 5px groove blue;
     background-color: blueviolet;
+    position: absolute ;
+    top: 230%;
+    left: 10%;
+    right: 10%;
+    
 }
 tr{
     position: relative;
@@ -79,12 +84,13 @@ height: 50px;
                                 }
 
                                 #analysis {  
-                                    display: none;
+                                    display: ; 
                                             background-color:rgb(71, 71, 73);
                                             color:white;
                                             position:relative;
                                             left:50%;
-                                            top:50%;
+                                            top:200%;
+                                            bottom: -200%;
                                             cursor: pointer;
                                             width: fit-content;
                                             border: 2px solid blue;
@@ -139,9 +145,11 @@ height: 50px;
 
                     }
                     #preport,#sreport,#worstlist,#BestQNS{
+
                         position: relative;
                         display: none ;
                          top: -80px;
+                         background-color: rgb(41, 39, 39);
                          width: fit-content;
 
                      }
@@ -173,7 +181,7 @@ height: 50px;
                     small{
                         position: relative;
                         top:-5px;
-                        right:0px;
+                        right:-0px;
                         background-color: black;
                         color: red;
                         width: fit-content;
@@ -181,6 +189,10 @@ height: 50px;
 
                     }
 
+
+                    #LL:hover,#hh:hover{
+background-color: black;
+                    }
                     
                     
 
