@@ -1,3 +1,5 @@
+@extends('headerfooter')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

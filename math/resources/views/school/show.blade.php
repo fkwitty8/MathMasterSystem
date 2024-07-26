@@ -23,14 +23,10 @@
     .footer-content ul li a {
         text-decoration: none;
         color: #ffffff;
-    }
-    body{
-            background-color: #e0f7fa; /* Light blue background */
-            
-        }
+    
 </style>
 </head>
-<body>
+<body style="background-color:#ffffff">
 <div class="container mt-5">
     <h1>Performance of {{ $participant->FirstName }} {{ $participant->LastName }}</h1>
     <canvas id="performanceChart"></canvas>
