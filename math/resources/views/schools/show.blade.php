@@ -25,13 +25,10 @@
         text-decoration: none;
         color: #ffffff;
     }
-    body{
-            background-color: #e0f7fa; /* Light blue background */
-            
-        }
+   
 </style>
 </head>
-<body>
+<body style="background-color:#ffffff">
 <div class="container mt-5">
     <h1>Performance of {{ $school->Name }} Over the Last Ten Years</h1>
     <canvas id="performanceChart"></canvas>

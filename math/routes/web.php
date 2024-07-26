@@ -69,7 +69,7 @@ Route::delete('/schools/{id}', [SchoolController::class, 'deleteSchool'])->name(
 
 
 
-Route::get('/challenges', [ChallengeController::class, 'index'])->name('index');
+Route::get('/challenges', [ChallengeController::class, 'first'])->name('first');
 Route::get('/create', [ChallengeController::class, 'create'])->name('create');
 Route::post('/challenges', [ChallengeController::class, 'store'])->name('store');
 
