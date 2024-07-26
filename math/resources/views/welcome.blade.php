@@ -55,16 +55,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_1">Home</a>
+                            <a class="nav-link click-scroll" href="{{ url('/') }}">Home</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_2">About</a>
+                            <a class="nav-link click-scroll" href="{{ url('/about') }}">About</a>
                         </li>
 
                        
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_7">Contact</a>
+                            <a class="nav-link click-scroll" href="{{ url('/contact') }}">Contact</a>
                         </li>
                     </ul>
 
@@ -75,7 +75,7 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">back to admin page</a>
                     @else
                          
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
@@ -92,7 +92,7 @@
                         
             </div>
         </nav>
-
+        @yield('content')
         <main>
 
             <section class="hero" id="section_1">
@@ -171,6 +171,9 @@
             </section>
 
 
+
+
+
             <section class="about section-padding" id="section_2">
                 <div class="container">
                     <div class="row">
@@ -188,10 +191,41 @@
                         </div>
 
 
-<!--button starts here more incite -->
 
 
-                        
+
+                        <button id="reports"><b>MORE INCITE</b></button>
+     <div style="position:absolute; top:268% ;left:4%;">
+             <div id="analysis">
+                <span id="closeA">X</span>
+                <li id="SA">SCHOOL ANALYTICS</li>
+                <li id="PA">PUPIL ANALYTICS</li>
+            </div>
+
+
+            <div id = "sreport" >
+            <span id="closeSR">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black; height:fit-content;" >schools report</h5>
+
+                <li >school rankings</li>
+                <li>Performance of schools over time</li>
+                <li>worst performing schools per challenge</li>
+                <li>list of best performing schoolos overall</li>
+
+            </div>
+
+
+            <div id="preport">
+            <span id="closePR">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black;height:fit-content;">pupil report</h5>
+                <li>Best partispant per challenge</li>
+                <li title="displays a list of partispants">partispant performance overtime</li>
+                <li>list of partispants with incomplete challenge</li>
+            </div>
 
      </div>
     
@@ -201,8 +235,96 @@
                 </div>
             </section>
 
+<script>
+            let reports =  document.getElementById("reports");
+          let analysis =  document.getElementById("analysis");
+          let schoolreport =  document.getElementById("sreport");
+          let pupilreport =    document.getElementById("preport");
+          let schoolAnalysis =  document.getElementById("SA");
+          let pupilanalysis =    document.getElementById("PA");
+          let closeA =  document.getElementById("closeA");
+          let closeSR =  document.getElementById("closeSR");
+          let closePR =  document.getElementById("closePR")
+
+
+          reports.onclick =  showAnalysis;
+schoolAnalysis.onclick = showSchoolreport;
+pupilanalysis.onclick = showPupilReport;
+closeA.onclick = hideAnalysis;
+closeSR.onclick = hideSchoolreport;
+closePR.onclick = hidePupilReport;
+
+
+function showAnalysis(){
+    analysis.style.display="block"
+}
+function hideAnalysis(){
+    analysis.style.display="none"
+}
+
+function showSchoolreport(){
+    schoolreport.style.display="block"
+    hideAnalysis();
+}
+function hideSchoolreport(){
+    schoolreport.style.display="none"
+}
+
+
+function showPupilReport(){
+    pupilreport.style.display="block"
+    hideAnalysis();
+}
+function hidePupilReport(){
+    pupilreport.style.display="none"
+}
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
 
 
 
     </body>
+    <footer>
+    <div class="footer-content">
+        <ul>
+            <li><a href="{{ url('/') }}">Back</a></li>
+            <li><a href="{{ url('/schools') }}">School Analysis</a></li>
+            <li><a href="{{ url('/PUPIL') }}">Pupil Analysis</a></li>
+            <li><a href="{{ url('/about') }}">About</a></li>
+            <li><a href="{{ url('/contact') }}">Contact</a></li>
+        </ul>
+    </div>
+</footer>
+
+<style>
+    footer {
+        background-color:#002366;
+        padding: 20px 0;
+        text-align: center;
+    }
+    .footer-content ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-content ul li {
+        display: inline;
+        margin: 0 30px;
+    }
+    .footer-content ul li a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+</style>
 </html>
