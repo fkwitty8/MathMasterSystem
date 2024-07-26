@@ -1,5 +1,5 @@
 @extends('headerfooter')
-@extends('footer')
+
 
 @section('content')
 <div class="contact-container">

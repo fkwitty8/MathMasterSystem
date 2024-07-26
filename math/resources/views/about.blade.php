@@ -15,6 +15,18 @@
     <p>If you are passionate about math and enjoy solving puzzles, join our community today! Participate in our challenges, track your progress, and see how you rank against other math enthusiasts. We are excited to have you on board and look forward to seeing you excel in math!</p>
     </div>
 
+    <footer>
+    <div class="footer-content">
+        <ul>
+            <li><a href="{{ url('/') }}">Back</a></li>
+            <li><a href="{{ url('/schools') }}">School Analysis</a></li>
+            <li><a href="{{ url('/PUPIL') }}">Pupil Analysis</a></li>
+            <li><a href="{{ url('/about') }}">About</a></li>
+            <li><a href="{{ url('/contact') }}">Contact</a></li>
+        </ul>
+    </div>
+</footer>
+
     <style>
         .about-container {
             background-color: #e0f7fa; /* Light blue background */
@@ -22,5 +34,37 @@
             border-radius: 8px;
             text-align:center;
         }
+        form{
+            border:2px solid black;
+            padding:20px;
+            border-radius:8px;
+            width:50%;
+            margin-left:24%;
+            height:300px;
+        }
+        
+    footer {
+        background-color:#002366;
+        padding: 20px 0;
+        text-align: center;
+        margin-top:10%;
+    }
+    .footer-content ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-content ul li {
+        display: inline;
+        margin: 0 30px;
+    }
+    .footer-content ul li a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+    .content{
+        width:80%;
+        padding:20px;
+        margin-left:2%;
+    }
     </style>
 @endsection

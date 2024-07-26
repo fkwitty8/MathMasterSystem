@@ -71,7 +71,7 @@
             @yield('content')
         </main>
     </div>
-    @include('footer') <!-- This will include the footer view -->
+   
 
 </body>
 </html>
