@@ -111,10 +111,10 @@ height: 50px;
                         
                         border: 5px solid green;
                         
-
+                       margin-left: -200px;
 
                     }
-                    #hide, #closeA,#closeSR,#closePR{
+                    #hide, #closeA,#closeSR,#closePR,#closeWL,#closeBQ{
                         color:red;
                         position: absolute;
                         top: 0px;
@@ -138,18 +138,13 @@ height: 50px;
 
 
                     }
-                   #preport,#sreport{
+                    #preport,#sreport,#worstlist,#BestQNS{
                         position: relative;
-                        display:none ;
+                        display: none ;
                          top: -80px;
                          width: fit-content;
 
-                        
-                        
-
-                        
-
-                    }
+                     }
                     
                     #preport{
                         position: relative;

@@ -45,7 +45,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                 <p style ="color:green;font-size:30px; position:absolute; left:28%; top:5%; " >WELCOME ADMNISTATOR</p>   <span style =" position:absolute; left:57%; top:11.5%; ">{{ Auth::user()->name }}</span>
+                                 <p style ="color:green;font-size:30px; position:absolute; left:28%; top:5%; " >WELCOME ADMNISTATOR</p>   <span style =" position:absolute; left:65%; top:40.5%; ">{{ Auth::user()->name }}</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

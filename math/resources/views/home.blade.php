@@ -290,12 +290,9 @@
             $rank++;
         @endphp
     @endforeach
-                                            </table>
+          </table>
 
-     </div>
-
-                    </div>
-                </div>
+          #preport,#sreport,#worstlist,#
 
 
                 < <div id = "worstlist" >
@@ -311,11 +308,11 @@
         @endforeach
 
 
-
+</div>
 
 
         <!--joseph START HERE -->
-        < <div id = "BestQNS" >
+         <div id = "BestQNS" >
             <span id="closeBQ">X</span>
                 <h5 style=" margin-bottom: -1%;
                         color: white;
@@ -326,8 +323,6 @@
         @endforeach
             </div>
 
-
-<!--JOSEPH END HERE -->
 
              <table border='2' cellspacing=0 id="INC">
     <thead>
@@ -356,6 +351,10 @@
 
     </tbody>
 </table>
+
+
+
+
     <script>
              const challengeUpload = document.getElementById("challengeUload");
           const parameterDiv = document.getElementById("parameterDiv"); parameterDiv
@@ -396,6 +395,14 @@
           let closeSRT =  document.getElementById("closeSRT");
           let closeBPST =  document.getElementById("closeBPST");
 
+          let worstlist =  document.getElementById("worstlist");
+let closeWL =  document.getElementById("closeWL");
+let WPS =  document.getElementById("WPS");
+
+let BestQNS =  document.getElementById("BestQNS");
+let closeBQ =  document.getElementById("closeBQ");
+let BQ =  document.getElementById("BQ");
+
 uploadbutton.onclick=showFilediv;
 click1.onclick =showChallengeForm;
 click2.onclick = showSchoolsForm;
@@ -416,9 +423,10 @@ Bestps.onclick =showBestpstable;
  closeBPST.onclick =hideBestpstable;
 
  //challengeUpload.onclick = showParameterDiv;
- ParameterDiv.onclick = showNav;
-
-challengeUpload.addEventlistner('onclick',showParameterDiv);
+ WPS.onclick =showWorstlist;
+closeWL.onclick = hideWorstlist;
+BQ.onclick =showBestQNS;
+closeBQ.onclick = hideBestQNS;
 
 function showFilediv(){
     filediv.style.display="block";
@@ -498,6 +506,28 @@ function hidePupilReport(){
                     function showNav(){
                         nav.style.display="block"
                     }
+
+
+
+
+
+
+                    function showWorstlist(){
+    worstlist.style.display="block"
+}
+function hideWorstlist(){
+    worstlist.style.display="none"
+}
+function showBestQNS(){
+    BestQNS.style.display="block"
+}
+
+function hideBestQNS(){
+    BestQNS.style.display="none"
+}
+
+
+
 
 
         </script>
