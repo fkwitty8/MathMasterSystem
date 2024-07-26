@@ -6,7 +6,25 @@
 
         <title>Laravel</title>
         
-
+        <style>
+    footer {
+        background-color:#002366;
+        padding: 20px 0;
+        text-align: center;
+    }
+    .footer-content ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-content ul li {
+        display: inline;
+        margin: 0 30px;
+    }
+    .footer-content ul li a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+</style>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -185,8 +203,13 @@
                         <div class="col-lg-6 col-12">
                             <h3 class="mb-3">General over view of performance</h3>
 
-                            <p>all challenfges have been well done with great improvements from most participants , a number of d1......</p>
-                            
+
+
+
+
+                            <p style="margin-top:-40px;">The MathMasterChallenge typically evaluates students on their problem-solving skills, mathematical reasoning, and application of mathematical concepts. Overall performance can be summarized in a few key areas:</p>
+
+
                            
                         </div>
 
@@ -234,6 +257,7 @@
                     </div>
                 </div>
             </section>
+            
 
 <script>
             let reports =  document.getElementById("reports");
@@ -308,23 +332,5 @@ function hidePupilReport(){
     </div>
 </footer>
 
-<style>
-    footer {
-        background-color:#002366;
-        padding: 20px 0;
-        text-align: center;
-    }
-    .footer-content ul {
-        list-style: none;
-        padding: 0;
-    }
-    .footer-content ul li {
-        display: inline;
-        margin: 0 30px;
-    }
-    .footer-content ul li a {
-        text-decoration: none;
-        color: #ffffff;
-    }
-</style>
+
 </html>

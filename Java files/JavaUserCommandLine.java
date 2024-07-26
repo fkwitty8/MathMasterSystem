@@ -1172,13 +1172,12 @@ class Pupil extends User {
 
 }
 
-    //JOSEPH STOPED HERE LINE 1081
-
 
 //initial CLI user interface management class
 class UserInterface{
     Socket socket;
     ObjectInputStream OIS;
+    
     ObjectOutputStream OOS;
     Scanner Input= new Scanner(System.in);
     Pupil pupil=new Pupil();

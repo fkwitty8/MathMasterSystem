@@ -12,6 +12,30 @@
 
         <title>Laravel</title>
 
+        <style>
+    body{
+            background-color: #e0f7fa; /* Light blue background */
+            
+        }
+    footer {
+        background-color:#002366;
+        padding: 20px 0;
+        text-align: center;
+    }
+    .footer-content ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-content ul li {
+        display: inline;
+        margin: 0 30px;
+    }
+    .footer-content ul li a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+</style> 
+
 
 
 <!-- Fonts -->
@@ -201,13 +225,17 @@
                         <div class="col-lg-6 col-12">
                             <h3 class="mb-3">General over view of performance</h3>
 
-                            <p style="margin-top:-40px;">all challenfges have been well done with great improvements from most participants , a number of d1......egrtrudhcbchghdcc dfhdjhkjknjkdvn bdvkhkh vkdvjknjkvduhdvk   dvuv  jbiouvdk ovb ovovjoi iorkvoujefbjkvhiofury uhvbvduihofvh hoevhjkbkdvjbih huodvbkbkjvdajhioh qevolejhbjdhierkbdvk vuhvbsvdv n diefhefiy h bhuhruhrqhqwjifuhquijbeuiyeueuru e n uueb    bue hkv bhefhuh nytub d  hfeyrfyef  yigwefdgj</p>
+                            <p style="margin-top:-40px;">The MathMasterChallenge typically evaluates students on their problem-solving skills, mathematical reasoning, and application of mathematical concepts. Overall performance can be summarized in a few key areas:</p>
+
+
 
 
                         </div>
 
     <button id="reports"><b>MORE INCITE</b></button>
-     <div style="position:absolute; top:175% ;left:38.5%;">
+
+
+     <div style="position:absolute; top:235% ;left:38.5%;">
              <div id="analysis">
                 <span id="closeA">X</span>
                 <li id="SA">SCHOOL ANALYTICS</li>
@@ -223,8 +251,8 @@
 
                 <li id="schoolranking">school rankings</li>
                 <li><a href="{{ route('schools.index') }}">Performance of schools over time</a></li>
-                <li>Worst performing schools per challenge</li>
-                <li id = "BPS">List of best performing schoolos overall</li>
+                <li id="WPS">Worst performing schools per challenge</li>
+                <li id="BPS">List of best performing schoolos overall</li>
 
             </div>
 
@@ -237,7 +265,9 @@
                 <li>Best partispant per challenge</li>
                 <li title="displays a list of partispants"><a href="{{ route('school.index') }}">Participant performance overtime:Graph</a></li>
                 <li title="displays a list of partispants"><a href="{{ route('schools2.index') }}">Participant performance overtime:Table</a></li>
-                <li>List of partispants with incomplete challenge</li>
+                <li id="PWIC">List of partispants with incomplete challenge</li>
+                <li id="BQ">Best done question per challenge</li>
+                <li id="">percentage repition of questions</li>
             </div>
 
      </div>
@@ -291,44 +321,32 @@
             $rank++;
         @endphp
     @endforeach
-                                            </table>
+          </table>
 
-     </div>
-
-                    </div>
-                </div>
+        
 
 
-                < <div id = "worstlist" >
+                <div id="worstlist">
             <span id="closeWL">X</span>
-                <h5 style=" margin-bottom: -1%;
-                        color: white;
-                        background-color: black;">List of Challenges worst performing</h5>
+                <h5 style=" margin-bottom: -1%; color: white; background-color: black;">List of Challenges worst performing</h5>
 
-@foreach ($challengesDetails as $challenge)
-            <li><a href="{{ route('see', $challenge->id) }}">{{ $challenge->name }}</a></li>
+           @foreach ($challengesDetails as $challenge)
+            <li style="list-style-type:numerical;" id="LL"><a href="{{ route('see', $challenge->id) }}" style="color:white">{{ $challenge->name }}</a></li>
 
 
-        @endforeach
-
-
-
+          @endforeach
+      </div>
 
 
         <!--joseph START HERE -->
-        < <div id = "BestQNS" >
+         <div id="BestQNS">
             <span id="closeBQ">X</span>
-                <h5 style=" margin-bottom: -1%;
-                        color: white;
-                        background-color: black;">List of Challenges for bestdone questions</h5>
-
-@foreach ($challengesDetails as $challenge)
-            <li><a href="{{ route('passedqn', $challenge->id) }}">{{ $challenge->name}}</a></li>
+                <h5 style=" margin-bottom: -1%; color: white; background-color: black;">List of Challenges for bestdone questions</h5>
+        @foreach ($challengesDetails as $challenge)
+            <li style="list-style-type:numerical;" id="hh"><a href="{{ route('passedqn', $challenge->id) }}" style="color:white">{{ $challenge->name}}</a></li>
         @endforeach
             </div>
 
-
-<!--JOSEPH END HERE -->
 
              <table border='2' cellspacing=0 id="INC">
     <thead>
@@ -336,8 +354,6 @@
 
     </thead>
         <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
-
-
     <tbody>
         @php
             $rank = 1;
@@ -353,10 +369,12 @@
             $rank++;
         @endphp
         @endforeach
+  </tbody>
+  </table>
 
 
-    </tbody>
-</table>
+
+
     <script>
              const challengeUpload = document.getElementById("challengeUload");
           const parameterDiv = document.getElementById("parameterDiv"); parameterDiv
@@ -397,6 +415,22 @@
           let closeSRT =  document.getElementById("closeSRT");
           let closeBPST =  document.getElementById("closeBPST");
 
+let worstlist =  document.getElementById("worstlist");
+let closeWL =  document.getElementById("closeWL");
+let WPS =  document.getElementById("WPS");
+
+let BestQNS =  document.getElementById("BestQNS");
+let closeBQ =  document.getElementById("closeBQ");
+let BQ =  document.getElementById("BQ");
+
+let PWIC =  document.getElementById("PWIC");
+let closeINC =  document.getElementById("closeINC");
+let INC =  document.getElementById("INC");
+
+PWIC.onclick=showINC;
+closeINC.onclick=hideINC;
+
+
 uploadbutton.onclick=showFilediv;
 click1.onclick =showChallengeForm;
 click2.onclick = showSchoolsForm;
@@ -417,9 +451,10 @@ Bestps.onclick =showBestpstable;
  closeBPST.onclick =hideBestpstable;
 
  //challengeUpload.onclick = showParameterDiv;
- ParameterDiv.onclick = showNav;
-
-challengeUpload.addEventlistner('onclick',showParameterDiv);
+ WPS.onclick =showWorstlist;
+closeWL.onclick = hideWorstlist;
+BQ.onclick =showBestQNS;
+closeBQ.onclick = hideBestQNS;
 
 function showFilediv(){
     filediv.style.display="block";
@@ -480,12 +515,14 @@ function hidePupilReport(){
 
                     function showSrankingT(){
                         srankingtable.style.display="block"
+                        srankingtable.style.width="fit-content"
                     }
                     function hideSrankingT(){
                         srankingtable.style.display="none"
                     }
                     function showBestpstable(){
                         Bestpstable.style.display="block"
+                        Bestpstable.style.width="fit-content"
                     }
                     function hideBestpstable(){
                         Bestpstable.style.display="none"
@@ -501,8 +538,50 @@ function hidePupilReport(){
                     }
 
 
+
+
+
+
+function showWorstlist(){
+    worstlist.style.display="block"
+}
+function hideWorstlist(){
+    worstlist.style.display="none"
+}
+function showBestQNS(){
+    BestQNS.style.display="block"
+}
+
+function hideBestQNS(){
+    BestQNS.style.display="none"
+}
+
+function showINC(){
+    INC.style.display="block"
+    INC.style.width="fit-content"
+}
+
+function hideINC(){
+    INC.style.display="none"
+}
+
+
+
+
         </script>
 
+<footer>
+    <div class="footer-content">
+        <ul>
+            <li><a href="{{ url('/') }}">Back</a></li>
+            <li><a href="{{ url('/schools') }}">School Analysis</a></li>
+            <li><a href="{{ url('/PUPIL') }}">Pupil Analysis</a></li>
+            <li><a href="{{ url('//schools/{id}/edit') }}">Edit schools</a></li>
+            <li><a href="{{ url('/about') }}">About</a></li>
+            <li><a href="{{ url('/contact') }}">Contact</a></li>
+        </ul>
+    </div>
+</footer>
     @endsection
 
 
