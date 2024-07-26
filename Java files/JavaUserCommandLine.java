@@ -627,6 +627,7 @@ class SchoolRep extends User {
 
 
 // THIS CLASS PUPIPL WILL CONTAIN ALL THE METHODS THAT IMPLEMENTS THE REQUIREMENTS OF A PUPIL , AND OF WHICH IT INHERITS OTHERS FROM THE USER
+
 class Pupil extends User {
 
 
@@ -886,6 +887,292 @@ class Pupil extends User {
                                         System.out.println(Red + "\n\nTimeOut!\n" + Cyan + "Your attempts have been automatically submitted.\n\n+-----Press "+Yellow+"( Enter key )"+Restore+ Cyan+" to continue-----+" + Restore);
                                     }
                                 }).start();
+
+//STOPPED HERE AT LINE 947
+
+
+                                //question details
+                                System.out.println("\n\n\n+--------------------------------------------------+");
+                                System.out.println("+" + Cyan + "The Challenge Will close in 20 minutes, Success!. +");
+                                LocalTime StartingTime = LocalTime.now();
+                                System.out.println("+Started challenge at " + StartingTime + "                  +");
+                                System.out.println("+Total Number of Questions: " + Questions + "                      +" + Restore);
+                                System.out.println("                " + Italic + "SUCCESS!                " + Restore);
+                                System.out.println("+--------------------------------------------------+");
+
+                                System.out.println(Cyan + Italic + "\n\nQuestions Remaining: " + (Questions) + "\nTime remaining in Seconds: " + Red + Timer + " seconds" + Restore);
+                                int QuestionNumber = 1;
+
+                                while (!(TerminateProcess.get())) {
+                                    String cyan = Cyan;
+                                    for (Question question : questions) {
+
+                                        int Start = Timer.get();
+                                        //initialising the ChID for the submission
+                                        question.ChID = ChallengeID;
+
+                                        Questions--;
+                                        System.out.print(QuestionNumber + "). " + question + Green + "\n  Enter Your Answer: ");
+                                        System.out.print(Green + Italic);
+                                        Answer = Input.nextLine();
+                                        System.out.print(Restore);
+                                        int End = Timer.get();
+
+                                        //Calculating the taken
+                                        question.TimeTaken = Start - End;
+
+                                        question.AnswerFromPupil = Answer;
+                                        QuestionNumber++;
+
+                                        //controll whether the next questions should printed as long as Timer value is not equal to Zero
+                                        if ((Timer.get()) != 0) {
+
+                                            //color switch if timer value get gets to ten and below
+                                            if ((Timer.get()) <= 10) {
+                                                cyan = "\u001B[31m";
+                                            }
+
+                                            System.out.println(cyan + "\nQuestions Remaining: " + (Questions));
+                                            System.out.println(cyan + Italic + "Time remaining in Seconds: " + Red + Timer + " seconds" + Restore);
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                    System.out.println(Cyan + "\n\nCONGRATULATIONS! " + Green + Timer + " seconds" + Restore + " Left\nYour Attempt is Submitted automatically  when time is up." + Restore);
+                                    Counter = 0;
+                                    attemptReview(questions, socket, OIS, OOS, Counter, challenges, Timer);
+                                    break;
+                                }
+
+                                //Sending the submission to the server for evaluation
+                                OOS.writeObject(questions);
+
+                                //listening for the Result summary
+
+
+
+                                //reloading the question loader function
+                                Counter = 0;
+                                questionLoader(socket, OIS, OOS, Counter, challenges);
+                                break;
+                            }
+
+                        } else if(Command.equals("no")) {
+                            //reloading question loader function if the pupil did not want to start the challenge
+
+                            ChallengeID = null;
+                            Counter = 0;
+                            Thread.sleep(100);
+                            questionLoader(socket, OIS, OOS, Counter, challenges);
+                            break;
+                        }else {
+                            System.err.println("-----INVALID COMMAND!-----" +
+                                    "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                                    "\n For example:[attempt challenge CH009]\n\n");
+                            if (Counter == 1) {
+                                System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                                break;
+                            }
+                            ChallengeID = null;
+                            Thread.sleep(1000);
+                            Counter++;
+                            questionLoader(socket, OIS, OOS, Counter, challenges);
+                        }
+
+
+                    } else {
+                        System.err.println("-----INVALID COMMAND!-----" +
+                                "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                                "\n For example:[attempt challenge CH009]\n\n");
+                        if (Counter == 1) {
+                            System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                            break;
+                        }
+                        Thread.sleep(1000);
+                        Counter++;
+                        questionLoader(socket, OIS, OOS, Counter, challenges);
+                    }
+
+                case "no":
+                    Counter = 0;
+                    Thread.sleep(100);
+                    logoutHandler(socket, OIS, OOS, Counter, challenges);
+                    break;
+                 default:
+                    //capture the invalid user inputs up to max of TWO TIMES.
+                    System.err.println("-----INVALID OPTION!-----" +
+                            "\n You must only Use small letters throughout. And also, insert each command as it appears" +
+                            "\n Thank you!");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Counter++;
+                        if (Counter == 2) {
+                            System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                            break;
+                        }
+                        questionLoader(socket,OIS,OOS,Counter,challenges);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void attemptReview(ArrayList<Question> Questions,Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges,AtomicInteger Timer){
+        if (Timer.get()!=0){
+            if (Counter == 1) {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            //Declaring Formatting variables
+            String Cyan = "\u001B[36m";
+            String Green = "\u001B[32m";
+            String Restore = "\u001b[0m";
+            String Red = "\u001B[31m";
+            String Italic = "\033[3m";
+            String Yellow="\u001B[33m";
+
+            String Answer, Command;
+
+            System.out.print("\n\n\n+-----Enter "+Yellow+"[review]"+Restore+" to review your answers(Note:)-----+\n              ");
+
+            System.out.print(Green+Italic);
+            Command = Input.nextLine();
+            System.out.print(Restore);
+
+            switch(Command) {
+                case "review":
+                    while (Timer.get() != 0) {//loops untill timer is Zero
+
+                    System.out.println("\n\n");
+                    for (Question questions : Questions) {
+                        if ((Timer.get() != 0)) {
+                            System.out.println(questions + Cyan + " (Your Answer: " + questions.AnswerFromPupil + Restore + ")");
+                            System.out.print(Green + Italic);
+                            Answer = Input.nextLine();
+                            System.out.print(Restore);
+
+                            //updating the answer from the new pupil input
+                            //First Checking if Answer isnotEmpty
+                            if ((Answer.isEmpty())) {
+
+                            } else {
+                                questions.AnswerFromPupil = Answer;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                try {
+                    OOS.writeObject(Questions);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            Counter=0;
+            questionLoader(socket,OIS,OOS,Counter,challenges);
+            break;
+                default:
+            if ((Timer.get())!=0){
+            System.err.println("-----INVALID COMMAND!-----" +
+                    "\n Type the command as it appears.( consider the spaces and the letter case).");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Counter++;
+            attemptReview(Questions,socket, OIS, OOS, Counter, challenges,Timer);
+        }
+        }
+    }
+    }
+
+
+
+
+    public void logoutHandler(Socket socket, ObjectInputStream OIS, ObjectOutputStream OOS, int Counter, ArrayList<Challenge> challenges) {
+
+        if (Counter == 1) {
+            System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String  Command;
+
+        System.out.print("\nDo you want To log out?"+Yellow+"[yes/no]\n             "+Restore);
+
+        System.out.print(Green + Italic);
+        Command = Input.nextLine();
+        System.out.print(Restore);
+
+        switch (Command) {
+            case "yes":
+                break;
+            case "no" :
+                Counter = 0;
+                questionLoader(socket,OIS,OOS,Counter,challenges);
+                break;
+            default:
+                System.err.println("-----INVALID COMMAND!-----" +
+                        "\n Type the command as it appears.( consider the spaces and the letter case)." +
+                        "\n For example:[attempt challenge CH009]\n\n");
+                if(Counter==1){
+                    System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Counter++;
+                logoutHandler(socket,OIS,OOS,Counter,challenges);
+                break;
+            }
+    }
+
+        public boolean checkingChallengeObjectInArray (ArrayList < Challenge > challenges, String Command){
+            Iterator<Challenge> iterator = challenges.iterator();
+            while (iterator.hasNext()) {
+                Challenge challenge = iterator.next();
+                if (challenge.AttemptCommand.equalsIgnoreCase(Command)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+
+}
+
+    //JOSEPH STOPED HERE LINE 1081
 
 
 //initial CLI user interface management class
