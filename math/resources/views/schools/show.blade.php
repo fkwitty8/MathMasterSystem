@@ -1,4 +1,3 @@
-<!-- resources/views/schools/show.blade.php    ...This a view that displays the graph for a particular school's performance over the years-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,28 +7,27 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-    footer {
-        background-color:#002366;
-        padding: 20px 0;
-        text-align: center;
-    }
-    .footer-content ul {
-        list-style: none;
-        padding: 0;
-    }
-    .footer-content ul li {
-        display: inline;
-        margin: 0 30px;
-    }
-    .footer-content ul li a {
-        text-decoration: none;
-        color: #ffffff;
-    }
-    body{
+        body {
             background-color: #e0f7fa; /* Light blue background */
-            
         }
-</style>
+        footer {
+            background-color: #002366;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-content ul li {
+            display: inline;
+            margin: 0 30px;
+        }
+        .footer-content ul li a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -45,10 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Prepare the data
     var data = @json($performanceData);
 
-
     // Extract years and average marks
     var years = data.map(item => item.year);
-    var averageMarks = data.map(item => item.averagemarks);
+    var averageMarks = data.map(item => item.averageMarks);
 
     // Generate a full range of years for the last 10 years
     var startYear = new Date().getFullYear() - 10;
@@ -62,6 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
         allAverageMarks.push(index >= 0 ? averageMarks[index] : 0); // Default to 0 if no data for the year
     }
 
+    // Generate a different color for each bar
+    var colors = [];
+    for (var i = 0; i < allYears.length; i++) {
+        colors.push('hsl(' + (i * (360 / allYears.length)) + ', 75%, 50%)');
+    }
+
     // Create chart
     var chart = new Chart(ctx, {
         type: 'bar',
@@ -70,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 label: 'Average Marks',
                 data: allAverageMarks,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: colors,
+                borderColor: colors,
                 borderWidth: 1
             }]
         },
@@ -108,5 +111,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </footer>
 </body>
 </html>
-
-
