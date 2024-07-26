@@ -222,9 +222,9 @@
                         background-color: black;">schools report</h5>
 
                 <li id="schoolranking">school rankings</li>
-                <li>Performance of schools over time</li>
-                <li>worst performing schools per challenge</li>
-                <li id = "BPS">list of best performing schoolos overall</li>
+                <li><a href="{{ route('schools.index') }}">Performance of schools over time</a></li>
+                <li>Worst performing schools per challenge</li>
+                <li id = "BPS">List of best performing schoolos overall</li>
 
             </div>
 
@@ -235,8 +235,9 @@
                         color: white;
                         background-color: black;">pupil report</h5>
                 <li>Best partispant per challenge</li>
-                <li title="displays a list of partispants">partispant performance overtime</li>
-                <li>list of partispants with incomplete challenge</li>
+                <li title="displays a list of partispants"><a href="{{ route('school.index') }}">Participant performance overtime:Graph</a></li>
+                <li title="displays a list of partispants"><a href="{{ route('schools2.index') }}">Participant performance overtime:Table</a></li>
+                <li>List of partispants with incomplete challenge</li>
             </div>
 
      </div>
