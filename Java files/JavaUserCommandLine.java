@@ -75,7 +75,38 @@ public class JavaUserCommandLine {
         System.out.print(Restore);
     }
 }
-// Question class 
+
+
+class Question implements Serializable{
+
+    static String UnFinished_Finished_Challenge="Finished";
+    static int TotalMark=0;
+    LocalDate DateSubmited;
+    String SubID;
+    String PupilID;
+    String AnswerFromDataBase;
+    String AnswerFromPupil=null;
+    int Score;
+    String QnID;
+    String Qn;
+    String ChID;
+    int TimeTaken;
+
+
+
+    Question(String QnID){
+        this.QnID=QnID;
+    }
+    Question(String QnID,String Qn,String Ans){
+        this.QnID=QnID;
+        this.Qn=Qn;
+        this.AnswerFromDataBase=Ans;
+
+    }
+    public String toString(){
+        return  Qn+".";
+    }
+}
 
 
 
@@ -85,8 +116,262 @@ public class JavaUserCommandLine {
 //Challenge class 
 
 
+//super class
+class User {
+    String ID;
+    String SchoolNumber;
+    String FirstName;
+    String LastName;
+    String UserName ;
+    String DOB;
+    String Email;
+    String Password;
+    String ImagePath;
+    byte[] ImageData;
+    Scanner Input = new Scanner(System.in);
 
-//User class 
+
+
+    //for registering
+    public void register(String SecondOption, int Counter, String FirstOption)  {
+
+        User user=new User();
+
+        if (Counter == 1) {
+            try {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n");
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+
+        String Command;
+
+        UserInterface userinterface = new UserInterface();
+        Scanner Input = new Scanner(System.in);
+        int Control = 1;
+
+        switch (Control) {
+            case 1:
+                try {
+                    if (Counter != 2) {
+                        System.out.println("\n+-------------------------+|");
+                        System.out.println("+ " + SecondOption + " Registration");
+                        System.out.println("+-------------------------+|");
+
+                        System.out.print(Cyan + Italic + "Enter your Details['Register' 'id' 'school_number' 'firstname' 'lastname' 'username' 'date_of_birth' 'emailaddress' 'Password' 'image_file.png' ]" +
+                                "\nFor you image, copy and paste the file path\n          " + Restore);
+                        System.out.print(Green + Italic);
+                        Command = Input.nextLine();
+                        System.out.print(Restore);
+
+
+                        //checking if fields are complete
+                        String[] Fields = Command.split(" ");
+                        boolean FieldsComplete = true;
+                        int FieldsCounter = 0;
+                        for (String fields : Fields) {
+                            FieldsCounter++;
+                        }
+
+                        if (FieldsCounter != 10) {
+                            FieldsComplete = false;
+                        }
+
+                        if (FieldsComplete) {
+
+                            //creating the file input stream at the path to read Image Data
+                            FileInputStream FIS = new FileInputStream(Fields[9]);
+
+                            ByteArrayOutputStream BOS = new ByteArrayOutputStream();
+                            byte[] buffer = new byte[1024];
+                            int BytesRead;
+                            while ((BytesRead = FIS.read(buffer)) != -1) {
+                                BOS.write(buffer, 0, BytesRead);
+                            }
+
+                            byte[] ImageData = BOS.toByteArray();
+
+                            if (ImageData == null) {
+                                System.err.println("\nUnSupported Image Format!" +
+                                        "\nEnter a .png or a .jpg image Format");
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                Counter = 0;
+                                register(SecondOption, Counter, FirstOption);
+
+                            } else {
+
+                                // converting the image into bytes and initialising the user object
+                                user=convertImageDatatoBytes(Fields[1],Fields[2],Fields[3],Fields[4],Fields[5],Fields[6],Fields[7], Fields[8],Fields[9]);
+
+                                //calling submit details method from the user interface to send details to the server
+                                Counter = 0;
+                                userinterface.submitDetails(Counter, FirstOption, SecondOption, user.ID, user.SchoolNumber, user.FirstName, user.LastName, user.UserName, user.DOB, user.Email, user.Password, user.ImageData, user.ImagePath);
+                           }
+                        } else {
+                            System.err.println("-----Invalid Command!-----" +
+                                    "\n Field must be complete, ensure that each field must must be separated with space from one another." +
+                                    "\nFor example: Register 012 034 dada baba db 1999-02-2 db@gmail.com  xxx myimage.png");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Counter++;
+                            register(SecondOption, Counter, FirstOption);
+                        }
+                    } else {
+                        System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                        break;
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+
+
+
+    public User convertImageDatatoBytes (String ID,String SchoolNumber,String FirstName,String LastName,String UserName,String DOB,String Email,String Password, String ImagePath){
+        User user = new User();
+
+        try {
+            FileInputStream FIS = new FileInputStream(ImagePath);
+
+            ByteArrayOutputStream BOS = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int BytesRead;
+            while ((BytesRead = FIS.read(buffer)) != -1) {
+                BOS.write(buffer, 0, BytesRead);
+            }
+
+            byte[] ImageData = BOS.toByteArray();
+            user.ID = ID;
+            user.SchoolNumber = SchoolNumber;
+            user.FirstName = FirstName;
+            user.LastName = LastName;
+            user.UserName =UserName;
+            user.DOB = DOB;
+            user.Email = Email;
+            user.Password = Password;
+            user.ImageData = ImageData;
+            user.ImagePath = ImagePath;
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+
+//for logging in
+    public void login(String SecondOption, int Counter, String FirstOption) {
+
+        User user=new User();
+        //Declaring Formatting variables
+        String Cyan = "\u001B[36m";
+        String Green = "\u001B[32m";
+        String Restore = "\u001b[0m";
+        String Red = "\u001B[31m";
+        String Italic = "\033[3m";
+        String Yellow="\u001B[33m";
+
+        String Command;
+
+        UserInterface userinterface = new UserInterface();
+        Scanner Input = new Scanner(System.in);
+
+        int Control = 1;
+        if (Counter == 1) {
+            try {
+                System.err.print(" ONE MORE TRIAL REMAINING!......\n\n");
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        switch (Control) {
+            case 1:
+                if (Counter != 2) {
+                    System.out.println("\n+-------------------------+|");
+                    System.out.println("+ " + SecondOption + " login");
+                    System.out.println("+-------------------------+|");
+                    System.out.print(Cyan+Italic + "Enter your Details['Login' 'username' 'Password' ]\n          " + Restore);
+
+                    System.out.print(Green + Italic);
+                    Command = Input.nextLine();
+                    System.out.print(Restore);
+
+                    //checking if fields are complete
+                    String[] Fields = Command.split(" ");
+                    boolean FieldsComplete = true;
+                    int FieldsCounter = 0;
+                    for (String fields : Fields) {
+                        FieldsCounter++;
+                    }
+
+                    if (FieldsCounter != 3) {
+                        FieldsComplete = false;
+                    }
+
+                    if (FieldsComplete) {
+                        user.UserName=Fields[1];
+                       user.Password=Fields[2];
+
+                        //function call
+                        Counter = 0;
+                        userinterface.submitDetails(Counter, FirstOption, SecondOption,user.ID,  user.SchoolNumber,  user.FirstName,  user.LastName,  user.UserName,  user.DOB,  user.Email,  user.Password,  user.ImageData, user.ImagePath);
+                    } else {
+                        System.err.println("-----Invalid Command!-----" +
+                                "\n Field must be complete, ensure that each field must must be separated with space from one another." +
+                                "\nFor example: Login db xxx");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Counter++;
+                        login(SecondOption, Counter, FirstOption);
+                    }
+                }else {
+                    System.err.println(" Exceeded maximum trials!!\n Try again Later, thank you. ");
+                    break;
+                }
+        }
+    }
+
+
+    //for viewing challenge on the first screen. it will display challenges to anybody but without prompting anyone to take up challenges
+    public void viewChallenge() {
+        System.out.println("Display Challenges from the data base");
+    }
+
+}
+
+
+
+
+
 
 
 
