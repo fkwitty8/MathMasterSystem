@@ -67,7 +67,7 @@ public function showMostPassed($id)
 
 
 
-              // THESE LINES PF CODE GETS US THE SCHOOL RANKINGS //
+              // THESE LINES OF CODE GETS US THE SCHOOL RANKINGS //
 
                // Retrieves all unique SchoolRegNo from the submissions table
              $schoolRegNo = DB::table('challengesubmission')->pluck('SchoolRegNo')->all();
