@@ -201,7 +201,23 @@
                         <div class="col-lg-6 col-12">
                             <h3 class="mb-3">General over view of performance</h3>
 
-                            <p style="margin-top:-40px;">all challenfges have been well done with great improvements from most participants , a number of d1......egrtrudhcbchghdcc dfhdjhkjknjkdvn bdvkhkh vkdvjknjkvduhdvk   dvuv  jbiouvdk ovb ovovjoi iorkvoujefbjkvhiofury uhvbvduihofvh hoevhjkbkdvjbih huodvbkbkjvdajhioh qevolejhbjdhierkbdvk vuhvbsvdv n diefhefiy h bhuhruhrqhqwjifuhquijbeuiyeueuru e n uueb    bue hkv bhefhuh nytub d  hfeyrfyef  yigwefdgj</p>
+                            <p style="margin-top:-40px;">The MathMasterChallenge typically evaluates students on their problem-solving skills, mathematical reasoning, and application of mathematical concepts. Overall performance can be summarized in a few key areas:</p>
+
+<p>Accuracy: Students' ability to solve problems correctly. High-performing students usually demonstrate a strong grasp of mathematical concepts and careful attention to detail.</p>
+
+<p>Speed: How quickly students can complete problems. Efficient problem-solving often correlates with a solid understanding of the material and effective time management skills.</p>
+
+<p>Complexity Handling: Students’ capability to tackle problems of varying difficulty levels, including advanced and multi-step problems. Strong performers are adept at breaking down complex problems and applying appropriate strategies.</p>
+
+<p>Innovative Thinking: The ability to approach problems from unique angles and apply creative solutions. Students who excel often show a high level of mathematical insight and originality.</p>
+
+<p>Consistency: The reliability of students in maintaining high performance across different types of problems. Consistent performers are usually well-rounded and proficient in various mathematical areas.</p>
+
+<p>Improvement: The progress students make over time. Growth in performance can indicate effective learning and adaptability.</p>
+
+<p>Overall, the MathMasterChallenge often reveals a diverse range of student abilities, highlighting both strengths and areas for improvement in mathematical education.</p>
+
+
 
 
                         </div>
@@ -222,9 +238,9 @@
                         background-color: black;">schools report</h5>
 
                 <li id="schoolranking">school rankings</li>
-                <li>Performance of schools over time</li>
-                <li>worst performing schools per challenge</li>
-                <li id = "BPS">list of best performing schoolos overall</li>
+                <li><a href="{{ route('schools.index') }}">Performance of schools over time</a></li>
+                <li>Worst performing schools per challenge</li>
+                <li id = "BPS">List of best performing schoolos overall</li>
 
             </div>
 
@@ -235,8 +251,9 @@
                         color: white;
                         background-color: black;">pupil report</h5>
                 <li>Best partispant per challenge</li>
-                <li title="displays a list of partispants">partispant performance overtime</li>
-                <li>list of partispants with incomplete challenge</li>
+                <li title="displays a list of partispants"><a href="{{ route('school.index') }}">Participant performance overtime:Graph</a></li>
+                <li title="displays a list of partispants"><a href="{{ route('schools2.index') }}">Participant performance overtime:Table</a></li>
+                <li>List of partispants with incomplete challenge</li>
             </div>
 
      </div>

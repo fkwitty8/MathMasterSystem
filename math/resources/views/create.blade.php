@@ -1,4 +1,4 @@
-@extends('headerfooter')
+
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +19,7 @@
             border-radius:8px;
             width:50%;
             margin-left:24%;
-            height:250px;
+            height:300px;
         }
         
     footer {
