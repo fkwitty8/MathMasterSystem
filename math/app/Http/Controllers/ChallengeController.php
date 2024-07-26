@@ -7,10 +7,10 @@ use App\Models\Challenge;
 
 class ChallengeController extends Controller
 {
-    public function index()
+    public function first()
     {
         $challenges = Challenge::all();
-        return view('index', compact('challenges'));
+        return view('first', compact('challenges'));
     }
 
     public function create()
@@ -36,6 +36,6 @@ class ChallengeController extends Controller
             'duration' => $request->duration,
         ]);
 
-        return redirect()->route('index');
+        return redirect()->route('first');
     }
 }

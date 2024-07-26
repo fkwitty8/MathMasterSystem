@@ -20,13 +20,13 @@ class SchoolPerformanceController extends Controller
         $school = School::findOrFail($id);
 
         $performanceData = DB::table('challengesubmission')
-            ->join('participant', 'challengesubmission.pupilID', '=', 'participant.pupilID')
+            ->join('participant', 'challengesubmission.PupilID', '=', 'participant.PupilID')
             ->where('participant.schoolRegNo', $school->schoolRegNo)
             ->select(
                 DB::raw('YEAR(DateSubmitted) as year'),
                 DB::raw('SUM(QnMarks) as totalMarks'),
-                DB::raw('COUNT(DISTINCT participant.pupilID) as pupilCount'),
-                DB::raw('SUM(QnMarks) / COUNT(DISTINCT participant.pupilID) as averageMarks')
+                DB::raw('COUNT(DISTINCT participant.PupilID) as pupilCount'),
+                DB::raw('SUM(QnMarks) / COUNT(DISTINCT participant.PupilID) as averageMarks')
             )
             ->groupBy('year')
             ->orderBy('year')

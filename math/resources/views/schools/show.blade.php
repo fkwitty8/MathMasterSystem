@@ -1,4 +1,3 @@
-<!-- resources/views/schools/show.blade.php    ...This a view that displays the graph for a particular school's performance over the years-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,13 +24,10 @@
         text-decoration: none;
         color: #ffffff;
     }
-    body{
-            background-color: #e0f7fa; /* Light blue background */
-            
-        }
+   
 </style>
 </head>
-<body>
+<body style="background-color:#ffffff">
 <div class="container mt-5">
     <h1>Performance of {{ $school->Name }} Over the Last Ten Years</h1>
     <canvas id="performanceChart"></canvas>
@@ -45,10 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Prepare the data
     var data = @json($performanceData);
 
-
     // Extract years and average marks
     var years = data.map(item => item.year);
-    var averageMarks = data.map(item => item.averagemarks);
+    var averageMarks = data.map(item => item.averageMarks);
 
     // Generate a full range of years for the last 10 years
     var startYear = new Date().getFullYear() - 10;
@@ -62,6 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
         allAverageMarks.push(index >= 0 ? averageMarks[index] : 0); // Default to 0 if no data for the year
     }
 
+    // Generate a different color for each bar
+    var colors = [];
+    for (var i = 0; i < allYears.length; i++) {
+        colors.push('hsl(' + (i * (360 / allYears.length)) + ', 75%, 50%)');
+    }
+
     // Create chart
     var chart = new Chart(ctx, {
         type: 'bar',
@@ -70,8 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 label: 'Average Marks',
                 data: allAverageMarks,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: colors,
+                borderColor: colors,
                 borderWidth: 1
             }]
         },
@@ -108,5 +109,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </footer>
 </body>
 </html>
-
-
