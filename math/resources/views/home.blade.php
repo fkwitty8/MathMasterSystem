@@ -11,9 +11,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
-        
 
-        
+
+
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -31,29 +31,29 @@
 <link rel="stylesheet" href="css/home.css">
 
 
-        
+
 
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
                 background-color: lightskyblue;
             }
-           
-          
+
+
         </style>
-       
-        
+
+
     </head>
     <body class="antialiased">
-       
+
 
         <nav class="navbar navbar-expand-lg" id="nav">
             <button id="upload"><b>UPLOAD FILES</b></button>
-    
+
             <div id="files">
                 <span id="hide">X</span>
                 <li id="cli1"><a href="#">CHALLENGE</a></li>
-                <li id="cli2"><a href="{{ route('upload.schools') }}">REGISTERED SCHOOLS</a></li>
+                <li id="cli2"><a href="#">REGISTERED SCHOOLS</a></li>
             </div>
               <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data" id="challenge">
             <span id="hideform1"><small>x</small></span>
@@ -69,18 +69,21 @@
         <button type="submit" style="margin-left:-70px">Upload</button>
 </form>
 
-<form action="{{ route('upload.schools') }}" method="POST" id="schools">
+<form action="{{ route('upload.schools') }}" method="POST" enctype="multipart/form-data" id="schools">
 <span id="hideform2"><small>x</small></span>
     @csrf
-    <input type="file" name="schoolfile" required >
+    <div class="mb-3">
+            <label for="schoolsFile" class="form-label">Schools Excel File</label>
+            <input type="file" class="form-control" id="schoolsFile" name="schoolsFile" required>
+        </div>
     <button type="submit" title="BE SURE TO UPLOAD ONLY VERIFIED SCHOOLS">UPLOAD</button>
 </form>
-           
+
 
 
 <div class="container" >
 
-                
+
 
 <a href="#" class="navbar-brand mx-auto mx-lg-0">
     <i class="bi-bullseye brand-logo"></i>
@@ -105,7 +108,7 @@
         </div>
     @endif
 
-   
+
 </div>
 </div>
 </div>
@@ -126,7 +129,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"></a>
                     @else
-                         
+
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                         <span>for</span>
                         <span style = "color:red";>admin only</span>
@@ -138,7 +141,7 @@
                 </div>
             @endif
         </div>
-                        
+
             </div>
         </nav>
 
@@ -179,8 +182,8 @@
                 <div class="container">
                     <div class="row">
 
-                   
-                       
+
+
 
                     </div>
                 </div>
@@ -198,11 +201,27 @@
                         <div class="col-lg-6 col-12">
                             <h3 class="mb-3">General over view of performance</h3>
 
-                            <p style="margin-top:-40px;">all challenfges have been well done with great improvements from most participants , a number of d1......egrtrudhcbchghdcc dfhdjhkjknjkdvn bdvkhkh vkdvjknjkvduhdvk   dvuv  jbiouvdk ovb ovovjoi iorkvoujefbjkvhiofury uhvbvduihofvh hoevhjkbkdvjbih huodvbkbkjvdajhioh qevolejhbjdhierkbdvk vuhvbsvdv n diefhefiy h bhuhruhrqhqwjifuhquijbeuiyeueuru e n uueb    bue hkv bhefhuh nytub d  hfeyrfyef  yigwefdgj</p>
-                            
-                        
+                            <p style="margin-top:-40px;">The MathMasterChallenge typically evaluates students on their problem-solving skills, mathematical reasoning, and application of mathematical concepts. Overall performance can be summarized in a few key areas:</p>
+
+<p>Accuracy: Students' ability to solve problems correctly. High-performing students usually demonstrate a strong grasp of mathematical concepts and careful attention to detail.</p>
+
+<p>Speed: How quickly students can complete problems. Efficient problem-solving often correlates with a solid understanding of the material and effective time management skills.</p>
+
+<p>Complexity Handling: Students’ capability to tackle problems of varying difficulty levels, including advanced and multi-step problems. Strong performers are adept at breaking down complex problems and applying appropriate strategies.</p>
+
+<p>Innovative Thinking: The ability to approach problems from unique angles and apply creative solutions. Students who excel often show a high level of mathematical insight and originality.</p>
+
+<p>Consistency: The reliability of students in maintaining high performance across different types of problems. Consistent performers are usually well-rounded and proficient in various mathematical areas.</p>
+
+<p>Improvement: The progress students make over time. Growth in performance can indicate effective learning and adaptability.</p>
+
+<p>Overall, the MathMasterChallenge often reveals a diverse range of student abilities, highlighting both strengths and areas for improvement in mathematical education.</p>
+
+
+
+
                         </div>
-                    
+
     <button id="reports"><b>MORE INCITE</b></button>
      <div style="position:absolute; top:175% ;left:38.5%;">
              <div id="analysis">
@@ -219,9 +238,9 @@
                         background-color: black;">schools report</h5>
 
                 <li id="schoolranking">school rankings</li>
-                <li>Performance of schools over time</li>
-                <li>worst performing schools per challenge</li>
-                <li id = "BPS">list of best performing schoolos overall</li>
+                <li><a href="{{ route('schools.index') }}">Performance of schools over time</a></li>
+                <li>Worst performing schools per challenge</li>
+                <li id = "BPS">List of best performing schoolos overall</li>
 
             </div>
 
@@ -232,31 +251,104 @@
                         color: white;
                         background-color: black;">pupil report</h5>
                 <li>Best partispant per challenge</li>
-                <li title="displays a list of partispants">partispant performance overtime</li>
-                <li>list of partispants with incomplete challenge</li>
+                <li title="displays a list of partispants"><a href="{{ route('school.index') }}">Participant performance overtime:Graph</a></li>
+                <li title="displays a list of partispants"><a href="{{ route('schools2.index') }}">Participant performance overtime:Table</a></li>
+                <li>List of partispants with incomplete challenge</li>
             </div>
 
      </div>
-    
+
                     </div>
                 </div>
             </section>
-            
-          
 
-          
+
+
+
 
              </section>
+<!--FAHAD START HERE -->
+            <table border='2' cellspacing=0 id="srankingt">
+
+  <tr ><th  colspan="3"> RANKINGS BASING ON AVERAGE SCORE FOR ALL COMPETITIONS<small id="closeSRT">close</small></th> </tr>
+  <tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH>AVERAGE SCORE</TH></tr>
+
+
+          @php
+            $rank = 1;
+        @endphp
+        @foreach ($averageMarks as $school)
+        <tr>
+            <td>{{ $rank }}</td>
+            <td>{{ $school['SchoolName'] }}</td>
+            <td>{{ $school['AverageMarks'] }}</td>
+        </tr>
+        @php
+            $rank++;
+        @endphp
+        @endforeach
+</table>
+
+
+ <table border='2' cellspacing=0 style="display" id="BPST">
+
+ <tr ><th  colspan="3"> BEST PERFORMING SCHOOLS OVERALL<small id="closeBPST">close</small></th> </tr>
+<tr style="color:white; background-color:rgb(89, 40, 150);"><th>POSITION</th><th>NAME</th > <TH style="color:green;">AVERAGE SCORE</TH></tr>
+        @php
+            $rank = 1;
+        @endphp
+  @foreach($topSchools as $school)
+     <tr>
+              <td>{{ $rank }}</td>
+            <td>{{ $school['SchoolName'] }}</td>
+            <td>{{ $school['AverageMarks'] }}</td>
+     </tr>
+        @php
+            $rank++;
+        @endphp
+    @endforeach
+          </table>
+
+          #preport,#sreport,#worstlist,#
+
+
+                < <div id = "worstlist" >
+            <span id="closeWL">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black;">List of Challenges worst performing</h5>
+
+@foreach ($challengesDetails as $challenge)
+            <li><a href="{{ route('see', $challenge->id) }}">{{ $challenge->name }}</a></li>
+
+
+        @endforeach
+
+
+</div>
+
+
+        <!--joseph START HERE -->
+         <div id = "BestQNS" >
+            <span id="closeBQ">X</span>
+                <h5 style=" margin-bottom: -1%;
+                        color: white;
+                        background-color: black;">List of Challenges for bestdone questions</h5>
+
+@foreach ($challengesDetails as $challenge)
+            <li><a href="{{ route('passedqn', $challenge->id) }}">{{ $challenge->name}}</a></li>
+        @endforeach
+            </div>
 
 
              <table border='2' cellspacing=0 id="INC">
     <thead>
         <tr ><th  colspan="3"> LIST OF PARTICIPANTS WITH INCOMPLETE CHALLENGE<small id="closeINC">close</small></th> </tr>
-   
+
     </thead>
         <tr style="color:white; background-color:rgb(69, 30, 110);"><th>NUMBER</th><th>FIRSTNAME</th > <th>LASTNAME</th></tr>
-        
-    
+
+
     <tbody>
         @php
             $rank = 1;
@@ -266,16 +358,20 @@
             <td>{{ $rank }}</td>
             <td>{{ $UFdetail->FirstName }}</td>
             <td>{{ $UFdetail['LastName'] }}</td>
-            
+
         </tr>
         @php
             $rank++;
         @endphp
         @endforeach
 
-        
+
     </tbody>
 </table>
+
+
+
+
     <script>
              const challengeUpload = document.getElementById("challengeUload");
           const parameterDiv = document.getElementById("parameterDiv"); parameterDiv
@@ -293,11 +389,11 @@
           let hide =  document.getElementById("hide");
           let hideform1 =  document.getElementById("hideform1");
           let hideform2 =  document.getElementById("hideform2");
-          
 
 
 
-          
+
+
           let reports =  document.getElementById("reports");
           let analysis =  document.getElementById("analysis");
           let schoolreport =  document.getElementById("sreport");
@@ -307,7 +403,7 @@
           let closeA =  document.getElementById("closeA");
           let closeSR =  document.getElementById("closeSR");
           let closePR =  document.getElementById("closePR")
-          
+
 
           let schoolranks =  document.getElementById("schoolranking");
           let srankingtable =  document.getElementById("srankingt");
@@ -316,11 +412,19 @@
           let closeSRT =  document.getElementById("closeSRT");
           let closeBPST =  document.getElementById("closeBPST");
 
+          let worstlist =  document.getElementById("worstlist");
+let closeWL =  document.getElementById("closeWL");
+let WPS =  document.getElementById("WPS");
+
+let BestQNS =  document.getElementById("BestQNS");
+let closeBQ =  document.getElementById("closeBQ");
+let BQ =  document.getElementById("BQ");
+
 uploadbutton.onclick=showFilediv;
 click1.onclick =showChallengeForm;
 click2.onclick = showSchoolsForm;
 hide.onclick = showNone;
-hideform1.onclick = hideChallengeForm;   
+hideform1.onclick = hideChallengeForm;
 hideform2.onclick = hideSchoolForm;
 
 reports.onclick =  showAnalysis;
@@ -336,9 +440,10 @@ Bestps.onclick =showBestpstable;
  closeBPST.onclick =hideBestpstable;
 
  //challengeUpload.onclick = showParameterDiv;
- ParameterDiv.onclick = showNav; 
-
-challengeUpload.addEventlistner('onclick',showParameterDiv);
+ WPS.onclick =showWorstlist;
+closeWL.onclick = hideWorstlist;
+BQ.onclick =showBestQNS;
+closeBQ.onclick = hideBestQNS;
 
 function showFilediv(){
     filediv.style.display="block";
@@ -361,7 +466,7 @@ function hideSchoolForm(){
 
 function showNone(){
     filediv.style.display="none"
-    
+
 }
 function hideChallengeForm(){
     challengeform.style.display="none"
@@ -409,7 +514,7 @@ function hidePupilReport(){
                     function hideBestpstable(){
                         Bestpstable.style.display="none"
                     }
-                    
+
                     function showParameterDiv(){
                         ParameterDiv.style.display="flex";
                         nav.style.display="none"
@@ -420,8 +525,30 @@ function hidePupilReport(){
                     }
 
 
+
+
+
+
+                    function showWorstlist(){
+    worstlist.style.display="block"
+}
+function hideWorstlist(){
+    worstlist.style.display="none"
+}
+function showBestQNS(){
+    BestQNS.style.display="block"
+}
+
+function hideBestQNS(){
+    BestQNS.style.display="none"
+}
+
+
+
+
+
         </script>
-    
+
     @endsection
 
 
@@ -432,5 +559,5 @@ function hidePupilReport(){
 
 
 
-   
+
 

@@ -23,16 +23,12 @@
     .footer-content ul li a {
         text-decoration: none;
         color: #ffffff;
-    }
-    body{
-            background-color: #e0f7fa; /* Light blue background */
-            
-        }
+    
 </style>
 </head>
-<body>
+<body style="background-color:#ffffff">
 <div class="container mt-5">
-    <h1>Performance of {{ $participant->FirstName }} {{ $participant->LastName }}</h1>
+    <h1>Performance of {{ $participant->FirstName }} {{ $participant->LastName }} Over the years</h1>
     <canvas id="performanceChart"></canvas>
     
     <a href="{{ url()->previous() }}" class="btn btn-primary mt-3">Back to Participants List</a>

@@ -31,7 +31,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Participants from {{ $school->Name }}</h1>
+    <h1>Participants from {{ $school->Name }} Over the years </h1>
     <ul class="list-group">
         @foreach ($participants as $participant)
             <li class="list-group-item">

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChallengeController;
 use  App\Http\Controllers\UploadController;
 use  App\Http\Controllers\SchoolController;
+use  App\Http\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,30 +17,49 @@ use  App\Http\Controllers\SchoolController;
 |
 */
 
+//Route::get('/home', [App\Http\Controllers\webinterfaceController::class, 'index'])->name('');
 
-
-Route::get('/index', function () {
-
-    return view('index');
-});
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/bestwo', [ App\Http\Controllers\webinterfaceController::class, 'bestTwoPupil']) ->name('bestTwo');
+//DAVIS ROUTE
+// this route  handles worst performing school per challenge
 Route::get('/see/{id}', [App\Http\Controllers\webinterfaceController::class, 'show'])->name('see');
+
+//this route handls the function for the best done question per challenge and it  directs us to dynamic pages depending on the challenging
+//Route::get('/job', [App\Http\Controllers\webinterfaceController::class, 'mostPass'])->name('pass');
 Route::get('/passedqn/{id}', [App\Http\Controllers\webinterfaceController::class, 'showMostPassed'])->name('passedqn');
 
 //joseph route
-Route::get('/form', [ App\Http\Controllers\webinterfaceController::class, 'form']) ->name('form');
-Route::get('/upload', [ App\Http\Controllers\webinterfaceController::class, 'load']) ->name('upload');
-Route::get('/home', [ App\Http\Controllers\webinterfaceController::class, 'form']) ->name('home');
-Route::post('/form', [ App\Http\Controllers\webinterfaceController::class, 'setParameter'])->name('meseter');
+//this route displays for us the page with best two partispants per challenge   ,    the link for best two connects using this route
+Route::get('/bestwo', [ App\Http\Controllers\webinterfaceController::class, 'bestTwoPupil']) ->name('bestTwo');
+
+
+Route::get('/', function () {
+    return view('welcome');
+                           });
+
+//Route::get('/form', [ App\Http\Controllers\webinterfaceController::class, 'form']) ->name('form');
+//Route::get('/upload', [ App\Http\Controllers\webinterfaceController::class, 'load']) ->name('upload');
+
+
+//FAHAD ROUTE
+Route::get('/home', [ App\Http\Controllers\webinterfaceController::class, 'homeF']) ->name('home');
+// FAHAD END HERE
+Route::get('/form', [ App\Http\Controllers\webinterfaceController::class, 'setParameter'])->name('meseter');
+Route::get('/analysis', [ App\Http\Controllers\webinterfaceController::class, 'ranking'])->name('analysis');
 
 Auth::routes([
-    'register' => false
+'register' => false
 ]);
 
-//upload routes for the question and answer excel files
+
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/challenges', [ChallengeController::class, 'first'])->name('first');
+Route::get('/create', [ChallengeController::class, 'create'])->name('create');
+Route::post('/challenges', [ChallengeController::class, 'store'])->name('store');
+
+
+
+//upload routes
 Route::get('/upload', function () {
     return view('upload');
 }) ->name('upload');
@@ -51,15 +71,13 @@ Route::post('/update-qnans/{id}', [UploadController::class, 'updateQnAns'])->nam
 Route::delete('/delete-qnans/{id}', [UploadController::class, 'deleteQnAns'])->name('delete.qnans');
 
 
-
-//Routes For schools' upload, edit, view and delete
 Route::get('/upload-schools', function () {
     return view('uploadSchools');
 });
 
 Route::post('/upload-schools', [SchoolController::class, 'uploadSchools'])->name('upload.schools');
 Route::get('/view-schools', [SchoolController::class, 'viewSchools'])->name('view.schools');
-//Route::get('/view-Unverifiedrepresentatives', [SchoolController::class, 'viewUnverifiedRepresentatives'])->name('view.unverified.representatives');
+Route::get('/view-Unverifiedrepresentatives', [SchoolController::class, 'viewUnverifiedRepresentatives'])->name('view.unverified.representatives');
 Route::get('/schools/{id}/edit', [SchoolController::class, 'editSchool'])->name('edit.school');
 Route::post('/schools/{id}/edit', [SchoolController::class, 'updateSchool'])->name('update.school');
 
@@ -68,7 +86,7 @@ Route::delete('/schools/{id}', [SchoolController::class, 'deleteSchool'])->name(
 
 
 
-Route::get('/challenges', [ChallengeController::class, 'index'])->name('index');
+Route::get('/challenges', [ChallengeController::class, 'first'])->name('first');
 Route::get('/create', [ChallengeController::class, 'create'])->name('create');
 Route::post('/challenges', [ChallengeController::class, 'store'])->name('store');
 
@@ -78,6 +96,7 @@ use App\Http\Controllers\SchoolPerformanceController;
 
 Route::get('/schools', [SchoolPerformanceController::class, 'index'])->name('schools.index');
 Route::get('/schools/{id}', [SchoolPerformanceController::class, 'show'])->name('schools.show');
+
 
 //pupil performance
 use App\Http\Controllers\PupilPerformanceController;
@@ -100,3 +119,9 @@ Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('
 Route::get('/about', function () {
     return view('about');
 });
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/percentage', [AnalyticsController::class, 'percentage']);
