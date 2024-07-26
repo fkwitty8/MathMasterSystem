@@ -24,7 +24,7 @@ class AnalyticsController extends Controller
 
         // Calculate percentage of each question's selection
         $analytics = $submissions->map(function($submission) use ($totalSubmissions) {
-            $submission->percentage = ($submission->selection_count / $totalSubmissions[$submission->challenge_id]->total) * 100;
+            $submission->percentage = ($submission->selection_count / $totalSubmissions[$submission->ChID]->total) * 100;
             return $submission;
         });
 
