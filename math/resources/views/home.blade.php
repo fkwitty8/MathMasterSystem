@@ -72,7 +72,10 @@
 <form action="{{ route('upload.schools') }}" method="POST" enctype="multipart/form-data" id="schools">
 <span id="hideform2"><small>x</small></span>
     @csrf
-    <input type="file" name="schoolfile" required >
+    <div class="mb-3">
+            <label for="schoolsFile" class="form-label">Schools Excel File</label>
+            <input type="file" class="form-control" id="schoolsFile" name="schoolsFile" required>
+        </div>
     <button type="submit" title="BE SURE TO UPLOAD ONLY VERIFIED SCHOOLS">UPLOAD</button>
 </form>
 
